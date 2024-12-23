@@ -20,9 +20,9 @@
 
 - pnpm i
 
-## 创建脚本 vite-koa.js
+## 创建启动脚本 app.js
 
-- * 删除 vite 默认的配置文件
+- `删除 vite 默认的配置文件`
 
 - 创建 koa 服务 集成 viteServer
 
