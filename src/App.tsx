@@ -1,46 +1,86 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import koaLogo from "./assets/koa.svg";
-import viteLogo from "/vite.svg";
-import TodoList from "./todo-list";
-import store from "./store";
-import "./App.css";
+import { createStore } from "resy";
+import Monaco from "./monaco";
+import transcoder from "./transcoder";
+import { useEffect } from "react";
 
-function App() {
-  const [count, setCount] = useState(0);
+const source = `export default {
+  title: "基础表单",
+  width: 600,
+  items: [{
+    componentType: "Input",
+    label: "用户名",
+    name: "userName",
+    required: true,
+    props: {
+      maxLength: 100,
+      onChange: (v) => {
+        console.log(v)
+      }
+    }
+  }, {
+    componentType: "Select",
+    label: "职位",
+    name: "position",
+    required: true,
+    props: {
+      options: [{
+        label: "选项1",
+        value: 0
+      }, {
+        label: "选项2",
+        value: 1
+      }]
+    }
+  }, {
+    componentType: "TextArea",
+    label: "备注",
+    name: "remark",
+    required: true,
+    props: {
+      maxLength: 100,
+    }
+  }],
+  api: "/ipm/user/save",
+  apiMethod: "POST",
+  apiCallBack: () => {
+    message.success("提交成功");
+  },
+  transformValues: (initialValues) => {
+    return {
+      ...initialValues,
+      position: initialValues.position.split(",")
+    }
+  },
+}`;
+
+const store = createStore<{
+  source: string;
+  target: string;
+}>({
+  source,
+  target: ""
+});
+
+export default () => {
+  const { source, target } = store.useStore();
+  useEffect(() => {
+    (async () => {
+      store.target = await transcoder(source);
+    })()
+  }, [source])
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-        <a href="https://koa.nodejs.cn" target="_blank">
-          <img src={koaLogo} className="logo" alt="Koa logo" />
-        </a>
-      </div>
-      <h1>Vite + React + Koa + 约定式接口路由</h1>
-      <h2>全栈项目实践</h2>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <button
-        onClick={() => {
-          store.visible = true;
+    <div
+      style={{
+        display: "flex",
+      }}
+    >
+      <Monaco
+        value={source}
+        onChange={async (v: string) => {
+          store.source = v;
         }}
-      >
-        CRUD DEMO
-      </button>
-      <TodoList />
-    </>
+      />
+      <Monaco value={target} />
+    </div>
   );
-}
-
-export default App;
+};

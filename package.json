@@ -4,17 +4,18 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
-    "start": "node app.js",
+    "dev": "vite",
+    "start": "node app",
     "build": "tsc -b && vite build"
   },
   "dependencies": {
-    "@arco-design/web-react": "2.65.0",
     "axios": "1.7.9",
     "koa-logger": "^3.2.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "resy": "11.0.3"
+    "resy": "11.0.3",
+    "antd": "^4.24.12",
+    "@monaco-editor/loader": "^1.4.0"
   },
   "devDependencies": {
     "@types/fs-extra": "11.0.4",
@@ -29,6 +30,11 @@
     "koa-connect": "2.1.0",
     "koa-router": "13.0.1",
     "typescript": "~5.6.2",
-    "vite": "^6.0.1"
+    "vite": "^6.0.1",
+    "typescript-json-schema": "0.65.1",
+    "prettier": "3.4.2",
+    "monaco-textmate": "3.0.1",
+    "monaco-editor-textmate": "4.0.0",
+    "onigasm": "2.2.5"
   }
 }
