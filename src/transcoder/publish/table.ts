@@ -1,7 +1,4 @@
-import prettier from "prettier";
-import typescript from "prettier/plugins/typescript";
-import prettierPluginEstree from "prettier/plugins/estree";
-import { decrypt, parserObjectToString } from "../util";
+import { decrypt, parserObjectToString, prettierFormat } from "../util";
 
 export default async (code: string) => {
   try {
@@ -75,10 +72,7 @@ export default () => {
   return ${JSX}
 };
 `;
-    return await prettier.format(decrypt(hooks), {
-      parser: "typescript",
-      plugins: [typescript, prettierPluginEstree],
-    });
+    return await prettierFormat(decrypt(hooks));
   } catch (error) {
     console.error(error);
     return String(error);

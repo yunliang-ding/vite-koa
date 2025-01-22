@@ -1,3 +1,7 @@
+import prettier from "prettier";
+import typescript from "prettier/plugins/typescript";
+import prettierPluginEstree from "prettier/plugins/estree";
+
 /** 打码 */
 export const encrypt = (str: string) => {
   return `{{_#${str}_#}}`;
@@ -35,3 +39,10 @@ export const parserObjectToString = (obj: any = {}, storeDep: any) => {
     });
   return str.join(" ");
 };
+/** prettier 格式化代码 */
+export const prettierFormat = async (code: string) => {
+  return prettier.format(decrypt(code), {
+    parser: "typescript",
+    plugins: [typescript, prettierPluginEstree],
+  });
+}
