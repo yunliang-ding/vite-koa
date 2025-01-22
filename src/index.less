@@ -1,0 +1,41 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+.monaco-editor {
+  width: 50vw;
+  height: 100vh;
+}
+
+.monaco-editor .diffOverview {
+  display: none;
+}
+
+.preview {
+  background-color: #282c34;
+  width: 50vw;
+  .header {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    .file, .file-selected{
+      width: 100px;
+      color: rgb(179, 176, 176);
+      font-size: 12px;
+      height: 100%;
+      line-height: 32px;
+      background: #2e333e;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding-left: 10px;
+      cursor: pointer;
+      .file-icon{
+        height: 31px;
+      }
+    }
+    .file-selected{
+      background-color: #282c34;
+    }
+  }
+}

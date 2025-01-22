@@ -66,9 +66,19 @@ export default () => {
   return ${JSX}
 };
 `;
-return await prettierFormat(decrypt(hooks));
+    return [
+      {
+        fileName: "modal.tsx",
+        code: await prettierFormat(decrypt(hooks)),
+      },
+    ];
   } catch (error) {
     console.error(error);
-    return String(error);
+    return [
+      {
+        fileName: "Error",
+        code: String(error),
+      },
+    ];
   }
 };

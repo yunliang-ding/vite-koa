@@ -4,7 +4,7 @@ import { loadVscodeTheme } from './wasm';
 
 const hasLoadLanguage: any = [];
 
-export default ({ value, onChange, language = "javascript" }: any) => {
+export default ({ value, onChange, language = "javascript", readOnly = false, style = {} }: any) => {
   const codeRef: any = useRef({});
   const id = useMemo(() => `monaco_${Math.random()}`, []);
   const createInstance = (monaco: any) => {
@@ -25,6 +25,7 @@ export default ({ value, onChange, language = "javascript" }: any) => {
           enabled: false,
         },
         value,
+        readOnly,
       }
     );
     // onChange
@@ -86,5 +87,5 @@ export default ({ value, onChange, language = "javascript" }: any) => {
       }
     });
   }, [value]);
-  return <div id={id} className="monaco-editor"></div>;
+  return <div id={id} className="monaco-editor" style={style}></div>;
 };

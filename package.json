@@ -35,6 +35,7 @@
     "prettier": "3.4.2",
     "monaco-textmate": "3.0.1",
     "monaco-editor-textmate": "4.0.0",
-    "onigasm": "2.2.5"
+    "onigasm": "2.2.5",
+    "less": "4.2.2"
   }
 }

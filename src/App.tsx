@@ -1,29 +1,38 @@
 import { createStore } from "resy";
 import Monaco from "./monaco";
 import { useEffect } from "react";
-// import publishModal from "./template/publish/modal";
+// import sourceCode from "./template/publish/modal";
 // import transcoder from "./transcoder/publish/modal";
 
-import publishTable from "./template/publish/table";
+import sourceCode from "./template/publish/table";
 import transcoder from "./transcoder/publish/table";
 
-const source = publishTable;
+const source = sourceCode;
 
 const store = createStore<{
+  activeTab?: number;
   source: string;
-  target: string;
+  target: {
+    fileName: string;
+    code: string;
+  }[];
 }>({
   source,
-  target: ""
+  target: [
+    {
+      fileName: "view.tsx",
+      code: "",
+    },
+  ],
 });
 
 export default () => {
-  const { source, target } = store.useStore();
+  const { source, target, activeTab } = store.useStore();
   useEffect(() => {
     (async () => {
       store.target = await transcoder(source);
-    })()
-  }, [source])
+    })();
+  }, [source]);
   return (
     <div
       style={{
@@ -36,7 +45,40 @@ export default () => {
           store.source = v;
         }}
       />
-      <Monaco value={target} />
+      <div className="preview show-file-icons">
+        <div className="header">
+          {target.map((item: any, index: number) => {
+            return (
+              <div
+                className={
+                  index === (activeTab || 0) ? "file-selected" : "file"
+                }
+                key={item.fileName}
+                onClick={() => {
+                  store.activeTab = index;
+                }}
+              >
+                <i className="file-icon typescriptreact-lang-file-icon" />
+                {item.fileName}
+              </div>
+            );
+          })}
+        </div>
+        <div className="body">
+          {target.map((item: any, index: number) => {
+            return (
+              <Monaco
+                value={item.code}
+                key={item.fileName}
+                readOnly
+                style={{
+                  display: index === (activeTab || 0) ? "block" : "none",
+                }}
+              />
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };
