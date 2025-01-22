@@ -1,7 +1,6 @@
 import { decrypt, parserObjectToString, prettierFormat } from "../util";
 
-/** view */
-const createView = async (data: any = {}) => {
+export default async (data: any = {}) => {
   const storeDep: any = [];
   const widgetDep: any = [];
   const JSX = `<div>
@@ -75,47 +74,4 @@ return ${JSX}
     fileName: "view.tsx",
     code: await prettierFormat(decrypt(hooks)),
   };
-};
-
-/** table */
-const createTable = (data: any = {}) => {
-  return {
-    fileName: "table.tsx",
-    code: "/** TODO table **/",
-  };
-}
-
-/** constant */
-const createConstant = (data: any = {}) => {
-  return {
-    fileName: "constant.ts",
-    code: "/** TODO constant **/",
-  };
-}
-
-export default async (
-  code: string
-): Promise<
-  {
-    fileName: string;
-    code: string;
-  }[]
-> => {
-  const tabs = [];
-  try {
-    const data = new Function(`return ${code.replace("export default", "")}`)();
-    const viewTsx = await createView(data);
-    tabs.push(viewTsx);
-    const tableTsx = await createTable(data);
-    tabs.push(tableTsx);
-    const constantTs = await createConstant(data);
-    tabs.push(constantTs);
-  } catch (error) {
-    console.error(error);
-    tabs.push({
-      fileName: "Error",
-      code: String(error),
-    });
-  }
-  return tabs;
 };

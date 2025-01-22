@@ -1,11 +1,8 @@
 import { createStore } from "resy";
 import Monaco from "./monaco";
 import { useEffect } from "react";
-// import sourceCode from "./template/publish/modal";
-// import transcoder from "./transcoder/publish/modal";
-
-import sourceCode from "./template/publish/table";
-import transcoder from "./transcoder/publish/table";
+import sourceCode from "./template/publish/schema";
+import transcoder from "./transcoder/publish";
 
 const source = sourceCode;
 
