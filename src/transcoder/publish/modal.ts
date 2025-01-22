@@ -1,7 +1,7 @@
 import prettier from "prettier";
 import typescript from "prettier/plugins/typescript";
 import prettierPluginEstree from "prettier/plugins/estree";
-import { decrypt, parserObjectToString } from "./util";
+import { decrypt, parserObjectToString } from "../util";
 
 export default async (code: string) => {
   try {

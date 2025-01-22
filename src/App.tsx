@@ -2,10 +2,10 @@ import { createStore } from "resy";
 import Monaco from "./monaco";
 import { useEffect } from "react";
 // import publishModal from "./template/publish/modal";
-// import transcoder from "./transcoder/modal";
+// import transcoder from "./transcoder/publish/modal";
 
 import publishTable from "./template/publish/table";
-import transcoder from "./transcoder/table";
+import transcoder from "./transcoder/publish/table";
 
 const source = publishTable;
 

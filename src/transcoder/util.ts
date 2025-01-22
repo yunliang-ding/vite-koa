@@ -26,7 +26,6 @@ export const parserObjectToString = (obj: any = {}, storeDep: any) => {
     .filter((key) => obj[key] !== undefined)
     .forEach((key) => {
       if (["function"].includes(typeof obj[key])) {
-        console.log("obj[key]", obj[key]);
         str.push(`${key} = {${parseTemplate(obj[key].toString(), storeDep)}}`);
       } else if (["object"].includes(typeof obj[key])) {
         str.push(`${key} = {${parseTemplate(JSON.stringify(obj[key]), storeDep)}}`);
