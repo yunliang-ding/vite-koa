@@ -1,7 +1,8 @@
 import { decrypt, parserObjectToString, prettierFormat } from "../util";
 
-export default async (data: any) => {
+export default async (modal: string) => {
   try {
+    const data = new Function(`return ${modal.replace("export default", "")}`)();
     const storeDep: any = [];
     const widgetDep: any = [];
     const JSX = `<Modal 
@@ -72,7 +73,8 @@ export default () => {
   } catch (error) {
     console.error(error);
     return {
-      fileName: "Error",
+      error: true,
+      fileName: "modal.tsx",
       code: String(error),
     };
   }
