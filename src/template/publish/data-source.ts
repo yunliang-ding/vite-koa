@@ -1,28 +1,35 @@
 export default `export default {
   variables: {
     loading: false,
-    processId: "",
-    position: [],
+    pagination: [],
     marketOptions: [],
     typeOptions: [],
     dataSource: [],
+    processId: "",
   },
-  functions: [{
-    name: "queryOptions",
-    openSpin: true,
-    api: "/user/options",
-    apiMethod: "POST",
-    params: async () => {
-      const values = await this.searchForm.validateFields();
-      return {
-        ...values,
-        processId: this.processId,
-      }
+  functions: [
+    {
+      name: "queryList",
+      api: "/user/list",
+      apiMethod: "POST",
+      openSpin: true,
     },
-    assignment: {
-      position: "res.info.position",
-      marketOptions: "res.info.market",
-      typeOptions: "res.info.type"
+    {
+      name: "publish",
+      api: "/user/publish",
+      apiMethod: "POST",
     },
-  }]
-}`
+    {
+      name: "queryOptions",
+      openSpin: true,
+      api: "/user/options",
+      apiMethod: "POST",
+    },
+    {
+      name: "exportData",
+      api: "/user/export",
+      apiMethod: "POST",
+    },
+  ],
+};
+`

@@ -65,18 +65,6 @@ export default `export default {
       },
     },
   ],
-  api: "/user/save",
-  apiMethod: "POST",
-  apiCallBack: () => {
-    message.success("提交成功");
-    store.openModal = false;
-  },
-  transformValues: (values) => {
-    return {
-      ...values,
-      processId: store.processId,
-    };
-  },
   useEffect: () => {
     store.queryOptions();
   },

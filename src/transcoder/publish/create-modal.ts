@@ -15,7 +15,11 @@ export default async (modal: string) => {
       cancelButtonProps={{
         disabled: loading,
       }}
-      onOk={submit}
+      onOk={async () => {
+        setLoading(true);
+        await store.publish();
+        setLoading(false);
+      }}
       onCancel={() => {
         store.openModal = false;
       }}
@@ -42,26 +46,13 @@ export default async (modal: string) => {
   </Modal>`;
     const hooks = `import React from "react";
 import { Form, Row, Col, Modal } from "antd";
-import { sendPost } from "cpx/public";
-${widgetDep.length > 0 ? ["import {", [...new Set(widgetDep)].join(", "), '} from "cpx/material"'].join("") : ""};
+${widgetDep.length > 0 ? ["import {", [...new Set(widgetDep)].join(", "), '} from "@shein-component/frontend-low-code/material"'].join("") : ""};
 import store from "./store";
 
 export default () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   ${storeDep.length > 0 ? ["const {", [...new Set(storeDep)].join(", "), "} = store.useStore()"].join("") : ""}
-  ${data.apiCallBack ? ["const apiCallBack = ", data.apiCallBack.toString()].join("") : ""};
-  ${data.transformValues ? ["const transformValues = ", data.transformValues.toString()].join("") : ""}
-  const submit = async () => {
-    const values = await form.validateFields();
-    setLoading(true);
-    await sendPost({
-      url: "${data.api}",
-      params: ${data.transformValues ? "transformValues(values)" + "" : "values"},
-    });
-    setLoading(false);
-    ${data.apiCallBack ? "apiCallBack()" : ""}
-  }
   ${data.useEffect ? ["useEffect(", data.useEffect.toString(), ", [])"].join("") : ""};
   return ${JSX}
 };

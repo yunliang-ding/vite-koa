@@ -81,17 +81,17 @@ export default `export default {
         defaultChecked: false,
       },
     },
+    {
+      title: "个数",
+      dataIndex: "num",
+      isThousand: true,
+    },
+    {
+      title: "备注",
+      dataIndex: "remark",
+      isRemark: true,
+    },
   ],
-  api: "/user/list",
-  apiMethod: "POST",
-  transformValues: (values) => {
-    return {
-      ...values,
-      predictEndDate: values.dateRange?.[0].format("YYYY-MM-DD"),
-      predictStartDate: values.dateRange?.[1].format("YYYY-MM-DD"),
-      processId: store.processId,
-    };
-  },
   useMemo: () => {
     store.form = form;
     if (props?.match?.query?.processId) {

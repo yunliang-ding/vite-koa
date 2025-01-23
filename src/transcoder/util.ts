@@ -9,9 +9,9 @@ export const encrypt = (str: string) => {
 /** 解码 */
 export const decrypt = (str: string, quotation = true) => {
   if (quotation) {
-    return str?.replaceAll('"{{_#', '{').replaceAll('_#}}"', '}');
+    return str?.replaceAll('"{{_#', "{").replaceAll('_#}}"', "}");
   }
-  return str?.replaceAll('{{_#', '{').replaceAll('_#}}', '}');
+  return str?.replaceAll("{{_#", "{").replaceAll("_#}}", "}");
 };
 /** 模版转译 */
 export const parseTemplate = (template: string, storeDep: any) => {
@@ -21,8 +21,8 @@ export const parseTemplate = (template: string, storeDep: any) => {
       return encrypt(key); // 批量替换
     });
   }
-  return template
-}
+  return template;
+};
 /** 对象转字符串拼接 */
 export const parserObjectToString = (obj: any = {}, storeDep: any) => {
   const str: any = [];
@@ -32,12 +32,60 @@ export const parserObjectToString = (obj: any = {}, storeDep: any) => {
       if (["function"].includes(typeof obj[key])) {
         str.push(`${key} = {${parseTemplate(obj[key].toString(), storeDep)}}`);
       } else if (["object"].includes(typeof obj[key])) {
-        str.push(`${key} = {${parseTemplate(JSON.stringify(obj[key]), storeDep)}}`);
+        str.push(
+          `${key} = {${parseTemplate(JSON.stringify(obj[key]), storeDep)}}`
+        );
       } else {
         str.push(`${key} = "${parseTemplate(obj[key], storeDep)}"`);
       }
     });
   return str.join(" ");
+};
+
+export const parserVariables = (variables: any = {}) => {
+  return Object.keys(variables)
+    .filter((key) => variables[key] !== undefined)
+    .map((key) => {
+      if (["object"].includes(typeof variables[key])) {
+        return `${key}: ${JSON.stringify(variables[key])}`;
+      }
+      if (["string"].includes(typeof variables[key])) {
+        return `${key}: "${variables[key]}"`;
+      }
+      return `${key}: ${variables[key]}`;
+    })
+    .join(",");
+};
+
+export const parseAssignment = (assignment: any = {}) => {
+  return Object.keys(assignment)
+    .map((key) => {
+      return `this.${key} = ${assignment[key]}`;
+    })
+    .join(";");
+};
+
+export const parserFunction = (functions: any = []) => {
+  return functions
+    .map((item: any) => {
+      return `
+      async ${item.name}(){
+        try{
+          ${item.openSpin ? "this.loading = true" : ""}
+          const res = await sendPost({
+            url: "${item.api}",
+            params: ${item.params ? `(${item.params.toString()})()` : "{}"},
+          });
+          ${item.openSpin ? "this.loading = false" : ""}
+          ${item.assignment ? parseAssignment(item.assignment) : ""}
+        } catch(error){
+          console.log(error);
+          ${item.openSpin ? "this.loading = false" : ""}
+        }
+      }
+    `;
+    })
+    .join(",");
 };
 /** prettier 格式化代码 */
 export const prettierFormat = async (code: string) => {
@@ -45,4 +93,4 @@ export const prettierFormat = async (code: string) => {
     parser: "typescript",
     plugins: [typescript, prettierPluginEstree],
   });
-}
+};

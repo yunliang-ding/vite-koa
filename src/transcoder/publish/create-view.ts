@@ -59,12 +59,12 @@ export default async (view: string) => {
   </div>`;
     const hooks = `import React from "react";
   import { Form, Row, Col, Button, Space } from "antd";
-  ${widgetDep.length > 0 ? ["import {", [...new Set(widgetDep)].join(", "), '} from "cpx/material"'].join("") : ""};
+  ${widgetDep.length > 0 ? ["import {", [...new Set(widgetDep)].join(", "), '} from "@shein-component/frontend-low-code/material"'].join("") : ""};
   import store from "./store";
   import Table from './table';
   import PublishModal from './modal';
 
-  export default () => {
+  export default (props: any) => {
   const [form] = Form.useForm();
   ${storeDep.length > 0 ? ["const {", [...new Set(storeDep)].join(", "), "} = store.useStore()"].join("") : ""}
   ${data.useEffect ? ["React.useEffect(", data.useEffect.toString(), ", [])"].join("") : ""};

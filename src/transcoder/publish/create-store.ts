@@ -1,49 +1,4 @@
-import { prettierFormat } from "../util";
-
-export const parserVariables = (variables: any = {}) => {
-  return Object.keys(variables)
-    .map((key) => {
-      if (["object"].includes(typeof variables[key])) {
-        return `${key}: ${JSON.stringify(variables[key])}`;
-      }
-      if (["string"].includes(typeof variables[key])) {
-        return `${key}: "${variables[key]}"`;
-      }
-      return `${key}: ${variables[key]}`;
-    })
-    .join(",");
-};
-
-export const parseAssignment = (assignment: any = {}) => {
-  return Object.keys(assignment)
-    .map((key) => {
-      return `this.${key} = ${assignment[key]}`;
-    })
-    .join(";");
-};
-
-export const parserFunction = (functions: any = []) => {
-  return functions
-    .map((item: any) => {
-      return `
-      async ${item.name}(){
-        try{
-          ${item.openSpin ? "this.loading = true" : ""}
-          const res = await sendPost({
-            url: "${item.api}",
-            params: ${item.params ? `(${item.params.toString()})()` : "{}"},
-          });
-          ${item.openSpin ? "this.loading = false" : ""}
-          ${item.assignment ? parseAssignment(item.assignment) : ""}
-        } catch(error){
-          console.log(error);
-          ${item.openSpin ? "this.loading = false" : ""}
-        }
-      }
-    `;
-    })
-    .join(",");
-};
+import { parserFunction, parserVariables, prettierFormat } from "../util";
 
 export default async (code: string) => {
   try {
@@ -51,7 +6,6 @@ export default async (code: string) => {
     const str = `{
       ${parserVariables(data.variables)},${parserFunction(data.functions)}
     }`;
-    console.log(str);
     const store = `import createStore from "resy";
 
 export default createStore(${str});`;

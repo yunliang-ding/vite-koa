@@ -3,6 +3,7 @@ import Monaco from "./monaco";
 import { useEffect } from "react";
 import sourceCode from "./template/publish";
 import transcoder from "./transcoder/publish";
+import Extra from "./extra";
 
 interface FileProps {
   fileName: string;
@@ -41,26 +42,28 @@ export default () => {
     >
       <div className="code-space">
         <div className="header">
-          {Object.keys(source).map((key: any, index: number) => {
-            return (
-              <div
-                className={
-                  index === (leftActiveTab || 0) ? "file-selected" : "file"
-                }
-                key={key}
-                onClick={() => {
-                  store.leftActiveTab = index;
-                }}
-              >
-                {key === "style" ? (
-                  <i className="file-icon less-lang-file-icon" />
-                ) : (
-                  <i className="file-icon typescriptreact-lang-file-icon" />
-                )}
-                {key}
-              </div>
-            );
-          })}
+          <div className="tabs">
+            {Object.keys(source).map((key: any, index: number) => {
+              return (
+                <div
+                  className={
+                    index === (leftActiveTab || 0) ? "file-selected" : "file"
+                  }
+                  key={key}
+                  onClick={() => {
+                    store.leftActiveTab = index;
+                  }}
+                >
+                  {key === "style" ? (
+                    <i className="file-icon less-lang-file-icon" />
+                  ) : (
+                    <i className="file-icon typescriptreact-lang-file-icon" />
+                  )}
+                  {key}
+                </div>
+              );
+            })}
+          </div>
         </div>
         <div className="body">
           {Object.keys(source).map((key: any, index: number) => {
@@ -75,39 +78,45 @@ export default () => {
                   store.source = {
                     ...source,
                     [key]: v,
-                  }
+                  };
                 }}
               />
             );
           })}
         </div>
       </div>
-
       <div className="preview">
         <div className="header">
-          {target.map((item: any, index: number) => {
-            return (
-              <div
-                className={
-                  index === (rightActiveTab || 0) ? "file-selected" : "file"
-                }
-                key={item.fileName}
-                onClick={() => {
-                  store.rightActiveTab = index;
-                }}
-              >
-                <i className="file-icon typescriptreact-lang-file-icon" />
-                <span className={item.error ? "error" : "label"}>{item.fileName}</span>
-              </div>
-            );
-          })}
+          <div className="tabs">
+            {target.map((item: any, index: number) => {
+              return (
+                <div
+                  className={
+                    index === (rightActiveTab || 0) ? "file-selected" : "file"
+                  }
+                  key={item.fileName}
+                  onClick={() => {
+                    store.rightActiveTab = index;
+                  }}
+                >
+                  <i className="file-icon typescriptreact-lang-file-icon" />
+                  <span className={item.error ? "error" : "label"}>
+                    {item.fileName}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+          <Extra />
         </div>
         <div className="body">
           {target.map((item: any, index: number) => {
             return (
               <Monaco
                 value={item.code}
-                language={item.fileName === "style.less" ? "less" : "javascript"}
+                language={
+                  item.fileName === "style.less" ? "less" : "javascript"
+                }
                 key={item.fileName}
                 readOnly
                 style={{
