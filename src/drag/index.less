@@ -1,0 +1,21 @@
+.drag-item {
+  border: 2px solid transparent;
+  &-extra {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 50px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: var(--primary-color);
+    color: #fff;
+    cursor: pointer;
+    border-top-left-radius: 8px;
+  }
+}
+
+.drag-item-selected {
+  border: 2px dashed var(--primary-color) !important;
+}

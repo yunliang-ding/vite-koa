@@ -10,6 +10,9 @@ export interface DragProps {
   style?: CSSProperties;
   /** 改变的钩子 */
   onChange?: Function;
+  defaultKey?: string | number;
+  /** 选中钩子 */
+  onSelected?: Function;
   /** 是否允许接受外部组件 */
   accept?: boolean;
   children?: ReactNode;
