@@ -1,5 +1,6 @@
 .drag-item {
-  border: 2px solid transparent;
+  border: 2px dashed transparent;
+  transition: .3s;
   &-extra {
     position: absolute;
     bottom: 0;
@@ -18,4 +19,9 @@
 
 .drag-item-selected {
   border: 2px dashed var(--primary-color) !important;
+}
+
+.drag-item:not(:has(:hover)):hover {
+  transition: .3s;
+  border: 2px dashed  var(--primary-color) !important;
 }

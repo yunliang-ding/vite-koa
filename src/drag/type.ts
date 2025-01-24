@@ -10,6 +10,7 @@ export interface DragProps {
   style?: CSSProperties;
   /** 改变的钩子 */
   onChange?: Function;
+  /** 默认选中的key */
   defaultKey?: string | number;
   /** 选中钩子 */
   onSelected?: Function;

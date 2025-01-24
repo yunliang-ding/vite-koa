@@ -35,7 +35,11 @@ const Item = ({
 }: any) => {
   /** 扩展节点 */
   const Element = cloneElement(children, {
-    className: selected ? "drag-item-selected" : "drag-item",
+    className: accept
+      ? selected
+        ? "drag-item-selected"
+        : "drag-item"
+      : undefined,
     style: {
       ...children?.props?.style,
       cursor: virtual ? "not-allowed" : "move",
@@ -52,7 +56,8 @@ const Item = ({
         (String(store.index) !== String(index) || store.dragId !== dragId) &&
         accept
       ) {
-        e.currentTarget.style.borderLeft = "2px solid var(--primary-color) !important";
+        e.currentTarget.style.borderLeft =
+          "2px solid var(--primary-color) !important";
       }
     },
     onDragEnter: (e) => {
@@ -61,7 +66,8 @@ const Item = ({
         (String(store.index) !== String(index) || store.dragId !== dragId) &&
         accept
       ) {
-        e.currentTarget.style.borderLeft = "2px solid var(--primary-color) !important";
+        e.currentTarget.style.borderLeft =
+          "2px solid var(--primary-color) !important";
       }
     },
     onDragLeave: (e) => {
@@ -163,7 +169,9 @@ const DragWrapper = ({
   accept = true,
   defaultKey,
 }: DragProps) => {
-  const [selectedKey, setSelectedKey] = useState<string | number | undefined>(defaultKey);
+  const [selectedKey, setSelectedKey] = useState<string | number | undefined>(
+    defaultKey
+  );
   const [list, setList] = useState(items);
   /** 指定位置插入元素 */
   const insertByIndex = (index: number, item: any) => {
