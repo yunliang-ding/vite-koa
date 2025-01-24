@@ -14,7 +14,7 @@ import {
   Radio,
   TableList,
   FormList,
-} from "../../material/antd";
+} from "../../../material/antd";
 
 const Mapping: any = {
   Cascader,
