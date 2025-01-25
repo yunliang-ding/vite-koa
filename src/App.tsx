@@ -9,6 +9,7 @@ export default () => {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Playground />} />
         <Route path="/drag" element={<Drag />} />
         <Route path="/form-design" element={<FormDesign />} />
         <Route path="/table-design" element={<TableDesign />} />
