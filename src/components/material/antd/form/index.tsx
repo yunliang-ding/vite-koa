@@ -1,16 +1,16 @@
 import { Form, FormInstance } from "antd";
 import { useEffect, useState } from "react";
 import { ProFormItemProps, ProFormProps } from "./type";
-import { getComponent } from "./widget";
-import 'antd/dist/antd.css';
+import { getWidget } from "./widget";
+import "antd/dist/antd.css";
 
-const Item = ({
+export const Item = ({
   type,
   visible,
   span,
   effect,
   props,
-  formInstance,
+  form,
   collectedEffects,
   ...rest
 }: ProFormItemProps) => {
@@ -38,19 +38,32 @@ const Item = ({
               setReload(Math.random());
             },
           },
-        },);
+        });
       }
     });
   }, []);
   if (typeof visible === "function") {
-    if (visible(formInstance as FormInstance) !== true) {
+    /** 绑定fullName到this，为了在 FormList 中联动需要 */
+    if (
+      visible.call({ fullName: rest.fullName }, form as FormInstance) !== true
+    ) {
       return null;
     }
   }
-  const Component = getComponent(type);
+  const Component = getWidget(type);
+  if (type === "FormList") {
+    return (
+      <Component
+        {...{ ...rest, ...props }}
+        key={reload}
+        form={form}
+        collectedEffects={collectedEffects}
+      />
+    );
+  }
   return (
     <Form.Item {...rest} key={reload}>
-      <Component {...props} />
+      <Component {...props} form={form} />
     </Form.Item>
   );
 };
@@ -68,18 +81,18 @@ export default ({
     <Form
       form={form}
       initialValues={initialValues}
-      onValuesChange={(v, vs) => {
-        const [name] = Object.keys(v);
-        console.log("collectedEffects =>", collectedEffects);
-        collectedEffects[name]?.forEach((item: any) => {
-          Object.keys(item).forEach(key => {
+      /** 统一处理联动的地方 */
+      onFieldsChange={(field) => {
+        const { name } = field[0];
+        console.log("collectedEffects =>", collectedEffects, name.toString());
+        collectedEffects[name.toString()]?.forEach((item: any) => {
+          Object.keys(item).forEach((key) => {
             item[key].reload(); // reload
             form.setFieldsValue({
               [key]: undefined, // clean
-            })
-          })
+            });
+          });
         });
-        onValuesChange?.(v, vs);
       }}
       {...rest}
     >
@@ -88,15 +101,15 @@ export default ({
           <Item
             {...item}
             key={item.name}
-            formInstance={{
+            form={{
               ...form,
               // 合并下
               getFieldsValue: () => {
                 return {
                   ...initialValues,
                   ...form?.getFieldsValue(),
-                }
-              }
+                };
+              },
             }}
             collectedEffects={collectedEffects}
           />

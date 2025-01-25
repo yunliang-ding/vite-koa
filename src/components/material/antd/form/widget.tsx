@@ -14,7 +14,7 @@ import {
   Radio,
   TableList,
   FormList,
-} from "../../../material/antd";
+} from "../../antd";
 
 const Mapping: any = {
   Cascader,
@@ -37,7 +37,7 @@ const Mapping: any = {
   Upload,
 };
 
-export const getComponent = (type: string) => {
+export const getWidget = (type: string) => {
   return (
     Mapping[type] ||
     (() => <span style={{ color: "red" }}>找不到类型：{type}</span>)
