@@ -2,7 +2,6 @@ import { Form, FormInstance } from "antd";
 import { useEffect, useState } from "react";
 import { ProFormItemProps, ProFormProps } from "./type";
 import { getWidget } from "./widget";
-import "antd/dist/antd.css";
 import { cloneDeep } from "../../../shared";
 
 export const Item = ({

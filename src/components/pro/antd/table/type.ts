@@ -22,11 +22,14 @@ export interface ProTableColumnProps extends TableColumnProps<{}> {
 export interface ToolProps extends Omit<ButtonProps, "onClick"> {
   label?: string;
   /** 扩展参数 */
-  onClick?: (api: { refresh: Function; search: Function }) => void;
+  onClick?: (api: { refresh?: Function; search?: Function }) => void;
 }
 
 export interface MenuProps extends ButtonProps {
+  /** 标签名 */
   label?: string;
+  /** 二次确认 */
+  confirm?: string;
 }
 
 export interface ProTableRef{
@@ -44,7 +47,7 @@ export interface ProTableProps extends Omit<TableProps<{}>, ""> {
   /** 查询信息配置 */
   search?: ProFormProps;
   /** 统一数据请求 */
-  request: (params: any) => Promise<{
+  request: (params: any, filter: any, sort: any) => Promise<{
     success: boolean;
     total: number;
     data: any[];
@@ -63,6 +66,8 @@ export interface ProTableProps extends Omit<TableProps<{}>, ""> {
       index: number;
     }) => MenuProps[];
   };
+  /** 额外的参数 */
+  params?: any;
   /** 是否开启刷新 */
   useRefresh?: boolean;
   /** 是否开启列过滤 */
@@ -71,4 +76,5 @@ export interface ProTableProps extends Omit<TableProps<{}>, ""> {
   defaultFilterIds?: string[];
   /** 序号 */
   autoNo?: boolean;
+  setLoading?: Function;
 }

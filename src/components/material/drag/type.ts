@@ -16,6 +16,8 @@ export interface DragProps {
   onSelected?: Function;
   /** 是否允许接受外部组件 */
   accept?: boolean;
+  /** 是否可以选择 */
+  selected?: boolean;
   children?: ReactNode;
   dragId?: string;
 }

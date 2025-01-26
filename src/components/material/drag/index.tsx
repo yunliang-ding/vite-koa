@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { cloneElement, useEffect, useMemo, useState } from "react";
 import { DragProps } from "./type";
-import "./index.less";
 import { uuid } from "../../shared";
+import "./index.less";
 
 const store: any = {}; // 全局store
 
@@ -168,6 +168,7 @@ const DragWrapper = ({
   dragId = useMemo(() => uuid(), []), // 唯一id
   accept = true,
   defaultKey,
+  selected = true,
 }: DragProps) => {
   const [selectedKey, setSelectedKey] = useState<string | number | undefined>(
     defaultKey
@@ -205,8 +206,10 @@ const DragWrapper = ({
                 accept={accept}
                 selected={selectedKey === item.key}
                 onSelected={() => {
-                  setSelectedKey(item.key);
-                  onSelected(item);
+                  if(selected){
+                    setSelectedKey(item.key);
+                    onSelected(item);
+                  }
                 }}
                 onDelete={() => {
                   list.splice(index, 1);

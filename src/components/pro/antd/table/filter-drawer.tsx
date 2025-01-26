@@ -10,9 +10,11 @@ interface FilterProps {
   filterIds: string[];
   setFilterIds: Function;
   setColumns: Function;
+  onClose: Function;
 }
 
 export default ({
+  onClose,
   columns,
   filterIds,
   setFilterIds,
@@ -25,6 +27,10 @@ export default ({
   }, [hiddenIds]);
   return (
     <Drawer
+      open
+      onClose={() => {
+        onClose();
+      }}
       {...{
         title: "列设置",
         width: 300,
@@ -56,6 +62,7 @@ export default ({
           style={{
             gap: 20,
           }}
+          selected={false}
           key={hiddenIds.length}
           onChange={(items: any) => {
             // 调整顺序

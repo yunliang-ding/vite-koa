@@ -1,37 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Button, Form, Spin } from "antd";
+import { Form, Spin } from "antd";
 import { transformColumns } from "./util";
 import { ProTableProps, ProTableRef } from "./type";
 import FilterDrawer from "./filter-drawer";
-import Table from "./table";
 import { FilterOutlined, ReloadOutlined } from "@ant-design/icons";
+import Button from "../../../material/antd/button";
+import Table from "./table";
 import "./index.less";
-
-const Contianer = ({ search, form, tableRef, columns, ...rest }: any) => {
-  const [loading, setLoading] = useState(false); // 控制loading
-  return (
-    <Spin spinning={loading}>
-      {/* {search.schema.length > 0 && (
-        <Search
-          {...search}
-          onReset={async () => {
-            form.clearValues({});
-            await tableRef.current.search(form.getValues());
-          }}
-          onSearch={async () => {
-            await tableRef.current.search(form.getValues());
-          }}
-        />
-      )} */}
-      <Table
-        tableRef={tableRef}
-        setLoading={setLoading}
-        {...rest}
-        columns={columns}
-      />
-    </Spin>
-  );
-};
 
 export default ({
   tableRef = useRef<ProTableRef>({}),
@@ -44,18 +19,17 @@ export default ({
   rowOperations,
   useRefresh = true,
   useFilter = true,
-  style = {},
-  autoNo = false,
   ...rest
 }: ProTableProps) => {
+  const [loading, setLoading] = useState(false); // 控制loading
+  const [openFilter, setOpenFilter] = useState(false);
+  const [filterIds, setFilterIds] = useState(defaultFilterIds || []);
+  const innerTools = [...tools];
   /** 内部维护下列 */
   const [columns, setColumns] = useState(rest.columns || []);
   useEffect(() => {
     setColumns(rest.columns || []);
   }, [rest.columns]);
-  const [openFilter, setOpenFilter] = useState(false);
-  const [filterIds, setFilterIds] = useState(defaultFilterIds || []);
-  const innerTools = [...tools];
   if (useFilter) {
     innerTools.push({
       icon: <FilterOutlined />,
@@ -68,7 +42,6 @@ export default ({
   if (useRefresh) {
     innerTools.push({
       icon: <ReloadOutlined />,
-      type: "primary",
       className: "btn-tool",
       async onClick() {
         await tableRef.current?.refresh?.();
@@ -81,36 +54,16 @@ export default ({
   const lastColums = [...transformColumns(columns)].filter(
     (i) => !filterIds.includes(i.dataIndex)
   );
-  // 自增序号
-  if (autoNo) {
-    lastColums.unshift({
-      title: "序号",
-      fixed: "left",
-      dataIndex: "yld-serial-number",
-      width: 80,
-      render: (_: any, __: any, index: number) => {
-        if (rest.pagination) {
-          return (
-            // @ts-ignore
-            (rest.pagination?.current - 1) * rest.pagination.pageSize +
-            index +
-            1
-          );
-        }
-        return index + 1;
-      },
-    });
-  }
   if (rowOperations) {
     const { width, menus } = rowOperations;
     lastColums.push({
       title: "操作",
       width,
-      dataIndex: "yld-table-row-operation",
+      dataIndex: "ant-table-row-operation",
       fixed: "right",
       render(_: any, record: any, index: number) {
         return (
-          <div className="yld-table-row-operation">
+          <div className="ant-table-row-operation">
             {menus({
               record,
               refresh: tableRef.current?.refresh,
@@ -118,9 +71,7 @@ export default ({
               index,
             }).map((item) => {
               return (
-                <Button key={item.label} {...item} type={item.type || "link"}>
-                  {item.label}
-                </Button>
+                <Button key={item.label} {...item} type={item.type || "link"} />
               );
             })}
           </div>
@@ -130,14 +81,27 @@ export default ({
   }
   return (
     <>
-      <Contianer
-        tableRef={tableRef}
-        form={form}
-        search={search}
-        tools={innerTools}
-        {...rest}
-        columns={lastColums}
-      />
+      <Spin spinning={loading}>
+        {/* {search.schema.length > 0 && (
+          <Search
+            {...search}
+            onReset={async () => {
+              form.clearValues({});
+              await tableRef.current.search(form.getValues());
+            }}
+            onSearch={async () => {
+              await tableRef.current.search(form.getValues());
+            }}
+          />
+        )} */}
+        <Table
+          {...rest}
+          tableRef={tableRef}
+          tools={innerTools}
+          setLoading={setLoading}
+          columns={lastColums}
+        />
+      </Spin>
       {openFilter && (
         <FilterDrawer
           {...{
@@ -145,6 +109,9 @@ export default ({
             setFilterIds,
             columns,
             setColumns,
+            onClose: () => {
+              setOpenFilter(false);
+            }
           }}
         />
       )}

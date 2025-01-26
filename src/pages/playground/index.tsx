@@ -1,10 +1,11 @@
 import { createStore } from "resy";
 import Monaco from "../../monaco";
-import formCode from "./form";
+// import formCode from "./form";
+import tableCode from "./table";
 import transcoder from "./transcoder";
 import "./index.less";
 
-const source = formCode;
+const source = tableCode;
 
 const store = createStore<{
   source: any;
