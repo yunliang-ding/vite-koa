@@ -17,35 +17,48 @@ export const Item = ({
   /** 是否展示 */
   const [reload, setReload] = useState(Math.random());
   useEffect(() => {
+    /** 提供的API */
+    const API = {
+      /** 重新加载 */
+      reload() {
+        setReload(Math.random());
+      },
+      // 清空值
+      clean() {
+        // 清空 formList逻辑
+        if (Array.isArray(rest.fullname)) {
+          const values = form?.getFieldsValue();
+          const [name, index, subName] = rest.fullname;
+          values[name][index][subName] = undefined; // clean
+          form?.setFieldsValue?.({
+            name: values[name],
+          });
+        } else {
+          form?.setFieldsValue?.({
+            [rest.name]: undefined, // clean
+          });
+        }
+      },
+    };
     /** 收集依赖 */
     effect?.forEach?.((i: string) => {
       if (collectedEffects[i] === undefined) {
         collectedEffects[i] = [
           {
-            [rest.name]: {
-              /** 重新加载 */
-              reload() {
-                setReload(Math.random());
-              },
-            },
+            [rest.name]: API,
           },
         ];
       } else {
         collectedEffects[i].push({
-          [rest.name]: {
-            /** 重新加载 */
-            reload() {
-              setReload(Math.random());
-            },
-          },
+          [rest.name]: API,
         });
       }
     });
   }, []);
   if (typeof visible === "function") {
-    /** 绑定fullName到this，为了在 FormList 中联动需要 */
+    /** 绑定fullname到this，为了在 FormList 中联动需要 */
     if (
-      visible.call({ fullName: rest.fullName }, form as FormInstance) !== true
+      visible.call({ fullname: rest.fullname }, form as FormInstance) !== true
     ) {
       return null;
     }
@@ -88,9 +101,7 @@ export default ({
         collectedEffects[name.toString()]?.forEach((item: any) => {
           Object.keys(item).forEach((key) => {
             item[key].reload(); // reload
-            form.setFieldsValue({
-              [key]: undefined, // clean
-            });
+            item[key].clean(); // clean
           });
         });
       }}

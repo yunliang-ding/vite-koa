@@ -38,7 +38,7 @@ export default ({
                           {...rest}
                           effect={effect}
                           name={[field.name, item.name]}
-                          fullName={[name, field.name, item.name]} // 子表单完整的名字
+                          fullname={[name, field.name, item.name]} // 子表单完整的名字
                           key={[field.name, item.name].toString()}
                           props={props}
                         />

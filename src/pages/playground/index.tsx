@@ -26,7 +26,7 @@ export default () => {
         <div className="header">
           <div className="tabs">
             <div className={"file-selected"}>
-              <i className="file-icon typescriptreact-lang-file-icon" />
+              <i className="file-icon javascript-lang-file-icon" />
               配置文件
             </div>
           </div>
@@ -44,7 +44,7 @@ export default () => {
         <div className="header">
           <div className="tabs">
             <div className={"file-selected"}>
-              <i className="file-icon typescriptreact-lang-file-icon" />
+              <i className="file-icon javascriptreact-lang-file-icon" />
               <span>预览结果</span>
             </div>
           </div>

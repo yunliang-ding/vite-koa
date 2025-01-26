@@ -70,9 +70,7 @@ export default `export default {
           props: {
             onChange() {
               const { contactList } = this.form.getFieldsValue();
-              const amounts = contactList
-                .map((i) => i.amount)
-                .filter(Boolean);
+              const amounts = contactList.filter(Boolean).map((i) => i.amount);
               if (amounts.length > 0) {
                 this.form.setFieldsValue({
                   totalAmount: amounts.reduce((a, b) => a + b, 0),
@@ -109,11 +107,11 @@ export default `export default {
           required: true,
           effect: ["contactList,type"],
           visible({ getFieldsValue }) {
-            const index = this.fullName[1];
+            const index = this.fullname[1];
             return getFieldsValue().contactList[index]?.type === 1;
           },
         },
       ],
     },
   }]
-};`
+};`;
