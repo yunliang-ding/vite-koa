@@ -16,7 +16,7 @@ export const TimePicker = Antd.TimePicker;
 export const Rate = Antd.Rate;
 export const Upload = Antd.Upload;
 
-/** 业务组件 */
+/** 扩展组件 */
 export { default as FormList } from './form-list';
 export { default as TableList } from './table-list';
 

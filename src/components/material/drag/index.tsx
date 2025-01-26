@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { cloneElement, useEffect, useMemo, useState } from "react";
-import { uuid } from "../util";
 import { DragProps } from "./type";
 import "./index.less";
+import { uuid } from "../../shared";
 
 const store: any = {}; // 全局store
 

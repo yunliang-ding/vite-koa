@@ -41,14 +41,6 @@ export default () => {
         </div>
       </div>
       <div className="preview">
-        <div className="header">
-          <div className="tabs">
-            <div className={"file-selected"}>
-              <i className="file-icon javascriptreact-lang-file-icon" />
-              <span>预览结果</span>
-            </div>
-          </div>
-        </div>
         <div className="body">{Component}</div>
       </div>
     </div>

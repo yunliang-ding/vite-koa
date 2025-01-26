@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { ProFormItemProps, ProFormProps } from "./type";
 import { getWidget } from "./widget";
 import "antd/dist/antd.css";
+import { cloneDeep } from "../../../shared";
 
 export const Item = ({
   type,
@@ -107,7 +108,7 @@ export default ({
       }}
       {...rest}
     >
-      {schema.map((item: ProFormItemProps) => {
+      {cloneDeep(schema).map((item: ProFormItemProps) => {
         return (
           <Item
             {...item}

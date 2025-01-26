@@ -2,7 +2,7 @@ import { Button, Form, Space } from "antd";
 import { FormListProps } from "./type";
 import { PlusOutlined } from "@ant-design/icons";
 import { Fragment } from "react/jsx-runtime";
-import { Item } from "../form";
+import { Item } from "../../../pro/antd/form";
 
 export default ({
   required,
@@ -26,7 +26,7 @@ export default ({
                     {schema?.map(({ props, ...item }) => {
                       const effect = item.effect?.slice();
                       if(effect){
-                        effect.forEach((i, idx) => {
+                        effect.forEach((i: string, idx: string | number) => {
                           if(i.includes(',')){
                             effect[idx] = i.replace(",", `,${field.key},`) 
                           }

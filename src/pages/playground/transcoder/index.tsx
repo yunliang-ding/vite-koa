@@ -1,4 +1,4 @@
-import Form from "../../../components/material/antd/form";
+import Form from "../../../components/pro/antd/form";
 
 export default (code: string) => {
   const { type, ...rest } = new Function(
