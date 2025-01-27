@@ -42,14 +42,6 @@ export default () => {
         />
       </div>
       <div className="code-space">
-        <div className="header">
-          <div className="tabs">
-            <div className="file-selected">
-              <i className={`file-icon javascript-lang-file-icon`} />
-              配置文件
-            </div>
-          </div>
-        </div>
         <div className="body">
           <Monaco
             value={source}
