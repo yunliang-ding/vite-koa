@@ -1,21 +1,25 @@
 import { createStore } from "resy";
 import Monaco from "../../monaco";
 // import formCode from "./form";
-import tableCode from "./table";
+import sourceCode from "./table";
 import transcoder from "./transcoder";
+import globalModules from "./transcoder/modules";
+import { Checkbox } from "antd";
 import "./index.less";
 
-const source = tableCode;
+const source = sourceCode;
 
 const store = createStore<{
-  source: any;
+  source: string;
+  dependencies: string[];
 }>({
   source,
+  dependencies: [],
 });
 
 export default () => {
-  const { source } = store.useStore();
-  const Component = transcoder(source);
+  const { source, dependencies } = store.useStore();
+  const Component = transcoder(source, dependencies);
   return (
     <div
       className="show-file-icons"
@@ -23,11 +27,25 @@ export default () => {
         display: "flex",
       }}
     >
+      <div className="dep-sider">
+        <Checkbox.Group
+          value={dependencies}
+          onChange={(v) => {
+            store.dependencies = v as string[];
+          }}
+          options={Object.keys(globalModules).map((key: string) => {
+            return {
+              label: key,
+              value: key,
+            };
+          })}
+        />
+      </div>
       <div className="code-space">
         <div className="header">
           <div className="tabs">
-            <div className={"file-selected"}>
-              <i className="file-icon javascript-lang-file-icon" />
+            <div className="file-selected">
+              <i className={`file-icon javascript-lang-file-icon`} />
               配置文件
             </div>
           </div>
@@ -41,7 +59,7 @@ export default () => {
           />
         </div>
       </div>
-      <div className="preview">
+      <div className="preview" key={dependencies.toString()}>
         <div className="body">{Component}</div>
       </div>
     </div>

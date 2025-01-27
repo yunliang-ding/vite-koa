@@ -103,4 +103,4 @@ export default `export default {
       total: res.data.total,
     };
   }
-};`
+}`;
