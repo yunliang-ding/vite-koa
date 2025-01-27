@@ -114,4 +114,4 @@ export default `export default {
       ],
     },
   }]
-};`;
+}`;

@@ -1,7 +1,7 @@
 import { createStore } from "resy";
 import Monaco from "../../monaco";
-// import formCode from "./form";
-import sourceCode from "./table";
+import sourceCode from "./form";
+// import sourceCode from "./table";
 import transcoder from "./transcoder";
 import globalModules from "./transcoder/modules";
 import { Checkbox } from "antd";
