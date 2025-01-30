@@ -1,4 +1,4 @@
-import { Form, FormInstance } from "antd";
+import { Col, Form, FormInstance, Row } from "antd";
 import { useEffect, useState } from "react";
 import { ProFormItemProps, ProFormProps } from "./type";
 import { getWidget } from "./widget";
@@ -107,25 +107,28 @@ export default ({
       }}
       {...rest}
     >
-      {cloneDeep(schema).map((item: ProFormItemProps) => {
-        return (
-          <Item
-            {...item}
-            key={item.name}
-            form={{
-              ...form,
-              // 合并下
-              getFieldsValue: () => {
-                return {
-                  ...initialValues,
-                  ...form?.getFieldsValue(),
-                };
-              },
-            }}
-            collectedEffects={collectedEffects}
-          />
-        );
-      })}
+      <Row gutter={10}>
+        {cloneDeep(schema).map((item: ProFormItemProps) => {
+          return (
+            <Col key={item.name} span={24 / column}>
+              <Item
+                {...item}
+                form={{
+                  ...form,
+                  // 合并下
+                  getFieldsValue: () => {
+                    return {
+                      ...initialValues,
+                      ...form?.getFieldsValue(),
+                    };
+                  },
+                }}
+                collectedEffects={collectedEffects}
+              />
+            </Col>
+          );
+        })}
+      </Row>
     </Form>
   );
 };

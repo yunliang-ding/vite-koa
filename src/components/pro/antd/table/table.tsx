@@ -84,8 +84,11 @@ export default ({
         await query(params);
       };
       tableRef.current.search = async (params = {}) => {
-        pageInfo.current = 1; // 回到第一页
-        await query(params);
+        await query({
+          ...params,
+          pageNum: 1, // 第一页
+        });
+        pageInfo.current = 1; // 响应成功回到第一页
       };
       tableRef.current.dataSource = list;
       tableRef.current.pagination = pageInfo;

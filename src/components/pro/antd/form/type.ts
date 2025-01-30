@@ -1,8 +1,9 @@
 import { FormInstance, FormItemProps, FormProps } from "antd";
+import { ReactNode } from "react";
 
 export interface ProFormItemProps extends FormItemProps {
   /** 表单项类型 */
-  type: string;
+  type: string | (() => ReactNode);
   /** key */
   key?: any;
   /** 占据的格子数 */

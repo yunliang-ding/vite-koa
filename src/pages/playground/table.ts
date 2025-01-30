@@ -16,6 +16,11 @@ export default `export default {
         name: 'name',
         label: '用户姓名',
       },
+      {
+        type: 'Select',
+        name: 'sex',
+        label: '性别',
+      },
     ],
   },
   tools: [

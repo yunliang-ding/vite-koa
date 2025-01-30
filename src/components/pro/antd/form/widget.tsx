@@ -37,11 +37,11 @@ const Mapping: any = {
   Upload,
 };
 
-export const getWidget = (type: string) => {
-  return (
-    Mapping[type] ||
-    (() => <span style={{ color: "red" }}>找不到类型：{type}</span>)
-  );
+export const getWidget = (type: string | Function) => {
+  return typeof type === "function"
+    ? type
+    : Mapping[type] ||
+        (() => <span style={{ color: "red" }}>找不到类型：{type}</span>);
 };
 
 export default Mapping;

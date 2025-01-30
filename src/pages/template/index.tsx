@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import sourceCode from "./publish";
 import transcoder from "./transcoder/publish";
 import Extra from "./extra";
+import "./index.less";
 
 interface FileProps {
   fileName: string;
