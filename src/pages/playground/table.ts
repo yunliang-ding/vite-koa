@@ -45,7 +45,9 @@ export default `export default {
     {
       title: '性别',
       dataIndex: 'sex',
-      enums: ['男', '女'],
+      render(sex){
+        return <Tag>{['男', '女'][sex]}</Tag>
+      }
     },
     {
       title: '城市',
