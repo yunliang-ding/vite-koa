@@ -8,7 +8,7 @@
 
 # 模型渲染页面
 
-- excuteCode 函数的处理逻辑，如何传入依赖
+- excuteCode 函数的处理逻辑
 
 # Form 联动处理
 

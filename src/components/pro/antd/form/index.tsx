@@ -12,6 +12,7 @@ export const Item = ({
   props,
   form,
   collectedEffects,
+  itemRender,
   ...rest
 }: ProFormItemProps) => {
   /** 是否展示 */
@@ -43,15 +44,13 @@ export const Item = ({
     /** 收集依赖 */
     effect?.forEach?.((i: string) => {
       if (collectedEffects[i] === undefined) {
-        collectedEffects[i] = [
-          {
-            [rest.name]: API,
-          },
-        ];
-      } else {
-        collectedEffects[i].push({
+        collectedEffects[i] = {
           [rest.name]: API,
-        });
+        };
+      } else {
+        collectedEffects[i][rest.name] = {
+          ...API,
+        };
       }
     });
   }, []);
@@ -64,8 +63,14 @@ export const Item = ({
     }
   }
   const Component = getWidget(type);
+  let VNode = (
+    <Form.Item {...rest} key={reload}>
+      <Component {...props} form={form} />
+    </Form.Item>
+  );
+  /** 渲染子表单 */
   if (type === "FormList") {
-    return (
+    VNode = (
       <Component
         {...{ ...rest, ...props }}
         key={reload}
@@ -74,11 +79,11 @@ export const Item = ({
       />
     );
   }
-  return (
-    <Form.Item {...rest} key={reload}>
-      <Component {...props} form={form} />
-    </Form.Item>
-  );
+  /** 扩展渲染 */
+  if (typeof itemRender === "function") {
+    return itemRender(VNode, form);
+  }
+  return VNode;
 };
 
 export default ({
@@ -97,13 +102,16 @@ export default ({
       /** 统一处理联动的地方 */
       onFieldsChange={(field) => {
         const { name } = field[0];
-        console.log("collectedEffects =>", collectedEffects, name.toString());
-        collectedEffects[name.toString()]?.forEach((item: any) => {
-          Object.keys(item).forEach((key) => {
-            item[key].reload(); // reload
-            item[key].clean(); // clean
-          });
+        const effectField = collectedEffects[name.toString()];
+        Object.keys(effectField)?.forEach((key: any) => {
+          effectField[key].reload(); // reload
+          effectField[key].clean(); // clean
         });
+        console.log(
+          `collectedEffects 【${name.toString()}】 =>`,
+          collectedEffects,
+          name.toString()
+        );
       }}
       {...rest}
     >

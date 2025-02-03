@@ -12,6 +12,8 @@ export interface ProFormItemProps extends FormItemProps {
   effect?: string[];
   /** 是否展示 */
   visible?: (form: FormInstance) => boolean;
+  /** 自定义渲染逻辑 */
+  itemRender?: (dom: React.ReactNode, form?: FormInstance) => React.ReactElement;
   /** 表单项属性 */
   props?: {
     [key: string]: any;

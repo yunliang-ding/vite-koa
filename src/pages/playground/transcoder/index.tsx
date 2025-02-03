@@ -2,28 +2,40 @@ import ProForm from "../../../components/pro/antd/form";
 import ProTable from "../../../components/pro/antd/table";
 import globalModules from "./modules";
 
-const excuteCode = (es5Code: string, dependencies: string[]): any => {
+/** 获取编译结果 */
+export const getEs5Code = (code: string, dependencies: string[]) => {
+  const parameter = ["exports", ...dependencies].join(", ");
+  return `((${parameter}) => {
+    ${
+      window.Babel.transform(code, {
+        presets: ["es2015", "react", "typescript"],
+        filename: "main.tsx",
+      }).code
+    }
+})(${parameter})`;
+};
+
+/** 执行代码 */
+export const excuteCode = (code: string, dependencies: string[]): any => {
   const exports: { default?: {} } = {};
   const parameter = ["exports", ...dependencies].join(", ");
   const argument = [
     exports,
     ...dependencies.map((name: string) => globalModules[name]),
   ];
-  // wrapper接受的参数
-  const wrapperCode = `((${parameter}) => {${es5Code}})(${parameter})`;
-  new Function(parameter, wrapperCode)(...argument);
+  new Function(parameter, getEs5Code(code, dependencies))(...argument);
   return exports.default;
 };
 
+/** 一键复制模块代码 */
+export const parseSchemaToFileCode = (code: string, dependencies: string[]) => {
+  return code;
+};
+
+/** 渲染结果 */
 export default (code: string, dependencies: any) => {
   try {
-    const { type, ...rest } = excuteCode(
-      window.Babel.transform(code, {
-        presets: ["env", "react", "typescript"],
-        filename: "main.tsx",
-      }).code,
-      dependencies
-    );
+    const { type, ...rest } = excuteCode(code, dependencies);
     if (type === "Form") {
       return <ProForm {...rest} />;
     }

@@ -40,6 +40,26 @@ export default `export default {
     },
   },
   {
+    type: "CheckGroup",
+    name: "likes",
+    label: "爱好",
+    props: {
+      options: [
+        {
+          label: "选项1",
+          value: 0,
+        },
+        {
+          label: "选项2",
+          value: 1,
+        },
+      ],
+    },
+    // itemRender(dom){
+    //   return <div style={{ background: "#379e42" }}>{dom}</div>
+    // }
+  },
+  {
     type: "InputNumber",
     label: "收入总和(元)",
     name: "totalAmount",
