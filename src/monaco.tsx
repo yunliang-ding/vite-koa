@@ -1,33 +1,47 @@
 import { useEffect, useMemo, useRef } from "react";
-import loader from '@monaco-editor/loader';
-import { loadVscodeTheme } from './wasm';
+import loader from "@monaco-editor/loader";
+import { loadVscodeTheme } from "./wasm";
+import prettier from "prettier";
+import typescript from "prettier/plugins/typescript";
+import prettierPluginEstree from "prettier/plugins/estree";
 
 const hasLoadLanguage: any = [];
 
-export default ({ value, onChange, language = "javascript", readOnly = false, style = {} }: any) => {
+/** prettier 格式化代码 */
+export const prettierFormat = async (code: string) => {
+  return prettier.format(code, {
+    parser: "typescript",
+    plugins: [typescript, prettierPluginEstree],
+  });
+};
+
+export default ({
+  value,
+  onChange,
+  language = "javascript",
+  readOnly = false,
+  style = {},
+}: any) => {
   const codeRef: any = useRef({});
   const id = useMemo(() => `monaco_${Math.random()}`, []);
   const createInstance = (monaco: any) => {
     if (!document.getElementById(id)) {
       return;
     }
-    const codeInstance = monaco.editor.create(
-      document.getElementById(id),
-      {
-        theme: "vs-dark",
-        language,
-        selectOnLineNumbers: true,
-        automaticLayout: true,
-        tabSize: 2,
-        fontSize: 12,
-        fontWeight: "600",
-        minimap: {
-          enabled: false,
-        },
-        value,
-        readOnly,
-      }
-    );
+    const codeInstance = monaco.editor.create(document.getElementById(id), {
+      theme: "vs-dark",
+      language,
+      selectOnLineNumbers: true,
+      automaticLayout: true,
+      tabSize: 2,
+      fontSize: 12,
+      fontWeight: "600",
+      minimap: {
+        enabled: false,
+      },
+      value,
+      readOnly,
+    });
     // onChange
     codeInstance.onDidChangeModelContent((e: any) => {
       const code = codeInstance.getValue();
@@ -42,13 +56,13 @@ export default ({ value, onChange, language = "javascript", readOnly = false, st
     // 配置资源CDN
     loader.config({
       paths: {
-        vs: 'https://lyr-cli-oss.oss-cn-beijing.aliyuncs.com/monaco-editor/0.49.0/vs',
+        vs: "https://lyr-cli-oss.oss-cn-beijing.aliyuncs.com/monaco-editor/0.49.0/vs",
       },
     });
     return new Promise((res) => {
       loader.init().then((monaco: any) => {
         if (
-          typeof (window as any).define === 'function' &&
+          typeof (window as any).define === "function" &&
           (window as any).define.amd
         ) {
           // make monaco-editor's loader work with webpack's umd loader
@@ -67,7 +81,7 @@ export default ({ value, onChange, language = "javascript", readOnly = false, st
     const monacoInstance = initialLoad();
     //  同步 window
     monacoInstance.then((editor: any) => {
-      if(!hasLoadLanguage.includes(language)){
+      if (!hasLoadLanguage.includes(language)) {
         loadVscodeTheme((window as any).monaco, editor, language); // 加载dark+、light+主题
         hasLoadLanguage.push(language);
       }
@@ -77,8 +91,8 @@ export default ({ value, onChange, language = "javascript", readOnly = false, st
       return monacoInstance;
     };
   }, []);
-   // 更新值
-   useEffect(() => {
+  // 更新值
+  useEffect(() => {
     codeRef.current.getMonacoInstance().then((instance: any) => {
       if (instance) {
         if (!instance.hasTextFocus?.()) {
@@ -87,5 +101,18 @@ export default ({ value, onChange, language = "javascript", readOnly = false, st
       }
     });
   }, [value]);
+  /** readOnly 格式化下 */
+  useEffect(() => {
+    if (readOnly) {
+      codeRef.current.getMonacoInstance().then(async (instance: any) => {
+        if (instance) {
+          console.log("gg");
+          if (!instance.hasTextFocus?.()) {
+            instance.setValue?.(await prettierFormat(value));
+          }
+        }
+      });
+    }
+  }, [readOnly]);
   return <div id={id} className="monaco-editor" style={style}></div>;
 };

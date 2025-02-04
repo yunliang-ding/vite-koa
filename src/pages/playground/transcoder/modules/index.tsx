@@ -1,10 +1,9 @@
-import axios from "axios";
+import * as Antd from "antd";
 import React from "react";
-import * as antd from "antd";
+import axios from "axios";
 
 export default {
   React,
   axios,
-  message: antd.message,
-  Tag: antd.Tag
+  Antd,
 } as any

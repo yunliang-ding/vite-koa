@@ -45,8 +45,8 @@ export default `export default {
     {
       title: '性别',
       dataIndex: 'sex',
-      render(sex){
-        return <Tag>{['男', '女'][sex]}</Tag>
+      render(sex) {
+        return <Antd.Tag color={sex === 0 ? "red" : "blue"}>{['男', '女'][sex]}</Antd.Tag>
       }
     },
     {
@@ -90,7 +90,7 @@ export default `export default {
         label: '删除',
         async onClick() {
           await new Promise((res) => setTimeout(res, 1000));
-          message.success('已删除!');
+          Antd.message.success('已删除!');
           await refresh?.();
           console.log(record);
         },

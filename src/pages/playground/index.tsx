@@ -1,4 +1,3 @@
-import React from "react";
 import { createStore } from "resy";
 import Monaco from "../../monaco";
 // import sourceCode from "./form";
@@ -6,6 +5,7 @@ import sourceCode from "./table";
 import transcoder, { getEs5Code, parseSchemaToFileCode } from "./transcoder";
 import globalModules from "./transcoder/modules";
 import { Checkbox } from "antd";
+import ErrorBoundary from "../../error-boundary";
 import "./index.less";
 
 const source = sourceCode;
@@ -19,37 +19,6 @@ const store = createStore<{
   source,
   dependencies: [],
 });
-
-/** 错误捕捉 */
-class ErrorBoundaryComponent extends React.Component {
-  props = {
-    children: null,
-  };
-  state = {
-    hasError: false,
-    error: "",
-  };
-  constructor(props: any) {
-    super(props);
-    this.state = { hasError: false, error: "" } as any;
-  }
-  static getDerivedStateFromError() {
-    // 更新state，以便下一次渲染可以显示回退UI
-    return { hasError: true };
-  }
-  componentDidCatch(error: Error): void {
-    this.setState({
-      error,
-    });
-    console.log(error);
-  }
-  render() {
-    if (this.state.hasError) {
-      return <pre style={{ color: "red" }}>{String(this.state.error)}</pre>;
-    }
-    return this.props.children;
-  }
-}
 
 export default () => {
   const { source, dependencies, activeTab } = store.useStore();
@@ -144,19 +113,19 @@ export default () => {
           className="body"
           style={{ padding: 10, display: activeTab === "1" ? "block" : "none" }}
         >
-          <ErrorBoundaryComponent>{Component}</ErrorBoundaryComponent>
+          <ErrorBoundary>{Component}</ErrorBoundary>
         </div>
         <div
           className="body"
           style={{ display: activeTab === "2" ? "block" : "none" }}
         >
-          <Monaco value={fileCode} />
+          <Monaco value={fileCode} readOnly />
         </div>
         <div
           className="body"
           style={{ display: activeTab === "3" ? "block" : "none" }}
         >
-          <Monaco value={es5Code} />
+          <Monaco value={es5Code} readOnly />
         </div>
       </div>
     </div>
