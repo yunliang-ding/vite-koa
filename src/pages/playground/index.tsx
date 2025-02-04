@@ -1,7 +1,7 @@
 import { createStore } from "resy";
 import Monaco from "../../monaco";
-// import sourceCode from "./form";
-import sourceCode from "./table";
+import sourceCode from "./form";
+// import sourceCode from "./table";
 import transcoder, { getEs5Code, parseSchemaToFileCode } from "./transcoder";
 import globalModules from "./transcoder/modules";
 import { Checkbox } from "antd";
@@ -96,7 +96,7 @@ export default () => {
               }}
             >
               <i className="file-icon typescript-lang-file-icon" />
-              <span className={"label"}>复制代码</span>
+              <span className={"label"}>业务代码</span>
             </div>
             <div
               className={activeTab === "3" ? "file-selected" : "file"}
@@ -105,7 +105,7 @@ export default () => {
               }}
             >
               <i className="file-icon javascript-lang-file-icon" />
-              <span className={"label"}>编译预览</span>
+              <span className={"label"}>babel 编译预览</span>
             </div>
           </div>
         </div>

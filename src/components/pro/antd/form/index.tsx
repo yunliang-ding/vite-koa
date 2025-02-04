@@ -43,12 +43,13 @@ export const Item = ({
     };
     /** 收集依赖 */
     effect?.forEach?.((i: string) => {
+      const names = rest.fullname || rest.name;
       if (collectedEffects[i] === undefined) {
         collectedEffects[i] = {
-          [rest.name]: API,
+          [names]: API,
         };
       } else {
-        collectedEffects[i][rest.name] = {
+        collectedEffects[i][names] = {
           ...API,
         };
       }
@@ -103,15 +104,16 @@ export default ({
       onFieldsChange={(field) => {
         const { name } = field[0];
         const effectField = collectedEffects[name.toString()];
-        Object.keys(effectField)?.forEach((key: any) => {
-          effectField[key].reload(); // reload
-          effectField[key].clean(); // clean
-        });
-        console.log(
-          `collectedEffects 【${name.toString()}】 =>`,
-          collectedEffects,
-          name.toString()
-        );
+        if (effectField) {
+          Object.keys(effectField)?.forEach((key: any) => {
+            effectField[key].reload(); // reload
+            effectField[key].clean(); // clean
+          });
+          console.log(
+            `collectedEffects 【${name.toString()}】 =>`,
+            collectedEffects
+          );
+        }
       }}
       {...rest}
     >

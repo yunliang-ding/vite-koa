@@ -106,7 +106,6 @@ export default ({
     if (readOnly) {
       codeRef.current.getMonacoInstance().then(async (instance: any) => {
         if (instance) {
-          console.log("gg");
           if (!instance.hasTextFocus?.()) {
             instance.setValue?.(await prettierFormat(value));
           }
