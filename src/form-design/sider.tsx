@@ -1,5 +1,5 @@
 import { Button } from "antd";
-import Drag from "../components/material/drag";
+import Drag from "@/components/material/drag";
 import material from "./material-config";
 
 export default () => {

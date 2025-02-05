@@ -1,5 +1,5 @@
 import { createStore } from "resy";
-import { ProFormItemProps } from "../components/pro/antd/form/type";
+import { ProFormItemProps } from "@/components/pro/antd/form/type";
 
 export default createStore<{
   title?: string;

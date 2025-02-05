@@ -50,7 +50,12 @@ const vite = await createServer({
       // 提供父 http 服务器以代理 WebSocket
       server: app,
     },
-  }
+  },
+  resolve: {
+    alias: {
+      "@": path.resolve("./", "src"),
+    },
+  },
 });
 // 使用 vite middleware
 app.use(connect(vite.middlewares));

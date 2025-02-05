@@ -1,5 +1,5 @@
-import ProForm from "../../../components/pro/antd/form";
-import ProTable from "../../../components/pro/antd/table";
+import ProForm from "@/components/pro/antd/form";
+import ProTable from "@/components/pro/antd/table";
 import globalModules from "./modules";
 
 /** 获取编译结果 */
@@ -76,7 +76,7 @@ export default ({
     if (type === "Table") {
       return <ProTable {...rest} />;
     }
-    return <></>;
+    return <pre style={{color: "red"}}>渲染异常，找不到类型 {type}</pre>;
   } catch (error) {
     console.log(error);
     return <pre style={{ color: "red" }}>{String(error)}</pre>;

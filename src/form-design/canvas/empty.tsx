@@ -1,7 +1,7 @@
 import { Empty } from "antd";
-import Drag from "../../components/material/drag";
-import ProForm from "../../components/pro/antd/form";
-import { uuid } from "../../components/shared";
+import Drag from "@/components/material/drag";
+import ProForm from "@/components/pro/antd/form";
+import { uuid } from "@/components/shared";
 import store from "../store";
 
 export default () => {

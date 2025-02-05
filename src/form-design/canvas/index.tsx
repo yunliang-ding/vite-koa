@@ -1,10 +1,10 @@
 import { Tabs } from "antd";
 import store from "../store";
-import Monaco from "../../monaco";
+import Monaco from "@/monaco";
 import EditPanel from "./edit";
-import ErrorBoundary from "../../error-boundary";
-import Transcoder from "../../pages/playground/transcoder";
-import { ProFormItemProps } from "../../components/pro/antd/form/type";
+import ErrorBoundary from "@/error-boundary";
+import Transcoder from "@/transcoder";
+import { ProFormItemProps } from "@/components/pro/antd/form/type";
 
 const getPureSchema = (
   schema: ProFormItemProps[],
@@ -67,7 +67,13 @@ export default () => {
           {
             label: "模型",
             key: "3",
-            children: <Monaco readOnly value={source} />,
+            children: (
+              <Monaco
+                readOnly
+                value={source}
+                style={{ height: "calc(100vh - 70px)" }}
+              />
+            ),
           },
         ]}
       />

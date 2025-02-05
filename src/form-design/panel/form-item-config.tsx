@@ -1,4 +1,5 @@
-import ProForm from "../../components/pro/antd/form";
+import ProForm from "@/components/pro/antd/form";
+import CodeEditor from "@/code-editor";
 
 export default ({
   initialValues,
@@ -12,6 +13,9 @@ export default ({
       layout="vertical"
       initialValues={initialValues}
       onValuesChange={onValuesChange}
+      widget={{
+        CodeEditor
+      }}
       schema={[
         {
           type: "Input",

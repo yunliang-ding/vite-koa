@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { isEmpty } from '../components/shared';
+import { isEmpty } from '@/components/shared';
 import { decrypt, encrypt } from '../util';
-import Monaco from '../monaco';
+import Monaco from '@/monaco';
 import debounce from 'lodash.debounce';
 import './index.less';
 
@@ -39,10 +39,7 @@ export default ({
               return onChange(undefined);
             }
             valueRef.current = codeString; // 同步文本
-            // const result = babelParse({
-            //   code: codeString,
-            //   require,
-            // });
+            
             // 校验通过才触发 onChange
             onChange(useEncrypt ? encrypt(codeString) : codeString);
             setErrorInfo('');

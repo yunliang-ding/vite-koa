@@ -10,7 +10,7 @@ export default ({
   effect,
   props,
   form,
-  widget,
+  widget = {},
   collectedEffects,
   itemRender,
   ...rest

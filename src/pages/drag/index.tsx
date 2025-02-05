@@ -1,4 +1,4 @@
-import Drag from "../../components/material/drag";
+import Drag from "@/components/material/drag";
 
 export default () => {
   return (

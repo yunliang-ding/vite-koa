@@ -1,9 +1,10 @@
-import ProForm from "../../components/pro/antd/form";
+import ProForm from "@/components/pro/antd/form";
 import material from "../material-config";
 import { Empty, Tabs } from "antd";
 import FormItemConfig from "./form-item-config";
 import FormConfig from "./form-config";
 import store from "../store";
+import CodeEditor from "@/code-editor";
 
 export default () => {
   const { selectedSchema, layout, title, column, api } = store.useStore();
@@ -60,6 +61,9 @@ export default () => {
                 schema={panelSchema}
                 layout="vertical"
                 initialValues={selectedSchema.props}
+                widget={{
+                  CodeEditor
+                }}
                 onValuesChange={(v) => {
                   Object.assign(selectedSchema.props, v);
                   store.schema = [...store.schema];

@@ -3,7 +3,7 @@ import Drag from "./pages/drag";
 import FormDesign from "./pages/form-design";
 import TableDesign from "./pages/table-design";
 import Playground from "./pages/playground";
-import Template from "./pages/template";
+// import Template from "./pages/template";
 
 export default () => {
   return (
@@ -14,7 +14,7 @@ export default () => {
         <Route path="/form-design" element={<FormDesign />} />
         <Route path="/table-design" element={<TableDesign />} />
         <Route path="/playground" element={<Playground />} />
-        <Route path="/template" element={<Template />} />
+        {/* <Route path="/template" element={<Template />} /> */}
       </Routes>
     </Router>
   );

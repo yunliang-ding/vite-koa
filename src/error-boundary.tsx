@@ -1,17 +1,14 @@
 import React from "react";
 
 export default class ErrorBoundaryComponent extends React.Component {
-  props = {
-    children: <></>,
-  };
-  state = {
-    hasError: false,
-    error: "",
-  };
   constructor(props: any) {
     super(props);
     this.state = { hasError: false, error: "" } as any;
   }
+  state = {
+    hasError: false,
+    error: "",
+  };
   static getDerivedStateFromError() {
     // 更新state，以便下一次渲染可以显示回退UI
     return { hasError: true };
@@ -26,6 +23,6 @@ export default class ErrorBoundaryComponent extends React.Component {
     if (this.state.hasError) {
       return <pre style={{ color: "red" }}>{String(this.state.error)}</pre>;
     }
-    return this.props.children;
+    return (this.props as any).children;
   }
 }
