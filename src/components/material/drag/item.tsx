@@ -24,7 +24,7 @@ export default ({
     style: {
       ...children?.props?.style,
       cursor: virtual ? "not-allowed" : "move",
-      borderLeft: accept ? "2px solid var(--bg-color)" : "none",
+      borderLeft: accept ? "2px solid var(--bg-color)" : "",
     },
     draggable: true,
     onClick: () => {

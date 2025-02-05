@@ -1,5 +1,9 @@
-import FormDesign from "../../form-design"
+import FormDesign from "../../form-design";
 
 export default () => {
-  return <FormDesign />
-}
+  return (
+    <div style={{ width: "100vw", height: "100vh" }}>
+      <FormDesign />
+    </div>
+  );
+};

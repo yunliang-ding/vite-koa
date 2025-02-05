@@ -1,37 +1,59 @@
 .form-design {
   display: flex;
+  gap: 10px;
+  height: 100%;
+  width: 100%;
+  background-color: var(--bg-color-2);
   .sider {
     display: flex;
     gap: 10px;
     padding: 20px;
-    flex: 1;
     flex-wrap: wrap;
-    background-color: var(--bg-color-2);
     width: 300px;
+    align-content: flex-start;
+    background-color: #fff;
   }
   .canvas {
     display: flex;
     gap: 10px;
-    padding: 20px;
     flex: 9;
-    width: calc(100vw - 600px);
+    width: calc(100vw - 680px);
     flex-wrap: wrap;
     align-content: flex-start;
-    background-color: var(--bg-color-2);
-    .drag-item, .drag-item-selected{
-      padding: 0 10px;
-      background-color: #fff;
+    background-color: #fff;
+    .ant-tabs-nav-wrap {
+      justify-content: center;
     }
-    .ant-form{
-      width: 100%;
-      background: #fff;
-      padding: 20px;
-      .ant-form-item{
-        pointer-events: none;
+    .key-info {
+      display: none;
+      position: absolute;
+      top: 2px;
+      right: 4px;
+      border: none;
+      background: transparent;
+      color: #1890ff;
+    }
+    .drag-panel {
+      .drag-item,
+      .drag-item-selected {
+        padding: 4px;
+        background-color: #fff;
+      }
+      .drag-item-selected{
+        .key-info{
+          display: block;
+        }
+      }
+      .ant-form {
+        width: 100%;
+        .ant-form-item {
+          pointer-events: none;
+        }
       }
     }
   }
   .panel {
-    width: 300px;
+    width: 400px;
+    background-color: #fff;
   }
 }

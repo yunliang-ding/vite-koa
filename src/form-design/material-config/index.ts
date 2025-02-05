@@ -6,4 +6,4 @@ export default {
   Input,
   DatePicker,
   Select,
-};
+} as any;

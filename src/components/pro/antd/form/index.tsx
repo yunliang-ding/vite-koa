@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { ProFormItemProps, ProFormProps } from "./type";
 import { getWidget } from "./widget";
 import { cloneDeep } from "../../../shared";
+import './index.less';
 
 export const Item = ({
   type,
@@ -99,6 +100,7 @@ export default ({
   return (
     <Form
       form={form}
+      className="low-code-form"
       initialValues={initialValues}
       /** 统一处理联动的地方 */
       onFieldsChange={(field) => {
