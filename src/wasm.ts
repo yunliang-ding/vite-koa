@@ -2,6 +2,7 @@ import { wireTmGrammars } from 'monaco-editor-textmate';
 import { loadWASM } from 'onigasm';
 import { Registry } from 'monaco-textmate';
 import darkPlus from './one-dark-pro.json';
+import lightPlus from './one-light-pro.json';
 
 const covertTheme = (theme: any, addDefaultToken = true, defaultColor = '#ffffff') => {
   if (typeof theme === 'string') {
@@ -112,6 +113,8 @@ export const loadVscodeTheme = async (monaco: { languages: { register: (arg0: { 
   monaco.languages.register({ id: language });
   // 重新覆盖主题
   monaco.editor.defineTheme('vs-dark', covertTheme(darkPlus));
+  // 重新覆盖主题
+  monaco.editor.defineTheme('vs', covertTheme(lightPlus));
   setTimeout(() => {
     wireTmGrammars(window.monaco, registry, grammars, editor);
   }, 100);

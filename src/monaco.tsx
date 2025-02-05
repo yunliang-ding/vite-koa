@@ -21,6 +21,7 @@ export default ({
   language = "javascript",
   readOnly = false,
   style = {},
+  theme = "vs-dark",
 }: any) => {
   const codeRef: any = useRef({});
   const id = useMemo(() => `monaco_${Math.random()}`, []);
@@ -29,7 +30,7 @@ export default ({
       return;
     }
     const codeInstance = monaco.editor.create(document.getElementById(id), {
-      theme: "vs-dark",
+      theme,
       language,
       selectOnLineNumbers: true,
       automaticLayout: true,

@@ -7,12 +7,12 @@ import store from "../store";
 import CodeEditor from "@/code-editor";
 
 export default () => {
-  const { selectedSchema, layout, title, column, api } = store.useStore();
+  const { selectedSchema, layout, title, column, onSubmit } = store.useStore();
   const panelSchema = material[selectedSchema?.type]?.propsConfig; // 该物料对应的属性配置
   return (
     <div className="panel">
       <Tabs
-        defaultActiveKey="3"
+        defaultActiveKey="1"
         size="small"
         style={{
           padding: "0 10px",
@@ -24,13 +24,15 @@ export default () => {
             children: (
               <FormConfig
                 initialValues={{
-                  api,
                   layout,
                   title,
                   column,
+                  onSubmit,
                 }}
                 onValuesChange={(v) => {
+                  console.log("v", v)
                   Object.assign(store, v);
+                  
                 }}
               />
             ),

@@ -3,7 +3,7 @@ import store from "../store";
 import Monaco from "@/monaco";
 import EditPanel from "./edit";
 import ErrorBoundary from "@/error-boundary";
-import Transcoder from "@/transcoder";
+import Transcoder, { decrypt } from "@/transcoder";
 import { ProFormItemProps } from "@/components/pro/antd/form/type";
 
 const getPureSchema = (
@@ -11,33 +11,26 @@ const getPureSchema = (
   layout: string | undefined,
   column: number | undefined,
   title: string | undefined,
-  api: string
+  onSubmit?: string
 ) => {
-  const str = JSON.stringify(
+  return `export default ${JSON.stringify(
     {
       type: "Form",
       title,
       layout,
       column,
       schema,
+      onSubmit,
     },
     null,
     2
-  );
-  return `export default {
-      ${str.substring(1, str.length - 2)},
-      onSubmit: async (values) => {
-        await axios.post("${api}", {
-          ...values
-        })
-      }
-    }
-`;
+  )}`;
 };
 
 export default () => {
-  const { schema, layout, column, title, api } = store.useStore();
-  const source = getPureSchema(schema, layout, column, title, api);
+  const { schema, layout, column, title, onSubmit, dependencies } =
+    store.useStore();
+  const source = getPureSchema(schema, layout, column, title, onSubmit);
   return (
     <div className="canvas">
       <Tabs
@@ -60,7 +53,10 @@ export default () => {
             key: "2",
             children: (
               <ErrorBoundary>
-                <Transcoder code={source} dependencies={["axios"]} />
+                <Transcoder
+                  code={decrypt(source)}
+                  dependencies={dependencies}
+                />
               </ErrorBoundary>
             ),
           },
@@ -69,8 +65,21 @@ export default () => {
             key: "3",
             children: (
               <Monaco
-                readOnly
                 value={source}
+                readOnly
+                theme="vs"
+                style={{ height: "calc(100vh - 70px)" }}
+              />
+            ),
+          },
+          {
+            label: "转译",
+            key: "4",
+            children: (
+              <Monaco
+                value={decrypt(source)}
+                readOnly
+                theme="vs"
                 style={{ height: "calc(100vh - 70px)" }}
               />
             ),

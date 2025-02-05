@@ -2,6 +2,27 @@ import ProForm from "@/components/pro/antd/form";
 import ProTable from "@/components/pro/antd/table";
 import globalModules from "./modules";
 
+/** 加前后缀函数 */
+export const encrypt = (str: string) => {
+  return `{#__#${str}#__#}`;
+};
+
+/** 解前后缀函数 */
+export const decrypt = (str: string, quotation = true) => {
+  if (quotation) {
+    return str
+      ?.replaceAll('"{#__#', "")
+      .replaceAll('#__#}"', "")
+      .replaceAll("\\n", "")
+      .replaceAll("\\", "");
+  }
+  return str
+    ?.replaceAll("{#__#", "")
+    .replaceAll("#__#}", "")
+    .replaceAll("\\n", "")
+    .replaceAll("\\", "");
+};
+
 /** 获取编译结果 */
 export const getEs5Code = (code: string, dependencies: string[]) => {
   const parameter = ["exports", ...dependencies].join(", ");
@@ -76,7 +97,7 @@ export default ({
     if (type === "Table") {
       return <ProTable {...rest} />;
     }
-    return <pre style={{color: "red"}}>渲染异常，找不到类型 {type}</pre>;
+    return <pre style={{ color: "red" }}>渲染异常，找不到类型 {type}</pre>;
   } catch (error) {
     console.log(error);
     return <pre style={{ color: "red" }}>{String(error)}</pre>;
