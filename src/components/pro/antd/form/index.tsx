@@ -92,7 +92,6 @@ export default ({
   schema = [],
   column = 1,
   initialValues = {},
-  onValuesChange,
   ...rest
 }: ProFormProps) => {
   const [collectedEffects]: any = useState({}); // 依赖收集

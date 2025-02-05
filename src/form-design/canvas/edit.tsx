@@ -9,6 +9,7 @@ export default () => {
   if (schema?.length === 0) {
     return <Empty />;
   }
+  console.log(schema);
   return (
     <div className="drag-panel">
       <Drag>
@@ -59,7 +60,9 @@ export default () => {
                       };
                       delete newItem.propsConfig;
                       schema.splice(index, 0, newItem);
-                      store.selectedSchema = newItem;
+                      if(selectedSchema === undefined){
+                        store.selectedSchema = newItem;
+                      }
                       store.schema = [...store.schema];
                     }}
                   >
