@@ -61,7 +61,13 @@ export default () => {
 };
 
 /** 渲染结果 */
-export default (code: string, dependencies: any) => {
+export default ({
+  code = "",
+  dependencies = [],
+}: {
+  code: string;
+  dependencies: any;
+}): React.ReactElement => {
   try {
     const { type, ...rest } = excuteCode(code, dependencies);
     if (type === "Form") {
@@ -70,7 +76,7 @@ export default (code: string, dependencies: any) => {
     if (type === "Table") {
       return <ProTable {...rest} />;
     }
-    return null;
+    return <></>;
   } catch (error) {
     console.log(error);
     return <pre style={{ color: "red" }}>{String(error)}</pre>;

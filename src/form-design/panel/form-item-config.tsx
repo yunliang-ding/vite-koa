@@ -27,6 +27,7 @@ export default ({
           type: "Switch",
           name: "required",
           label: "是否必填",
+          valuePropName: "checked",
         },
         {
           type: "Input",

@@ -63,11 +63,9 @@ export default ({
           },
         },
         {
-          type: "CodeEditor",
-          name: "onSubmit",
-          label: "提交事件",
-          props: {
-          },
+          type: "Input",
+          name: "api",
+          label: "接口地址",
         },
       ]}
     />

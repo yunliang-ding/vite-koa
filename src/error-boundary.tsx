@@ -2,7 +2,7 @@ import React from "react";
 
 export default class ErrorBoundaryComponent extends React.Component {
   props = {
-    children: null,
+    children: <></>,
   };
   state = {
     hasError: false,
