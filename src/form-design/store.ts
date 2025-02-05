@@ -1,6 +1,5 @@
 import { createStore } from "resy";
 import { ProFormItemProps } from "../components/pro/antd/form/type";
-import { uuid } from "../util";
 
 export default createStore<{
   title?: "";
@@ -12,20 +11,7 @@ export default createStore<{
 }>({
   layout: "vertical",
   column: 3,
-  schema: [
-    {
-      key: uuid(),
-      type: "Input",
-      label: "输入框",
-      name: "input",
-    },
-    {
-      key: uuid(),
-      type: "Select",
-      label: "选择框",
-      name: "select",
-    },
-  ],
+  schema: [],
   getPureSchema() {
     return `export default ${JSON.stringify(
       {

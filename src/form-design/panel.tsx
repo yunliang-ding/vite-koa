@@ -41,7 +41,10 @@ export default () => {
           ]}
         />
       ) : (
-        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description="请选择表单项"
+        />
       )}
     </div>
   );

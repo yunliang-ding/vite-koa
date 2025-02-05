@@ -100,9 +100,7 @@ export default ({
         }
       }
     });
-  }, [value]);
-  /** readOnly 格式化下 */
-  useEffect(() => {
+    /** readOnly 格式化下 */
     if (readOnly) {
       codeRef.current.getMonacoInstance().then(async (instance: any) => {
         if (instance) {
@@ -112,6 +110,6 @@ export default ({
         }
       });
     }
-  }, [readOnly]);
+  }, [value]);
   return <div id={id} className="monaco-editor" style={style}></div>;
 };
