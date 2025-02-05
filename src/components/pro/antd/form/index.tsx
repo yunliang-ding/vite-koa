@@ -102,6 +102,7 @@ export default ({
       initialValues={initialValues}
       /** 统一处理联动的地方 */
       onFieldsChange={(field) => {
+        console.log("collectedEffects =>", collectedEffects)
         const { name } = field[0];
         const effectField = collectedEffects[name.toString()];
         if (effectField) {
@@ -123,6 +124,7 @@ export default ({
             <Col key={item.name} span={24 / column}>
               <Item
                 {...item}
+                key={undefined}
                 form={{
                   ...form,
                   // 合并下

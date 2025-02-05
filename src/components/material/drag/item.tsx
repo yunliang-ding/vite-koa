@@ -28,7 +28,7 @@ export default ({
     },
     draggable: true,
     onClick: () => {
-      onSelected();
+      onSelected?.();
     },
     onDragOver: (e) => {
       e.stopPropagation();
@@ -61,7 +61,7 @@ export default ({
       e.stopPropagation();
       const _dragId = store.dragId;
       const _index = store.index;
-      if (store[_dragId] && accept) {
+      if (accept) {
         // 同一个模块之间的移动
         if (_dragId === dragId) {
           onDrop?.(String(_index), String(index));

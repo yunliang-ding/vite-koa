@@ -1,7 +1,7 @@
 import { createStore } from "resy";
 import Monaco from "../../monaco";
-import sourceCode from "./form";
-// import sourceCode from "./table";
+// import sourceCode from "./form";
+import sourceCode from "./table";
 import transcoder, { getEs5Code, parseSchemaToFileCode } from "./transcoder";
 import globalModules from "./transcoder/modules";
 import { Checkbox } from "antd";
@@ -87,7 +87,7 @@ export default () => {
               }}
             >
               <i className="file-icon javascriptreact-lang-file-icon" />
-              <span className={"label"}>渲染结果</span>
+              <span className={"label"}>Preview</span>
             </div>
             <div
               className={activeTab === "2" ? "file-selected" : "file"}

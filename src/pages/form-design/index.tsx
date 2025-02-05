@@ -1,1 +1,5 @@
-export default () => null
+import FormDesign from "../../form-design"
+
+export default () => {
+  return <FormDesign />
+}

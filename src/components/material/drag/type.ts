@@ -5,6 +5,7 @@ export interface DragProps {
   items?: {
     key: number | string;
     content: ReactNode;
+    [key: string]: any;
   }[];
   /** 容器样式 */
   style?: CSSProperties;
