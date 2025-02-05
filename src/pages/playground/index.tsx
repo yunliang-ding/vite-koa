@@ -2,7 +2,7 @@ import { createStore } from "resy";
 import Monaco from "../../monaco";
 import sourceCode from "./form";
 // import sourceCode from "./table";
-import transcoder, { getEs5Code, parseSchemaToFileCode } from "./transcoder";
+import Transcoder, { getEs5Code, parseSchemaToFileCode } from "./transcoder";
 import globalModules from "./transcoder/modules";
 import { Checkbox } from "antd";
 import ErrorBoundary from "../../error-boundary";
@@ -17,12 +17,11 @@ const store = createStore<{
 }>({
   activeTab: "1",
   source,
-  dependencies: [],
+  dependencies: Object.keys(globalModules),
 });
 
 export default () => {
   const { source, dependencies, activeTab } = store.useStore();
-  const Component: any = transcoder(source, dependencies);
   let es5Code = "";
   let fileCode = "";
   try {
@@ -113,7 +112,9 @@ export default () => {
           className="body"
           style={{ padding: 10, display: activeTab === "1" ? "block" : "none" }}
         >
-          <ErrorBoundary>{Component}</ErrorBoundary>
+          <ErrorBoundary>
+            <Transcoder code={source} dependencies={dependencies} />
+          </ErrorBoundary>
         </div>
         <div
           className="body"

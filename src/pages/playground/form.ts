@@ -25,11 +25,11 @@ export default `export default {
     props: {
       options: [
         {
-          label: "男",
+          label: <Antd.Tag color="blue">男</Antd.Tag>,
           value: 0,
         },
         {
-          label: "女",
+          label: <Antd.Tag color="red">女</Antd.Tag>,
           value: 1,
         },
       ],
@@ -43,6 +43,11 @@ export default `export default {
     visible({ getFieldsValue }) {
       return getFieldsValue().sex === 0;
     },
+  },
+  {
+    type: "DatePicker",
+    name: "date",
+    label: "日期",
   },
   {
     type: "CheckGroup",

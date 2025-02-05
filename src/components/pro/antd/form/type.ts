@@ -36,4 +36,6 @@ export interface ProFormProps extends FormProps {
   onSubmit?(vs: Object): void;
   /** 按钮文案 */
   okText?: string;
+  /** 自定义类型 */
+  widget?: Object;
 }

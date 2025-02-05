@@ -2,11 +2,10 @@ import prettier from "prettier";
 import typescript from "prettier/plugins/typescript";
 import prettierPluginEstree from "prettier/plugins/estree";
 
-/** 打码 */
 export const encrypt = (str: string) => {
   return `{{_#${str}_#}}`;
 };
-/** 解码 */
+
 export const decrypt = (str: string, quotation = true) => {
   if (quotation) {
     return str?.replaceAll('"{{_#', '{').replaceAll('_#}}"', '}');

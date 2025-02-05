@@ -10,6 +10,7 @@ export default ({
   effect,
   props,
   form,
+  widget,
   collectedEffects,
   itemRender,
   ...rest
@@ -62,7 +63,7 @@ export default ({
       return null;
     }
   }
-  const Component = getWidget(type);
+  const Component = getWidget(type, widget);
   let VNode = (
     <Form.Item {...rest} key={reload}>
       <Component {...props} form={form} />

@@ -1,7 +1,7 @@
 import { Card, Col, Form, Row } from "antd";
 import { useState } from "react";
 import { ProFormItemProps, ProFormProps } from "./type";
-import { cloneDeep } from "../../../shared";
+import { enhanceSchema } from "./util";
 import Button from "../../../material/antd/button";
 import Item from "./item";
 import "./index.less";
@@ -13,10 +13,11 @@ export default ({
   onSubmit = () => {},
   title,
   okText = "提交",
+  widget = {},
   ...rest
 }: ProFormProps) => {
-  const [collectedEffects]: any = useState({}); // 依赖收集
   const [form] = Form.useForm();
+  const [collectedEffects]: any = useState({}); // 依赖收集
   const VNode = (
     <Form
       form={form}
@@ -40,12 +41,13 @@ export default ({
       {...rest}
     >
       <Row gutter={10}>
-        {cloneDeep(schema).map((item: ProFormItemProps) => {
+        {enhanceSchema(schema).map((item: ProFormItemProps) => {
           return (
             <Col key={item.name} span={24 / column}>
               <Item
                 {...item}
                 key={undefined}
+                widget={widget}
                 form={{
                   ...form,
                   // 合并下

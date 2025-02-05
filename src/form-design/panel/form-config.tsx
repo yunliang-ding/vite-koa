@@ -67,6 +67,16 @@ export default ({
           name: "api",
           label: "接口地址",
         },
+        {
+          type: "CodeEditor",
+          name: "onSubmit",
+          label: "提交事件",
+          effect: ["api"],
+          props: {
+            mode: "function",
+            useEncrypt: true,
+          },
+        },
       ]}
     />
   );

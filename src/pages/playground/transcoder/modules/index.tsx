@@ -1,6 +1,7 @@
 import * as Antd from "antd";
 import React from "react";
 import axios from "axios";
+import moment from "moment";
 
 export default {
   React: {
@@ -13,6 +14,10 @@ export default {
   },
   Antd: {
     module: Antd,
+    imports: 'import * as Antd from "antd"',
+  },
+  moment: {
+    module: moment,
     imports: 'import * as Antd from "antd"',
   },
 } as any;

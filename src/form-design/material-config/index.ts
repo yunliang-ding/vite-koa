@@ -1,6 +1,6 @@
-import Input from './input.json';
-import DatePicker from './date-picker.json';
-import Select from './select.json';
+import Input from "./base/input.json";
+import DatePicker from "./base/date-picker.json";
+import Select from "./base/select.json";
 
 export default {
   Input,

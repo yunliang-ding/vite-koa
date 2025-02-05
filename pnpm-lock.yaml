@@ -11,9 +11,6 @@ importers:
       '@ant-design/icons':
         specifier: ^5.6.0
         version: 5.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@babel/standalone':
-        specifier: 7.26.6
-        version: 7.26.6
       '@monaco-editor/loader':
         specifier: ^1.4.0
         version: 1.4.0(monaco-editor@0.52.2)
@@ -35,6 +32,9 @@ importers:
       lodash.clonedeepwith:
         specifier: 4.5.0
         version: 4.5.0
+      lodash.debounce:
+        specifier: 4.0.8
+        version: 4.0.8
       moment:
         specifier: 2.30.1
         version: 2.30.1
@@ -57,6 +57,9 @@ importers:
       '@types/lodash.clonedeepwith':
         specifier: 4.5.9
         version: 4.5.9
+      '@types/lodash.debounce':
+        specifier: 4.0.9
+        version: 4.0.9
       '@types/react':
         specifier: ^18.3.12
         version: 18.3.18
@@ -145,10 +148,6 @@ packages:
 
   '@babel/runtime@7.26.7':
     resolution: {integrity: sha512-AOPI3D+a8dXnja+iwsUqGRjr1BbZIe771sXdapOtYI531gSqpi92vXivKcq2asu/DFpdl1ceFAKZyRzK2PCVcQ==}
-    engines: {node: '>=6.9.0'}
-
-  '@babel/standalone@7.26.6':
-    resolution: {integrity: sha512-h1mkoNFYCqDkS+vTLGzsQYvp1v1qbuugk4lOtb/oyjArZ+EtreAaxcSYg3rSIzWZRQOjx4iqGe7A8NRYIMSTTw==}
     engines: {node: '>=6.9.0'}
 
   '@cspotcode/source-map-support@0.8.1':
@@ -483,6 +482,9 @@ packages:
 
   '@types/lodash.clonedeepwith@4.5.9':
     resolution: {integrity: sha512-bruhfxIJlj36oWYmYQ7KFbylCGgzyIi+TLypub+wcAd29mV4llKdvru8Pp9qwILX//I5vK3FIcJ0VzszElhLuA==}
+
+  '@types/lodash.debounce@4.0.9':
+    resolution: {integrity: sha512-Ma5JcgTREwpLRwMM+XwBR7DaWe96nC38uCBDFKZWbNKD+osjVzdpnUSwBcqCptrp16sSOLBAUb50Car5I0TCsQ==}
 
   '@types/lodash@4.17.14':
     resolution: {integrity: sha512-jsxagdikDiDBeIRaPYtArcT8my4tN1og7MtMRquFT3XNA6axxyHDRUemqDz/taRDdOUn0GnGHRCuff4q48sW9A==}
@@ -954,6 +956,9 @@ packages:
 
   lodash.clonedeepwith@4.5.0:
     resolution: {integrity: sha512-QRBRSxhbtsX1nc0baxSkkK5WlVTTm/s48DSukcGcWZwIyI8Zz+lB+kFiELJXtzfH4Aj6kMWQ1VWW4U5uUDgZMA==}
+
+  lodash.debounce@4.0.8:
+    resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
 
   lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
@@ -1714,8 +1719,6 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.14.1
 
-  '@babel/standalone@7.26.6': {}
-
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
@@ -1917,6 +1920,10 @@ snapshots:
       '@types/node': 22.10.10
 
   '@types/lodash.clonedeepwith@4.5.9':
+    dependencies:
+      '@types/lodash': 4.17.14
+
+  '@types/lodash.debounce@4.0.9':
     dependencies:
       '@types/lodash': 4.17.14
 
@@ -2467,6 +2474,8 @@ snapshots:
   lodash.clonedeep@4.5.0: {}
 
   lodash.clonedeepwith@4.5.0: {}
+
+  lodash.debounce@4.0.8: {}
 
   lodash@4.17.21: {}
 

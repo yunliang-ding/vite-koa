@@ -1,0 +1,87 @@
+{
+  "type": "DatePicker",
+  "label": "日期框",
+  "props": {
+    "placeholder": "请选择",
+    "allowClear": true,
+    "disabled": false
+  },
+  "propsConfig": [
+    {
+      "type": "Switch",
+      "name": "disabled",
+      "label": "是否禁用",
+      "valuePropName": "checked"
+    },
+    {
+      "type": "Switch",
+      "name": "allowClear",
+      "label": "是否允许清除",
+      "valuePropName": "checked"
+    },
+    {
+      "type": "Input",
+      "name": "placeholder",
+      "label": "提示文案"
+    },
+    {
+      "type": "Select",
+      "name": "format",
+      "label": "展示格式",
+      "props": {
+        "placeholder": "日期格式",
+        "allowClear": true,
+        "options": [
+          {
+            "label": "YYYY-MM-DD",
+            "value": "YYYY-MM-DD"
+          },
+          {
+            "label": "YYYY/MM/DD",
+            "value": "YYYY/MM/DD"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Select",
+      "name": "picker",
+      "label": "展示类型",
+      "props": {
+        "placeholder": "日期格式",
+        "allowClear": true,
+        "options": [
+          {
+            "label": "day",
+            "value": "day"
+          },
+          {
+            "label": "month",
+            "value": "month"
+          },
+          {
+            "label": "week",
+            "value": "week"
+          },
+          {
+            "label": "year",
+            "value": "year"
+          },
+          {
+            "label": "quarter",
+            "value": "quarter"
+          }
+        ]
+      }
+    },
+    {
+      "type": "CodeEditor",
+      "name": "onChange",
+      "label": "设置onChange",
+      "props": {
+        "mode": "function",
+        "useEncrypt": true
+      }
+    }
+  ]
+}
