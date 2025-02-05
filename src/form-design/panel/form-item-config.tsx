@@ -24,6 +24,21 @@ export default ({
           label: "属性名",
         },
         {
+          type: "Switch",
+          name: "required",
+          label: "是否必填",
+        },
+        {
+          type: "Input",
+          name: "extra",
+          label: "额外说明",
+        },
+        {
+          type: "Input",
+          name: "tooltip",
+          label: "悬浮提示",
+        },
+        {
           type: "Input",
           name: "effect",
           label: "依赖名",

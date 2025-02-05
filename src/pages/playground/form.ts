@@ -1,9 +1,14 @@
 export default `export default {
   type: "Form",
   layout: "vertical",
+  title: "信息采集",
+  okText: "发布",
   style: {
     width: 500,
     padding: 10,
+  },
+  onSubmit(v){
+    alert(JSON.stringify(v));
   },
   initialValues: {
     sex: 0,

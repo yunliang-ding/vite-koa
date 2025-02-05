@@ -2,7 +2,7 @@ import { Button, Form, Space } from "antd";
 import { FormListProps } from "./type";
 import { PlusOutlined } from "@ant-design/icons";
 import { Fragment } from "react/jsx-runtime";
-import { Item } from "../../../pro/antd/form";
+import Item from "../../../pro/antd/form/item";
 
 export default ({
   required,

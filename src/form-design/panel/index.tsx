@@ -7,7 +7,7 @@ import store from "../store";
 
 export default () => {
   const { selectedSchema, layout, title, column } = store.useStore();
-  const panelSchema = material[selectedSchema?.type]?.propsConfig;
+  const panelSchema = material[selectedSchema?.type]?.propsConfig; // 该物料对应的属性配置
   return (
     <div className="panel">
       <Tabs

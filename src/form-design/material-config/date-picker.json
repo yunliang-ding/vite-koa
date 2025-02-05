@@ -10,12 +10,14 @@
     {
       "type": "Switch",
       "name": "disabled",
-      "label": "是否禁用"
+      "label": "是否禁用",
+      "valuePropName": "checked"
     },
     {
       "type": "Switch",
       "name": "allowClear",
-      "label": "是否允许清除"
+      "label": "是否允许清除",
+      "valuePropName": "checked"
     },
     {
       "type": "Input",

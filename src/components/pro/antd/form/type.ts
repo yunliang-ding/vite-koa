@@ -30,4 +30,10 @@ export interface ProFormProps extends FormProps {
   schema: ProFormItemProps[];
   /** 布局等份 */
   column?: 1 | 2 | 3 | 4;
+  /** 标题 */
+  title?: string;
+  /** 提交 */
+  onSubmit?(vs: Object): void;
+  /** 按钮文案 */
+  okText?: string;
 }

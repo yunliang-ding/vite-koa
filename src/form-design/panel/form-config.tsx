@@ -62,6 +62,13 @@ export default ({
             ],
           },
         },
+        {
+          type: "CodeEditor",
+          name: "onSubmit",
+          label: "提交事件",
+          props: {
+          },
+        },
       ]}
     />
   );

@@ -12,6 +12,7 @@ export default () => {
         <ProForm
           schema={[
             {
+              name: "__empty__",
               type() {
                 return (
                   <Empty

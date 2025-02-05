@@ -5,7 +5,7 @@ import Monaco from "../../monaco";
 import EditPanel from "./edit";
 
 export default () => {
-  const { schema, layout, column } = store.useStore();
+  const { schema, layout, column, title } = store.useStore();
   return (
     <div className="canvas">
       <Tabs
@@ -27,7 +27,12 @@ export default () => {
             label: "预览",
             key: "2",
             children: (
-              <ProForm layout={layout} column={column} schema={schema} />
+              <ProForm
+                title={title}
+                layout={layout}
+                column={column}
+                schema={schema}
+              />
             ),
           },
           {

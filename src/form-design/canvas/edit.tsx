@@ -5,15 +5,15 @@ import store from "../store";
 import Empty from "./empty";
 
 export default () => {
-  const { schema, layout, column, selectedSchema } = store.useStore();
+  const { schema, layout, title, column, selectedSchema } = store.useStore();
   if (schema?.length === 0) {
     return <Empty />;
   }
-  console.log(schema);
   return (
     <div className="drag-panel">
       <Drag>
         <ProForm
+          title={title}
           layout={layout}
           column={column}
           schema={schema?.map((item, currentIndex: number) => {
