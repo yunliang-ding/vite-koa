@@ -4,6 +4,7 @@ import { loadVscodeTheme } from "./wasm";
 import prettier from "prettier";
 import typescript from "prettier/plugins/typescript";
 import prettierPluginEstree from "prettier/plugins/estree";
+import './index.less';
 
 const hasLoadLanguage: any = [];
 

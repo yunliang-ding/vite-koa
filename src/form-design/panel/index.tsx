@@ -12,7 +12,7 @@ export default () => {
   return (
     <div className="panel">
       <Tabs
-        defaultActiveKey="3"
+        defaultActiveKey="1"
         size="small"
         style={{
           padding: "0 10px",
