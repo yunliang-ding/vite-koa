@@ -11,26 +11,28 @@ const getPureSchema = (
   layout: string | undefined,
   column: number | undefined,
   title: string | undefined,
-  onSubmit?: string
+  onSubmit?: string,
+  okText?: string
 ) => {
-  return `export default ${JSON.stringify(
+  return JSON.stringify(
     {
       type: "Form",
       title,
       layout,
       column,
       schema,
+      okText,
       onSubmit,
     },
     null,
     2
-  )}`;
+  );
 };
 
 export default () => {
-  const { schema, layout, column, title, onSubmit, dependencies } =
+  const { schema, layout, column, title, onSubmit, dependencies, okText } =
     store.useStore();
-  const source = getPureSchema(schema, layout, column, title, onSubmit);
+  const source = getPureSchema(schema, layout, column, title, onSubmit, okText);
   return (
     <div className="canvas">
       <Tabs
@@ -54,19 +56,20 @@ export default () => {
             children: (
               <ErrorBoundary>
                 <Transcoder
-                  code={decrypt(source)}
+                  code={decrypt(`export default ${source}`)}
                   dependencies={dependencies}
                 />
               </ErrorBoundary>
             ),
           },
           {
-            label: "模型",
+            label: "Schema",
             key: "3",
             children: (
               <Monaco
                 value={source}
                 readOnly
+                language="json"
                 theme="vs"
                 style={{ height: "calc(100vh - 70px)" }}
               />
@@ -77,7 +80,7 @@ export default () => {
             key: "4",
             children: (
               <Monaco
-                value={decrypt(source)}
+                value={decrypt(`export default ${source}`)}
                 readOnly
                 theme="vs"
                 style={{ height: "calc(100vh - 70px)" }}

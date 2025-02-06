@@ -1,5 +1,6 @@
 import ProForm from "@/components/pro/antd/form";
 import CodeEditor from "@/code-editor";
+import { encrypt } from "@/transcoder";
 
 export default ({
   initialValues,
@@ -53,6 +54,9 @@ export default ({
           type: "CodeEditor",
           name: "visible",
           label: "是否可见",
+          initialValue: encrypt(`({ getFieldValue }) => {
+  return getFieldValue("xxx") === 1;
+}`)
         },
       ]}
     />

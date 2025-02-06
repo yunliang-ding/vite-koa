@@ -102,7 +102,7 @@ export default ({
       }
     });
     /** readOnly 格式化下 */
-    if (readOnly) {
+    if (readOnly && language === "javascript") {
       codeRef.current.getMonacoInstance().then(async (instance: any) => {
         if (instance) {
           if (!instance.hasTextFocus?.()) {

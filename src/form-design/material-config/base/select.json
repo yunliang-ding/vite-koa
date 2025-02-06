@@ -58,22 +58,29 @@
       }
     },
     {
-      "type": "CodeEditor",
+      "type": "FormList",
       "label": "设置数据源",
       "name": "options",
-      "tooltip": "仅支持json",
       "props": {
-        "mode": "json"
+        "column": 2,
+        "schema": [
+          {
+            "type": "Input",
+            "name": "label",
+            "label": "属性名"
+          },
+          {
+            "type": "Input",
+            "name": "value",
+            "label": "属性名值"
+          }
+        ]
       }
     },
     {
       "type": "CodeEditor",
       "name": "onChange",
-      "label": "设置onChange",
-      "props": {
-        "mode": "function",
-        "useEncrypt": true
-      }
+      "label": "设置onChange"
     }
   ]
 }

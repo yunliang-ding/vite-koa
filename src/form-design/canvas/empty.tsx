@@ -18,6 +18,12 @@ export default () => {
                   <Empty
                     description="拖拽到这里"
                     image={Empty.PRESENTED_IMAGE_SIMPLE}
+                    style={{
+                      height: "80vh",
+                      alignItems: "center",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
                   />
                 );
               },

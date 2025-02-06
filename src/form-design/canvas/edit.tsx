@@ -5,7 +5,7 @@ import store from "../store";
 import Empty from "./empty";
 
 export default () => {
-  const { schema, layout, title, column, selectedSchema } = store.useStore();
+  const { schema, layout, title, column, selectedSchema, okText } = store.useStore();
   if (schema?.length === 0) {
     return <Empty />;
   }
@@ -14,6 +14,7 @@ export default () => {
       <Drag>
         <ProForm
           title={title}
+          okText={okText}
           layout={layout}
           column={column}
           schema={schema?.map((item, currentIndex: number) => {

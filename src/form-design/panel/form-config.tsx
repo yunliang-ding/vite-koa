@@ -14,7 +14,7 @@ export default ({
       initialValues={initialValues}
       onValuesChange={onValuesChange}
       widget={{
-        CodeEditor
+        CodeEditor,
       }}
       schema={[
         {
@@ -70,6 +70,11 @@ export default ({
           type: "CodeEditor",
           name: "onSubmit",
           label: "提交事件",
+        },
+        {
+          type: "Input",
+          name: "okText",
+          label: "按钮文案",
         },
       ]}
     />
