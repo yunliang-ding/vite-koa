@@ -1,7 +1,6 @@
 import ProForm from "@/components/pro/antd/form";
 import ProTable from "@/components/pro/antd/table";
 import globalModules from "./modules";
-import * as Babel from "@babel/standalone";
 
 /** 加前后缀函数 */
 export const encrypt = (str: string) => {
@@ -27,7 +26,7 @@ export const getEs5Code = (code: string, dependencies: string[]) => {
   const parameter = ["exports", ...dependencies].join(", ");
   const result = `((${parameter}) => {
     ${
-      Babel.transform(code, {
+      window.Babel.transform(code, {
         presets: ["es2015", "react", "typescript"],
         filename: "main.tsx",
       }).code
