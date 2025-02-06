@@ -1,5 +1,5 @@
+import { ProFormItemProps } from "@/components/pro/antd/form/type";
 import { FormItemProps } from "antd";
-import { ProFormItemProps } from "../form/type";
 
 export interface FormListProps extends FormItemProps {
   column: 1 | 2 | 3 | 4;

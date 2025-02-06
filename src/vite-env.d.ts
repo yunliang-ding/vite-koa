@@ -2,5 +2,4 @@
 
 interface Window{
   monaco?: any;
-  Babel?: any;
 }

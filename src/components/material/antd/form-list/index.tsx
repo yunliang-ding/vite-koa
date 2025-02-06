@@ -24,7 +24,7 @@ export default ({
                 <Fragment key={field.key}>
                   <Space align="center">
                     {schema?.map(({ props, ...item }) => {
-                      const effect = item.effect?.slice();
+                      const effect: any = item.effect?.slice();
                       if(effect){
                         effect.forEach((i: string, idx: string | number) => {
                           if(i.includes(',')){

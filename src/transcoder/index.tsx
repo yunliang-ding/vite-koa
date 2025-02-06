@@ -1,12 +1,12 @@
 import ProForm from "@/components/pro/antd/form";
 import ProTable from "@/components/pro/antd/table";
 import globalModules from "./modules";
+import * as Babel from "@babel/standalone";
 
 /** 加前后缀函数 */
 export const encrypt = (str: string) => {
   return `{#__#${str}#__#}`;
 };
-
 /** 解前后缀函数 */
 export const decrypt = (str: string, quotation = true) => {
   if (quotation) {
@@ -22,13 +22,12 @@ export const decrypt = (str: string, quotation = true) => {
     .replaceAll("\\n", "")
     .replaceAll("\\", "");
 };
-
 /** 获取编译结果 */
 export const getEs5Code = (code: string, dependencies: string[]) => {
   const parameter = ["exports", ...dependencies].join(", ");
   const result = `((${parameter}) => {
     ${
-      window.Babel.transform(code, {
+      Babel.transform(code, {
         presets: ["es2015", "react", "typescript"],
         filename: "main.tsx",
       }).code
@@ -36,7 +35,6 @@ export const getEs5Code = (code: string, dependencies: string[]) => {
 })(${parameter})`;
   return result;
 };
-
 /** 执行代码 */
 export const excutecoder = (code: string, dependencies: string[]): any => {
   const exports: { default?: {} } = {};
@@ -50,7 +48,6 @@ export const excutecoder = (code: string, dependencies: string[]): any => {
   new Function(parameter, getEs5Code(code, dependencies))(...argument);
   return exports.default;
 };
-
 /** 生成业务代码 */
 export const parseSchemaToFileCode = (code: string, dependencies: string[]) => {
   try {
@@ -80,7 +77,6 @@ export default () => {
     return String(error);
   }
 };
-
 /** 渲染结果 */
 export default ({
   code = "",

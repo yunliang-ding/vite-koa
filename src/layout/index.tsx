@@ -18,7 +18,7 @@ const App: React.FC = () => {
       <Header>
         <Menu
           theme="dark"
-          defaultSelectedKeys={[location.pathname]}
+          defaultSelectedKeys={[location.hash.substr(1) || "/drag"]}
           mode="horizontal"
           onClick={(v) => {
             navigate(v.key)

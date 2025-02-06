@@ -51,11 +51,6 @@ const vite = await createServer({
       server: app,
     },
   },
-  resolve: {
-    alias: {
-      "@": path.resolve("./", "src"),
-    },
-  },
 });
 // 使用 vite middleware
 app.use(connect(vite.middlewares));

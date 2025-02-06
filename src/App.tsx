@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import FormDesign from "./pages/form-design";
 import TableDesign from "./pages/table-design";
 import Playground from "./pages/playground";
