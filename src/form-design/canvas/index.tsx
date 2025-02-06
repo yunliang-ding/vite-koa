@@ -63,7 +63,7 @@ export default () => {
             ),
           },
           {
-            label: "Schema",
+            label: "JSON Schema",
             key: "3",
             children: (
               <Monaco
@@ -76,7 +76,7 @@ export default () => {
             ),
           },
           {
-            label: "转译",
+            label: "数据模型",
             key: "4",
             children: (
               <Monaco

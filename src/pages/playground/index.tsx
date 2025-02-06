@@ -1,14 +1,12 @@
 import { createStore } from "resy";
 import Monaco from "../../monaco";
-import sourceCode from "./form";
-// import sourceCode from "./table";
+import formCode from "./form";
+import tableCode from "./table";
 import Transcoder, { getEs5Code, parseSchemaToFileCode } from "@/transcoder";
 import globalModules from "@/transcoder/modules";
-import { Checkbox } from "antd";
+import { Checkbox, Radio } from "antd";
 import ErrorBoundary from "../../error-boundary";
 import "./index.less";
-
-const source = sourceCode;
 
 const store = createStore<{
   activeTab: string;
@@ -16,7 +14,7 @@ const store = createStore<{
   dependencies: string[];
 }>({
   activeTab: "1",
-  source,
+  source: tableCode,
   dependencies: Object.keys(globalModules),
 });
 
@@ -53,80 +51,111 @@ export default () => {
           })}
         />
       </div>
-      <div className="code-space">
-        <div className="header">
-          <div className="tabs">
-            <div
-              className={activeTab === "1" ? "file-selected" : "file"}
-              onClick={() => {
-                store.activeTab = "1";
-              }}
-            >
-              <i className="file-icon javascript-lang-file-icon" />
-              <span className={"label"}>配置模型</span>
-            </div>
-          </div>
-        </div>
-        <div className="body">
-          <Monaco
-            value={source}
-            onChange={async (v: string) => {
-              store.source = v;
+      <div>
+        <div className="extra">
+          <Radio.Group
+            size="small"
+            defaultValue="table"
+            optionType="button"
+            onChange={(e) => {
+              store.source = e.target.value === "form" ? formCode : tableCode;
             }}
+            options={[
+              {
+                label: "Form 模型",
+                value: "form",
+              },
+              {
+                label: "Table 模型",
+                value: "table",
+              },
+            ]}
           />
         </div>
-      </div>
-      <div className="preview" key={dependencies.toString()}>
-        <div className="header">
-          <div className="tabs">
-            <div
-              className={activeTab === "1" ? "file-selected" : "file"}
-              onClick={() => {
-                store.activeTab = "1";
-              }}
-            >
-              <i className="file-icon javascriptreact-lang-file-icon" />
-              <span className={"label"}>Preview</span>
+        <div
+          style={{
+            display: "flex",
+          }}
+        >
+          <div className="code-space">
+            <div className="header">
+              <div className="tabs">
+                <div
+                  className={activeTab === "1" ? "file-selected" : "file"}
+                  onClick={() => {
+                    store.activeTab = "1";
+                  }}
+                >
+                  <i className="file-icon javascript-lang-file-icon" />
+                  <span className={"label"}>配置模型</span>
+                </div>
+              </div>
             </div>
-            <div
-              className={activeTab === "2" ? "file-selected" : "file"}
-              onClick={() => {
-                store.activeTab = "2";
-              }}
-            >
-              <i className="file-icon typescript-lang-file-icon" />
-              <span className={"label"}>业务代码</span>
-            </div>
-            <div
-              className={activeTab === "3" ? "file-selected" : "file"}
-              onClick={() => {
-                store.activeTab = "3";
-              }}
-            >
-              <i className="file-icon javascript-lang-file-icon" />
-              <span className={"label"}>babel 编译预览</span>
+            <div className="body">
+              <Monaco
+                value={source}
+                onChange={async (v: string) => {
+                  store.source = v;
+                }}
+              />
             </div>
           </div>
-        </div>
-        <div
-          className="body"
-          style={{ padding: 10, display: activeTab === "1" ? "block" : "none" }}
-        >
-          <ErrorBoundary>
-            <Transcoder code={source} dependencies={dependencies} />
-          </ErrorBoundary>
-        </div>
-        <div
-          className="body"
-          style={{ display: activeTab === "2" ? "block" : "none" }}
-        >
-          <Monaco value={fileCode} readOnly />
-        </div>
-        <div
-          className="body"
-          style={{ display: activeTab === "3" ? "block" : "none" }}
-        >
-          <Monaco value={es5Code} readOnly />
+          <div className="preview" key={dependencies.toString()}>
+            <div className="header">
+              <div className="tabs">
+                <div
+                  className={activeTab === "1" ? "file-selected" : "file"}
+                  onClick={() => {
+                    store.activeTab = "1";
+                  }}
+                >
+                  <i className="file-icon javascriptreact-lang-file-icon" />
+                  <span className={"label"}>Preview</span>
+                </div>
+                <div
+                  className={activeTab === "2" ? "file-selected" : "file"}
+                  onClick={() => {
+                    store.activeTab = "2";
+                  }}
+                >
+                  <i className="file-icon typescript-lang-file-icon" />
+                  <span className={"label"}>业务代码</span>
+                </div>
+                <div
+                  className={activeTab === "3" ? "file-selected" : "file"}
+                  onClick={() => {
+                    store.activeTab = "3";
+                  }}
+                >
+                  <i className="file-icon javascript-lang-file-icon" />
+                  <span className={"label"}>babel 编译预览</span>
+                </div>
+              </div>
+            </div>
+            <div
+              className="body"
+              style={{
+                padding: 10,
+                display: activeTab === "1" ? "block" : "none",
+              }}
+            >
+              <ErrorBoundary>
+                <Transcoder code={source} dependencies={dependencies} />
+              </ErrorBoundary>
+            </div>
+            <div
+              className="body"
+              style={{ display: activeTab === "2" ? "block" : "none" }}
+            >
+              <Monaco value={fileCode} readOnly />
+            </div>
+            <div
+              className="body"
+              style={{ display: activeTab === "3" ? "block" : "none" }}
+            >
+              <Monaco value={es5Code} readOnly />
+            </div>
+          </div>
         </div>
       </div>
     </div>

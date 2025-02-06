@@ -1,63 +1,64 @@
 import {
-  DragOutlined,
+  MenuOutlined,
   FormOutlined,
   TableOutlined,
-  UploadOutlined,
+  JavaScriptOutlined,
   FolderOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
-import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import "./index.less";
 
 const { Header, Content } = Layout;
 
 const App: React.FC = () => {
+  const navigate = useNavigate();
   return (
-    <div id="components-layout-demo-custom-trigger">
-      <Layout>
-        <Header>
-          <div className="logo" />
-          <Menu
-            theme="dark"
-            defaultSelectedKeys={["1"]}
-            mode="horizontal"
-            items={[
-              {
-                key: "/drag",
-                icon: <DragOutlined />,
-                label: "Drag 组件",
-              },
-              {
-                key: "/template",
-                icon: <FolderOutlined />,
-                label: "模版列表",
-                children: [
-                  {
-                    key: "/template/form",
-                    icon: <FormOutlined />,
-                    label: "提交表单模版",
-                  },
-                  {
-                    key: "/template/table",
-                    icon: <TableOutlined />,
-                    label: "报表模版",
-                  },
-                ],
-              },
-              {
-                key: "3",
-                icon: <UploadOutlined />,
-                label: "nav 3",
-              },
-            ]}
-          />
-        </Header>
-        <Content>
-          <Outlet />
-        </Content>
-      </Layout>
-    </div>
+    <Layout>
+      <Header>
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={[location.pathname]}
+          mode="horizontal"
+          onClick={(v) => {
+            navigate(v.key)
+          }}
+          items={[
+            {
+              key: "/drag",
+              icon: <MenuOutlined />,
+              label: "Drag 组件",
+            },
+            {
+              key: "/template",
+              icon: <FolderOutlined />,
+              label: "业务模版",
+              children: [
+                {
+                  key: "/template/form",
+                  icon: <FormOutlined />,
+                  label: "表单模版",
+                },
+                {
+                  key: "/template/table",
+                  icon: <TableOutlined />,
+                  label: "报表模版",
+                  disabled: true,
+                },
+              ],
+            },
+            {
+              key: "/playground",
+              icon: <JavaScriptOutlined />,
+              label: "Playground",
+            },
+          ]}
+        />
+      </Header>
+      <Content>
+        <Outlet />
+      </Content>
+    </Layout>
   );
 };
 

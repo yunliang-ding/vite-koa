@@ -38,7 +38,7 @@ export const getEs5Code = (code: string, dependencies: string[]) => {
 };
 
 /** 执行代码 */
-export const excuteCode = (code: string, dependencies: string[]): any => {
+export const excutecoder = (code: string, dependencies: string[]): any => {
   const exports: { default?: {} } = {};
   // 形参
   const parameter = ["exports", ...dependencies].join(", ");
@@ -54,7 +54,7 @@ export const excuteCode = (code: string, dependencies: string[]): any => {
 /** 生成业务代码 */
 export const parseSchemaToFileCode = (code: string, dependencies: string[]) => {
   try {
-    const { type } = excuteCode(code, dependencies);
+    const { type } = excutecoder(code, dependencies);
     const imports: any = [];
     dependencies.forEach((name: string) => {
       imports.push(globalModules[name].imports);
@@ -90,7 +90,7 @@ export default ({
   dependencies: any;
 }): React.ReactElement => {
   try {
-    const { type, ...rest } = excuteCode(code, dependencies);
+    const { type, ...rest } = excutecoder(code, dependencies);
     if (type === "Form") {
       return <ProForm {...rest} />;
     }

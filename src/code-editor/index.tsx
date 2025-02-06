@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { isEmpty } from "@/components/shared";
 import Monaco from "@/monaco";
 import debounce from "lodash.debounce";
-import { decrypt, encrypt, excuteCode } from "@/transcoder";
+import { decrypt, encrypt, excutecoder } from "@/transcoder";
 import "./index.less";
 
 export default ({
@@ -35,7 +35,7 @@ export default ({
               return onChange(undefined);
             }
             valueRef.current = codeString; // 同步文本
-            excuteCode(codeString, []);
+            excutecoder(codeString, []);
             // 校验通过才触发 onChange
             onChange(useEncrypt ? encrypt(codeString) : codeString);
             setErrorInfo("");

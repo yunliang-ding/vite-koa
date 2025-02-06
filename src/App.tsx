@@ -10,10 +10,11 @@ export default () => {
     <Router>
       <Routes>
         <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Drag />} />
           <Route path="/drag" element={<Drag />} />
+          <Route path="/playground" element={<Playground />} />
           <Route path="/template/form" element={<FormDesign />} />
           <Route path="/template/table" element={<TableDesign />} />
-          <Route path="/playground" element={<Playground />} />
         </Route>
       </Routes>
     </Router>
