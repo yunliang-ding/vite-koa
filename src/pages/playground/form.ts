@@ -12,6 +12,16 @@ export default `export default {
   },
   initialValues: {
     sex: 0,
+    options: [
+      {
+        label: "选项1",
+        value: "1",
+      },
+      {
+        label: "选项2",
+        value: "2",
+      },
+    ],
     contactList: [
       {
         name: "张三",
@@ -70,6 +80,27 @@ export default `export default {
     // }
   },
   {
+    type: "TableList",
+    name: "options",
+    props: {
+      defaultAddValue: {
+        label: "新选项"
+      },
+      schema: [
+        {
+          type: "Input",
+          name: "label",
+          label: "属性名",
+        },
+        {
+          type: "Input",
+          name: "label",
+          label: "属性值",
+        },
+      ],
+    },
+  },
+  {
     type: "InputNumber",
     label: "收入总和(元)",
     name: "totalAmount",
@@ -85,6 +116,12 @@ export default `export default {
       maxCount: 3, // 最多3条
       leastOne: true, // 至少一条
       column: 3, // 3列
+      defaultAddValue: {
+        name: "姓名1",
+        amount: 10,
+        type: 1,
+        remake: "remake",
+      },
       schema: [
         {
           type: "Input",

@@ -8,4 +8,5 @@ export interface FormListProps extends FormItemProps {
   maxCount?: number;
   leastOne?: boolean;
   schema: ProFormItemProps[];
+  defaultAddValue?: any
 }

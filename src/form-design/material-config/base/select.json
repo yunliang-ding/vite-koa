@@ -57,11 +57,14 @@
       }
     },
     {
-      "type": "FormList",
+      "type": "TableList",
       "label": "设置数据源",
       "name": "options",
       "props": {
         "column": 2,
+        "defaultAddValue": {
+          "label": "新选项"
+        },
         "schema": [
           {
             "type": "Input",
@@ -71,7 +74,7 @@
           {
             "type": "Input",
             "name": "value",
-            "label": "属性名值"
+            "label": "属性值"
           }
         ]
       }

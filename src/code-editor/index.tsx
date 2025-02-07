@@ -40,7 +40,7 @@ export default ({
         codeRef={codeRef}
         value={decrypt(value, false) || defaultCode}
         onChange={debounce(async (v: string) => {
-          const codeString = v.substring(0, v.lastIndexOf("}")); // 编辑器要求函数必须是以 } 结尾
+          const codeString = v.substring(0, v.lastIndexOf("}") + 1); // 编辑器要求函数必须是以 } 结尾
           try {
             if (
               isEmpty(codeString) ||

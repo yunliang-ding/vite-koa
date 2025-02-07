@@ -12,6 +12,7 @@ export default ({
   maxCount = 10,
   leastOne = true,
   schema = [],
+  defaultAddValue = {},
   ...rest
 }: FormListProps) => {
   return (
@@ -59,7 +60,7 @@ export default ({
             <Form.Item>
               <Button
                 type="dashed"
-                onClick={() => add()}
+                onClick={() => add(defaultAddValue)}
                 disabled={fields.length >= maxCount}
                 block
                 icon={<PlusOutlined />}
