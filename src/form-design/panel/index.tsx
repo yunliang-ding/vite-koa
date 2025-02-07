@@ -8,7 +8,7 @@ import store from "../store";
 
 export default () => {
   const state = store.useSnapshot();
-  const selectItem: any = state.schema.find(i => i.key === state.selectKey);
+  const selectItem: any = store.mutate.schema.find(i => i.key === state.selectKey);
   const panelSchema = material[selectItem?.type]?.propsConfig; // 该物料对应的属性配置
   return (
     <div className="panel">
@@ -62,12 +62,14 @@ export default () => {
               <ProForm
                 schema={panelSchema}
                 layout="vertical"
+                key={state.selectKey}
                 initialValues={selectItem.props}
                 widget={{
                   CodeEditor,
                 }}
                 onValuesChange={(_, vs) => {
                   Object.assign(selectItem.props, vs);
+                  console.log(selectItem);
                   const index = store.mutate.schema.findIndex(i => i.key === state.selectKey);
                   store.mutate.schema.splice(index, 1, selectItem);
                   store.mutate.schema = [...store.mutate.schema];

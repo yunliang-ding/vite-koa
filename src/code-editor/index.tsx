@@ -25,13 +25,13 @@ export default ({
     if(useEncrypt){
       codeRef.current.getMonacoInstance().then(async (instance: any) => {
         if (instance) {
-          if (!instance.hasTextFocus?.()) {
+          if (!instance.hasTextFocus?.() && value) {
             instance.setValue?.(await prettierFormat(decrypt(value, false)));
           }
         }
       });
     }
-  }, [value])
+  }, [value]);
   return (
     <div className="function-data-box" style={style}>
       {errorInfo && <div className="function-data-error-info">{errorInfo}</div>}

@@ -12,7 +12,6 @@ export default ({
 }) => {
   const [form] = Form.useForm();
   useEffect(() => {
-    console.log(initialValues);
     form.setFieldsValue(initialValues);
   }, [initialValues])
   return (
