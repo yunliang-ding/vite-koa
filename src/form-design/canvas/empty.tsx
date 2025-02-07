@@ -41,7 +41,7 @@ export default () => {
                       };
                       delete newItem.propsConfig;
                       store.mutate.schema.splice(index, 0, newItem);
-                      store.mutate.selectedSchema = newItem;
+                      store.mutate.selectKey = newItem.key;
                       store.mutate.schema = [...store.mutate.schema];
                     }}
                   >
