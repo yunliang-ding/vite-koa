@@ -1,4 +1,4 @@
-import { createStore } from "resy";
+import { create } from "@shined/reactive";
 import Monaco from "../../monaco";
 import formCode from "./form";
 import tableCode from "./table";
@@ -8,7 +8,7 @@ import { Checkbox, Radio } from "antd";
 import ErrorBoundary from "../../error-boundary";
 import "./index.less";
 
-const store = createStore<{
+const store = create<{
   activeTab: string;
   source: string;
   dependencies: string[];
@@ -19,7 +19,7 @@ const store = createStore<{
 });
 
 export default () => {
-  const { source, dependencies, activeTab } = store.useStore();
+  const { source, dependencies, activeTab } = store.useSnapshot();
   let es5Code = "";
   let fileCode = "";
   try {
@@ -41,7 +41,7 @@ export default () => {
         <Checkbox.Group
           value={dependencies}
           onChange={(v) => {
-            store.dependencies = v as string[];
+            store.mutate.dependencies = v as string[];
           }}
           options={Object.keys(globalModules).map((key: string) => {
             return {
@@ -58,7 +58,7 @@ export default () => {
             defaultValue="table"
             optionType="button"
             onChange={(e) => {
-              store.source = e.target.value === "form" ? formCode : tableCode;
+              store.mutate.source = e.target.value === "form" ? formCode : tableCode;
             }}
             options={[
               {
@@ -83,7 +83,7 @@ export default () => {
                 <div
                   className={activeTab === "1" ? "file-selected" : "file"}
                   onClick={() => {
-                    store.activeTab = "1";
+                    store.mutate.activeTab = "1";
                   }}
                 >
                   <i className="file-icon javascript-lang-file-icon" />
@@ -95,7 +95,7 @@ export default () => {
               <Monaco
                 value={source}
                 onChange={async (v: string) => {
-                  store.source = v;
+                  store.mutate.source = v;
                 }}
               />
             </div>
@@ -106,7 +106,7 @@ export default () => {
                 <div
                   className={activeTab === "1" ? "file-selected" : "file"}
                   onClick={() => {
-                    store.activeTab = "1";
+                    store.mutate.activeTab = "1";
                   }}
                 >
                   <i className="file-icon javascriptreact-lang-file-icon" />
@@ -115,7 +115,7 @@ export default () => {
                 <div
                   className={activeTab === "2" ? "file-selected" : "file"}
                   onClick={() => {
-                    store.activeTab = "2";
+                    store.mutate.activeTab = "2";
                   }}
                 >
                   <i className="file-icon typescript-lang-file-icon" />
@@ -124,7 +124,7 @@ export default () => {
                 <div
                   className={activeTab === "3" ? "file-selected" : "file"}
                   onClick={() => {
-                    store.activeTab = "3";
+                    store.mutate.activeTab = "3";
                   }}
                 >
                   <i className="file-icon javascript-lang-file-icon" />
