@@ -7,8 +7,9 @@ import CodeEditor from "@/code-editor";
 import store from "../store";
 
 export default () => {
-  const { selectedSchema, layout, title, column, onSubmit, okText } = store.useStore();
-  const panelSchema = material[selectedSchema?.type]?.propsConfig; // 该物料对应的属性配置
+  const state = store.useSnapshot();
+  const selectItem: any = state.schema.find(i => i.key === state.selectKey);
+  const panelSchema = material[selectItem?.type]?.propsConfig; // 该物料对应的属性配置
   return (
     <div className="panel">
       <Tabs
@@ -23,15 +24,9 @@ export default () => {
             key: "1",
             children: (
               <FormConfig
-                initialValues={{
-                  layout,
-                  title,
-                  column,
-                  okText,
-                  onSubmit,
-                }}
+                initialValues={state}
                 onValuesChange={(v) => {
-                  Object.assign(store, v);
+                  Object.assign(store.mutate, v);
                 }}
               />
             ),
@@ -41,14 +36,16 @@ export default () => {
             key: "2",
             children: panelSchema ? (
               <FormItemConfig
-                key={selectedSchema.key}
-                initialValues={selectedSchema}
+                key={state.selectKey}
+                initialValues={selectItem}
                 onValuesChange={(v: any) => {
-                  if(v.effect){
-                    v.effect = v.effect.split(',')
+                  if (v.effect) {
+                    v.effect = v.effect.split(",");
                   }
-                  Object.assign(selectedSchema, v);
-                  store.schema = [...store.schema];
+                  Object.assign(selectItem, v);
+                  const index = store.mutate.schema.findIndex(i => i.key === state.selectKey);
+                  store.mutate.schema.splice(index, 1, selectItem);
+                  store.mutate.schema = [...store.mutate.schema];
                 }}
               />
             ) : (
@@ -65,13 +62,15 @@ export default () => {
               <ProForm
                 schema={panelSchema}
                 layout="vertical"
-                initialValues={selectedSchema.props}
+                initialValues={selectItem.props}
                 widget={{
-                  CodeEditor
+                  CodeEditor,
                 }}
                 onValuesChange={(_, vs) => {
-                  Object.assign(selectedSchema.props, vs);
-                  store.schema = [...store.schema];
+                  Object.assign(selectItem.props, vs);
+                  const index = store.mutate.schema.findIndex(i => i.key === state.selectKey);
+                  store.mutate.schema.splice(index, 1, selectItem);
+                  store.mutate.schema = [...store.mutate.schema];
                 }}
               />
             ) : (

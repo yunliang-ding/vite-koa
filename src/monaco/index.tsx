@@ -4,7 +4,7 @@ import { loadVscodeTheme } from "./wasm";
 import prettier from "prettier";
 import typescript from "prettier/plugins/typescript";
 import prettierPluginEstree from "prettier/plugins/estree";
-import './index.less';
+import "./index.less";
 
 const hasLoadLanguage: any = [];
 
@@ -23,8 +23,8 @@ export default ({
   readOnly = false,
   style = {},
   theme = "vs-dark",
+  codeRef = useRef({}),
 }: any) => {
-  const codeRef: any = useRef({});
   const id = useMemo(() => `monaco_${Math.random()}`, []);
   const createInstance = (monaco: any) => {
     if (!document.getElementById(id)) {

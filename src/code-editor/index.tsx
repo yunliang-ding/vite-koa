@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { isEmpty } from "@/components/shared";
-import Monaco from "@/monaco";
+import Monaco, { prettierFormat } from "@/monaco";
 import debounce from "lodash.debounce";
 import { decrypt, encrypt, excutecoder } from "@/transcoder";
 import "./index.less";
@@ -19,13 +19,28 @@ export default ({
   useEffect(() => {
     valueRef.current = value;
   }, [value]);
+  const codeRef: any = useRef({});
+  useEffect(() => {
+    // 格式化代码
+    if(useEncrypt){
+      codeRef.current.getMonacoInstance().then(async (instance: any) => {
+        if (instance) {
+          if (!instance.hasTextFocus?.()) {
+            instance.setValue?.(await prettierFormat(decrypt(value, false)));
+          }
+        }
+      });
+    }
+  }, [value])
   return (
     <div className="function-data-box" style={style}>
       {errorInfo && <div className="function-data-error-info">{errorInfo}</div>}
       <Monaco
         theme="vs"
+        codeRef={codeRef}
         value={decrypt(value, false) || defaultCode}
-        onChange={debounce(async (codeString: string) => {
+        onChange={debounce(async (v: string) => {
+          const codeString = v.substring(0, v.lastIndexOf("}")); // 编辑器要求函数必须是以 } 结尾
           try {
             if (
               isEmpty(codeString) ||

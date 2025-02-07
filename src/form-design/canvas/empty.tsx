@@ -5,7 +5,6 @@ import { uuid } from "@/components/shared";
 import store from "../store";
 
 export default () => {
-  const { schema } = store.useStore();
   return (
     <div className="drag-panel">
       <Drag>
@@ -41,9 +40,9 @@ export default () => {
                         name: key,
                       };
                       delete newItem.propsConfig;
-                      schema.splice(index, 0, newItem);
-                      store.selectedSchema = newItem;
-                      store.schema = [...store.schema];
+                      store.mutate.schema.splice(index, 0, newItem);
+                      store.mutate.selectedSchema = newItem;
+                      store.mutate.schema = [...store.mutate.schema];
                     }}
                   >
                     <div

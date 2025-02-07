@@ -1,5 +1,7 @@
 import ProForm from "@/components/pro/antd/form";
 import CodeEditor from "@/code-editor";
+import { Form } from "antd";
+import { useEffect } from "react";
 
 export default ({
   initialValues,
@@ -8,9 +10,15 @@ export default ({
   initialValues: Object;
   onValuesChange: (v: Object, vs: Object) => void;
 }) => {
+  const [form] = Form.useForm();
+  useEffect(() => {
+    console.log(initialValues);
+    form.setFieldsValue(initialValues);
+  }, [initialValues])
   return (
     <ProForm
       layout="vertical"
+      form={form}
       initialValues={initialValues}
       onValuesChange={onValuesChange}
       widget={{

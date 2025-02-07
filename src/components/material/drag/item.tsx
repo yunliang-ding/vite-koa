@@ -24,7 +24,7 @@ export default ({
     style: {
       ...children?.props?.style,
       cursor: virtual ? "not-allowed" : "move",
-      borderLeft: accept ? "2px solid var(--bg-color)" : "",
+      borderLeft: accept ? "2px solid #fff" : "",
     },
     draggable: true,
     onClick: () => {
@@ -37,8 +37,7 @@ export default ({
         (String(store.index) !== String(index) || store.dragId !== dragId) &&
         accept
       ) {
-        e.currentTarget.style.borderLeft =
-          "2px solid var(--primary-color) !important";
+        e.currentTarget.style.borderLeft = "2px solid var(--drag-primary-color) !important";
       }
     },
     onDragEnter: (e) => {
@@ -47,14 +46,13 @@ export default ({
         (String(store.index) !== String(index) || store.dragId !== dragId) &&
         accept
       ) {
-        e.currentTarget.style.borderLeft =
-          "2px solid var(--primary-color) !important";
+        e.currentTarget.style.borderLeft = "2px solid var(--drag-primary-color) !important";
       }
     },
     onDragLeave: (e) => {
       e.stopPropagation();
       if (accept) {
-        e.currentTarget.style.borderLeft = "2px solid var(--bg-color)";
+        e.currentTarget.style.borderLeft = "2px solid #fff";
       }
     },
     onDrop: (e) => {
@@ -70,7 +68,7 @@ export default ({
         }
       }
       if (accept) {
-        e.currentTarget.style.borderLeft = "2px solid var(--bg-color)";
+        e.currentTarget.style.borderLeft = "2px solid #fff";
       }
     },
     onDragStart: (e) => {
@@ -85,7 +83,7 @@ export default ({
       delete store.dragId;
       e.currentTarget.style.opacity = "1";
       if (accept) {
-        e.currentTarget.style.borderLeft = "2px solid var(--bg-color)";
+        e.currentTarget.style.borderLeft = "2px solid #fff";
       }
     },
   });

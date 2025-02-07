@@ -1,15 +1,15 @@
-import { createStore } from "resy";
+import { create } from '@shined/reactive'
 import { ProFormItemProps } from "@/components/pro/antd/form/type";
 import globalModules from "@/transcoder/modules";
 import { encrypt } from "@/transcoder";
 
-export default createStore<{
+export default create<{
   dependencies: string[];
   title?: string;
   layout?: "horizontal" | "inline" | "vertical";
   column?: 1 | 2 | 3 | 4;
   schema: ProFormItemProps[];
-  selectedSchema?: any;
+  selectKey?: string;
   okText?: string;
   onSubmit?: string;
 }>({

@@ -10,7 +10,7 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    background: var(--primary-color);
+    background: var(--drag-primary-color);
     color: #fff;
     cursor: pointer;
     border-top-left-radius: 8px;
@@ -18,10 +18,14 @@
 }
 
 .drag-item-selected {
-  border: 2px dashed var(--primary-color) !important;
+  border: 2px dashed var(--drag-primary-color) !important;
 }
 
 .drag-item:not(:has(:hover)):hover {
   transition: .3s;
-  border: 2px dashed  var(--primary-color) !important;
+  border: 2px dashed  var(--drag-primary-color) !important;
+}
+
+:root {
+  --drag-primary-color: #1890ff;
 }

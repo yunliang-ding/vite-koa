@@ -1,5 +1,4 @@
-import { ProFormProps } from "@/components/pro/antd/form/type";
-
-export interface FormDesignProps extends ProFormProps{
-  
+export interface FormDesignProps{
+  /** 数据模型 */
+  jsonSchema?: string;
 }

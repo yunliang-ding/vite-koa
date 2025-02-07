@@ -5,19 +5,19 @@ import store from "../store";
 import Empty from "./empty";
 
 export default () => {
-  const { schema, layout, title, column, selectedSchema, okText } = store.useStore();
-  if (schema?.length === 0) {
+  const state = store.useSnapshot();
+  if (state.schema?.length === 0) {
     return <Empty />;
   }
   return (
     <div className="drag-panel">
       <Drag>
         <ProForm
-          title={title}
-          okText={okText}
-          layout={layout}
-          column={column}
-          schema={schema?.map((item, currentIndex: number) => {
+          title={state.title}
+          okText={state.okText}
+          layout={state.layout}
+          column={state.column}
+          schema={state.schema?.map((item, currentIndex: number) => {
             return {
               ...item,
               itemRender(dom) {
@@ -25,32 +25,32 @@ export default () => {
                   <Drag.Item
                     dragId="form-design"
                     index={currentIndex}
-                    selected={item.key === selectedSchema?.key}
+                    selected={item.key === state.selectKey}
                     onDrop={(targetIndex: number) => {
                       if (String(currentIndex) === String(targetIndex)) {
                         return;
                       }
                       const newList = arrayMove(
-                        schema,
+                        store.mutate.schema,
                         currentIndex,
                         targetIndex
                       );
-                      store.schema = newList;
+                      store.mutate.schema = newList;
                     }}
                     onSelected={() => {
-                      store.selectedSchema = item;
+                      store.mutate.selectKey = item.key;
                     }}
                     onDelete={() => {
-                      schema.splice(currentIndex, 1);
-                      store.selectedSchema = undefined;
-                      store.schema = [...store.schema];
+                      store.mutate.schema.splice(currentIndex, 1);
+                      store.mutate.selectKey = undefined;
+                      store.mutate.schema = [...store.mutate.schema];
                     }}
                     onCopy={() => {
-                      schema.splice(currentIndex + 1, 0, {
+                      store.mutate.schema.splice(currentIndex + 1, 0, {
                         ...item,
                         key: uuid(),
                       });
-                      store.schema = [...store.schema];
+                      store.mutate.schema = [...store.mutate.schema];
                     }}
                     onAdd={(addItem: any, index: number) => {
                       const key = uuid();
@@ -60,11 +60,11 @@ export default () => {
                         name: key,
                       };
                       delete newItem.propsConfig;
-                      schema.splice(index, 0, newItem);
-                      if(selectedSchema === undefined){
-                        store.selectedSchema = newItem;
+                      store.mutate.schema.splice(index, 0, newItem);
+                      if (state.selectKey === undefined) {
+                        store.mutate.selectKey = newItem.key;
                       }
-                      store.schema = [...store.schema];
+                      store.mutate.schema = [...store.mutate.schema];
                     }}
                   >
                     <div

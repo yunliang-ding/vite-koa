@@ -4,25 +4,18 @@ import Monaco from "@/monaco";
 import EditPanel from "./edit";
 import ErrorBoundary from "@/error-boundary";
 import Transcoder, { decrypt } from "@/transcoder";
-import { ProFormItemProps } from "@/components/pro/antd/form/type";
 
-const getPureSchema = (
-  schema: ProFormItemProps[],
-  layout: string | undefined,
-  column: number | undefined,
-  title: string | undefined,
-  onSubmit?: string,
-  okText?: string
-) => {
+const getPureSchema = (state: any) => {
   return JSON.stringify(
     {
       type: "Form",
-      title,
-      layout,
-      column,
-      schema,
-      okText,
-      onSubmit,
+      title: state.title,
+      layout: state.layout,
+      selectKey: state.selectKey,
+      column: state.column,
+      schema: state.schema,
+      okText: state.okText,
+      onSubmit: state.onSubmit,
     },
     null,
     2
@@ -30,9 +23,8 @@ const getPureSchema = (
 };
 
 export default () => {
-  const { schema, layout, column, title, onSubmit, dependencies, okText } =
-    store.useStore();
-  const source = getPureSchema(schema, layout, column, title, onSubmit, okText);
+  const state = store.useSnapshot();
+  const source = getPureSchema(state);
   return (
     <div className="canvas">
       <Tabs
@@ -57,7 +49,7 @@ export default () => {
               <ErrorBoundary>
                 <Transcoder
                   code={decrypt(`export default ${source}`)}
-                  dependencies={dependencies}
+                  dependencies={state.dependencies}
                 />
               </ErrorBoundary>
             ),

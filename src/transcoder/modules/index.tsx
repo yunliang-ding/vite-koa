@@ -18,6 +18,6 @@ export default {
   },
   moment: {
     module: moment,
-    imports: 'import * as Antd from "antd"',
+    imports: 'import moment from "moment"',
   },
 } as any;

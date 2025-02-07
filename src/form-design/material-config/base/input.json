@@ -3,10 +3,7 @@
   "label": "单行文本",
   "props": {
     "placeholder": "请输入",
-    "allowClear": true,
-    "disabled": false,
-    "maxLength": 64,
-    "showCount": false
+    "allowClear": true
   },
   "propsConfig": [
     {
@@ -40,11 +37,7 @@
     {
       "type": "CodeEditor",
       "name": "onChange",
-      "label": "设置onChange",
-      "props": {
-        "mode": "function",
-        "useEncrypt": true
-      }
+      "label": "设置onChange"
     }
   ]
 }
