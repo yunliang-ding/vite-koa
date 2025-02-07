@@ -43,7 +43,6 @@ const App: React.FC = () => {
                   key: "/template/table",
                   icon: <TableOutlined />,
                   label: "报表模版",
-                  disabled: true,
                 },
               ],
             },
