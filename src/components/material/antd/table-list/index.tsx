@@ -22,6 +22,7 @@ export default ({
       <Table
         {...rest}
         pagination={false}
+        bordered
         dataSource={dataSource}
         columns={[
           ...schema.map((item) => {
