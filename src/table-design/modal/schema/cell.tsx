@@ -1,5 +1,4 @@
 import { ProFormItemProps } from "@/components/pro/antd/form/type";
-import { encrypt } from "@/transcoder";
 
 export default [
   {
@@ -66,9 +65,6 @@ export default [
     label: "自定义渲染",
     name: "render",
     span: 24,
-    initialValue: encrypt(`(v, record, index) => {
-  return v;
-}`),
     props: {
       style: {
         width: "100%",

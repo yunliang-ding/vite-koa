@@ -1,9 +1,10 @@
+import { encrypt } from "@/transcoder";
 import { create } from "@shined/reactive";
 
 export default create({
   openCellModal: {
     open: false,
-    index: -1
+    index: -1,
   },
   openTableModal: false,
   openFilterDrawer: false,
@@ -34,8 +35,11 @@ export default create({
       dataIndex: "6",
     },
     {
-      title: "列7",
+      title: "备注",
       dataIndex: "7",
+      render: encrypt(`(v, record, index) => {
+  return Utils.textWrapRender(v);
+}`),
     },
   ],
 });

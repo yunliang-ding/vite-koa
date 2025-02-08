@@ -52,3 +52,7 @@ export const NumberFormat = (
   }
   return Number(number).toLocaleString('zh-CH', options);
 };
+
+export const textWrapRender = (v: string) => {
+  return v;
+}
