@@ -12,7 +12,8 @@ export default () => {
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<Drag />} />
           <Route path="/drag" element={<Drag />} />
-          <Route path="/playground" element={<Playground />} />
+          <Route path="/playground/form" element={<Playground mode="form" />} />
+          <Route path="/playground/table" element={<Playground mode="table" />} />
           <Route path="/template/form" element={<FormDesign />} />
           <Route path="/template/table" element={<TableDesign />} />
         </Route>

@@ -82,7 +82,7 @@ export default ({
   }
   /** 扩展渲染 */
   if (typeof itemRender === "function") {
-    return itemRender(VNode, form);
+    VNode = itemRender(VNode, form);
   }
   return <Col span={span}>{VNode}</Col>;
 };

@@ -50,6 +50,18 @@ const App: React.FC = () => {
               key: "/playground",
               icon: <JavaScriptOutlined />,
               label: "Playground",
+              children: [
+                {
+                  key: "/playground/form",
+                  icon: <FormOutlined />,
+                  label: "Form",
+                },
+                {
+                  key: "/playground/table",
+                  icon: <TableOutlined />,
+                  label: "Table",
+                },
+              ],
             },
           ]}
         />
