@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { isEmpty } from "@/components/shared";
-import Monaco, { prettierFormat } from "@/monaco";
+import Monaco, { prettierFormat } from "../index";
 import debounce from "lodash.debounce";
 import { decrypt, encrypt, excutecoder } from "@/transcoder";
 import "./index.less";
@@ -33,8 +33,8 @@ export default ({
     }
   }, [value]);
   return (
-    <div className="function-data-box" style={style}>
-      {errorInfo && <div className="function-data-error-info">{errorInfo}</div>}
+    <div className="code-editor-box" style={style}>
+      {errorInfo && <div className="code-editor-box-error">{errorInfo}</div>}
       <Monaco
         theme="vs"
         codeRef={codeRef}

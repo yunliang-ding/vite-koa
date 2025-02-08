@@ -71,6 +71,7 @@ export default ({
       />
       <Button
         type="dashed"
+        style={{ marginTop: 10 }}
         onClick={() => {
           dataSource.push(defaultAddValue);
           setDataSource([...dataSource]);

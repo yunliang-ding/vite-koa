@@ -8,7 +8,7 @@ export default () => {
       title="表格设置"
       width={1000}
       bodyStyle={{
-        height: 800,
+        height: "60vh",
       }}
       onCancel={() => {
         store.mutate.openTableModal = false;

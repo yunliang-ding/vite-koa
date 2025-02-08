@@ -79,6 +79,20 @@ export default () => {
               />
             ),
           },
+          // {
+          //   label: "状态管理",
+          //   key: "5",
+          //   children: (
+          //     <Monaco
+          //       value={state.storeCode}
+          //       onChange={(v: string) => {
+          //         store.mutate.storeCode = v;
+          //       }}
+          //       theme="vs"
+          //       style={{ height: "calc(100vh - 70px)" }}
+          //     />
+          //   ),
+          // },
         ]}
       />
     </div>

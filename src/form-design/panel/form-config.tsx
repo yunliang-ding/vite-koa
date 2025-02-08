@@ -1,5 +1,5 @@
 import ProForm from "@/components/pro/antd/form";
-import CodeEditor from "@/code-editor";
+import CodeEditor from "@/monaco/code-editor";
 import { Form } from "antd";
 import { useEffect } from "react";
 

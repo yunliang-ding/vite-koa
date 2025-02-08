@@ -1,5 +1,5 @@
 import ProForm from "@/components/pro/antd/form";
-import CodeEditor from "@/code-editor";
+import CodeEditor from "@/monaco/code-editor";
 import { encrypt } from "@/transcoder";
 
 export default ({

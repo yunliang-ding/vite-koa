@@ -54,6 +54,7 @@ export default () => {
       <div className="table-area">
         <Table
           ref={tableRef}
+          bordered
           scroll={{
             x: state.columns.length * 206,
           }}

@@ -2,7 +2,7 @@ import Form from "@/components/pro/antd/form";
 import { Modal } from "antd";
 import store from "../store";
 import cellSchema from "./schema/cell";
-import CodeEditor from "@/code-editor";
+import CodeEditor from "@/monaco/code-editor";
 
 export default () => {
   const state = store.useSnapshot();

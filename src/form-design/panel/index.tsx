@@ -3,7 +3,7 @@ import material from "../material-config";
 import { Empty, Tabs } from "antd";
 import FormItemConfig from "./form-item-config";
 import FormConfig from "./form-config";
-import CodeEditor from "@/code-editor";
+import CodeEditor from "@/monaco/code-editor";
 import store from "../store";
 
 export default () => {
