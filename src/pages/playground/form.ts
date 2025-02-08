@@ -4,10 +4,11 @@ export default `export default {
   title: "信息采集",
   okText: "发布",
   style: {
-    width: 500,
+    width: "100%",
+    height: 720,
     padding: 10,
   },
-  onSubmit(v){
+  onSubmit(v) {
     alert(JSON.stringify(v));
   },
   initialValues: {
@@ -75,13 +76,14 @@ export default `export default {
         },
       ],
     },
-    // itemRender(dom){
-    //   return <div style={{ background: "#379e42" }}>{dom}</div>
-    // }
+    itemRender(dom) {
+      return <div style={{ background: "#e6f7e8", width: "100%", padding: 10, marginBottom: 10 }}>{dom}</div>
+    }
   },
   {
     type: "TableList",
     name: "options",
+    label: "选项",
     props: {
       defaultAddValue: {
         label: "新选项"

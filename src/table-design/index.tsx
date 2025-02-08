@@ -1,16 +1,16 @@
 import {
-  RestOutlined,
-  EditOutlined,
   MenuOutlined,
   PlusSquareOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import { Button, Input, Space, Table } from "antd";
+import { Button, Space, Table } from "antd";
+import TableModal from "./modal/table";
 import CellModal from "./modal/cell";
 import store from "./store";
 import { useRef } from "react";
 import { uuid } from "@/components/shared";
 import FilterDrawer from "./filter-drawer";
+import RenderTitle from "./render-title";
 import "./index.less";
 
 export default () => {
@@ -32,7 +32,13 @@ export default () => {
     <div className="table-design-wrap">
       <div className="table-tools">
         <Space>
-          <Button type="primary" icon={<SettingOutlined />}>
+          <Button
+            type="primary"
+            icon={<SettingOutlined />}
+            onClick={() => {
+              store.mutate.openTableModal = true;
+            }}
+          >
             设置表格
           </Button>
           <Button
@@ -40,7 +46,9 @@ export default () => {
             onClick={() => {
               store.mutate.openFilterDrawer = true;
             }}
-          />
+          >
+            调整顺序
+          </Button>
         </Space>
       </div>
       <div className="table-area">
@@ -49,31 +57,11 @@ export default () => {
           scroll={{
             x: state.columns.length * 206,
           }}
-          columns={state.columns.map((item: any) => {
+          columns={state.columns.map((item: any, index: number) => {
             return {
               ...item,
-              title: (
-                <Space>
-                  <Input
-                    placeholder="标题"
-                    defaultValue={item.title}
-                    onChange={(e) => {
-                      item.title = e.target.value;
-                    }}
-                  />
-                  <a
-                    style={{ marginRight: 12 }}
-                    onClick={() => {
-                      store.mutate.openCellModal = true;
-                    }}
-                  >
-                    <EditOutlined />
-                  </a>
-                  <a>
-                    <RestOutlined />
-                  </a>
-                </Space>
-              ),
+              width: 200,
+              title: <RenderTitle index={index} />,
               render() {
                 return <span style={{ color: "#999" }}>-</span>;
               },
@@ -89,8 +77,10 @@ export default () => {
           </a>
         </div>
       </div>
-      <CellModal />
-      <FilterDrawer />
+      {/* <TableModal /> */}
+      {state.openCellModal.open && <CellModal />}
+      {state.openFilterDrawer && <FilterDrawer />}
+      {state.openTableModal && <TableModal />}
     </div>
   );
 };

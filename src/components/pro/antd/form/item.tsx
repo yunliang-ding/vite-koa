@@ -1,4 +1,4 @@
-import { Form, FormInstance } from "antd";
+import { Col, Form, FormInstance } from "antd";
 import { useEffect, useState } from "react";
 import { ProFormItemProps } from "./type";
 import { getWidget } from "./widget";
@@ -84,5 +84,5 @@ export default ({
   if (typeof itemRender === "function") {
     return itemRender(VNode, form);
   }
-  return VNode;
+  return <Col span={span}>{VNode}</Col>;
 };

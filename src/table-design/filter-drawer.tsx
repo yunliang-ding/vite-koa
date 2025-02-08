@@ -8,7 +8,7 @@ export default () => {
   const state = store.useSnapshot();
   return (
     <Drawer
-      open={state.openFilterDrawer}
+      open
       onClose={() => {
         store.mutate.openFilterDrawer = false;
       }}

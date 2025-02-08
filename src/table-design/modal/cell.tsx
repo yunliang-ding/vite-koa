@@ -1,21 +1,30 @@
+import Form from "@/components/pro/antd/form";
 import { Modal } from "antd";
 import store from "../store";
+import cellSchema from "./schema/cell";
+import CodeEditor from "@/code-editor";
 
 export default () => {
   const state = store.useSnapshot();
+  const { title } = store.mutate.columns[state.openCellModal.index] || {};
   return (
     <Modal
-      title="列属性设置"
+      open
+      title={`${title} 设置`}
       width={1000}
       bodyStyle={{
-        height: 800
+        height: "60vh",
       }}
-      open={state.openCellModal}
       onCancel={() => {
-        store.mutate.openCellModal = false;
+        store.mutate.openCellModal.open = false;
       }}
     >
-      xxx
+      <Form
+        schema={cellSchema}
+        layout="vertical"
+        column={3}
+        widget={{ CodeEditor }}
+      />
     </Modal>
   );
 };

@@ -1,4 +1,4 @@
-import { Card, Col, Form, Row } from "antd";
+import { Card, Form, Row } from "antd";
 import { useState } from "react";
 import { ProFormItemProps, ProFormProps } from "./type";
 import { enhanceSchema } from "./util";
@@ -43,10 +43,10 @@ export default ({
       <Row gutter={10}>
         {enhanceSchema(schema).map((item: ProFormItemProps) => {
           return (
-            <Col key={item.name} span={24 / column}>
               <Item
+                span={24 / column}
                 {...item}
-                key={undefined}
+                key={item.name}
                 widget={widget}
                 form={{
                   ...form,
@@ -60,7 +60,6 @@ export default ({
                 }}
                 collectedEffects={collectedEffects}
               />
-            </Col>
           );
         })}
       </Row>

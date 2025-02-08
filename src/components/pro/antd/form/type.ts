@@ -7,7 +7,7 @@ export interface ProFormItemProps extends FormItemProps {
   /** key */
   key?: any;
   /** 占据的格子数 */
-  span?: 2 | 3 | "fill";
+  span?: number;
   /** 依赖渲染 */
   effect?: string[];
   /** 是否展示 */
