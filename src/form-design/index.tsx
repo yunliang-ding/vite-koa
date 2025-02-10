@@ -1,6 +1,6 @@
 
 import { FormDesignProps } from './type';
-import Dep from './dep'
+import Bar from './bar'
 import Sider from "./sider";
 import Canvas from "./canvas";
 import Panel from "./panel";
@@ -20,7 +20,7 @@ export default ({ jsonSchema }: FormDesignProps) => {
   }, [jsonSchema])
   return (
     <div className="form-design">
-      <Dep />
+      <Bar />
       <Sider />
       <Canvas />
       <Panel />

@@ -15,9 +15,6 @@ export default () => {
       <Tabs
         defaultActiveKey="1"
         size="small"
-        style={{
-          padding: "0 10px",
-        }}
         items={[
           {
             label: "Form 设置",

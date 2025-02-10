@@ -4,23 +4,8 @@ import Monaco from "@/monaco";
 import EditPanel from "./edit";
 import ErrorBoundary from "@/error-boundary";
 import Transcoder, { decrypt } from "@/transcoder";
-
-const getPureSchema = (state: any) => {
-  return JSON.stringify(
-    {
-      type: "Form",
-      title: state.title,
-      layout: state.layout,
-      selectKey: state.selectKey,
-      column: state.column,
-      schema: state.schema,
-      okText: state.okText,
-      onSubmit: state.onSubmit,
-    },
-    null,
-    2
-  );
-};
+import globalModules from "@/transcoder/modules";
+import { getPureSchema } from '../util';
 
 export default () => {
   const state = store.useSnapshot();
@@ -32,7 +17,6 @@ export default () => {
         size="small"
         style={{
           background: "#fff",
-          padding: "0 10px",
           width: "100%",
           height: "100%",
         }}
@@ -49,27 +33,14 @@ export default () => {
               <ErrorBoundary>
                 <Transcoder
                   code={decrypt(`export default ${source}`)}
-                  dependencies={state.dependencies}
+                  dependencies={Object.keys(globalModules)}
                 />
               </ErrorBoundary>
             ),
           },
           {
-            label: "JSON Schema",
-            key: "3",
-            children: (
-              <Monaco
-                value={source}
-                readOnly
-                language="json"
-                theme="vs"
-                style={{ height: "calc(100vh - 70px)" }}
-              />
-            ),
-          },
-          {
             label: "数据模型",
-            key: "4",
+            key: "3",
             children: (
               <Monaco
                 value={decrypt(`export default ${source}`)}
@@ -79,20 +50,6 @@ export default () => {
               />
             ),
           },
-          // {
-          //   label: "状态管理",
-          //   key: "5",
-          //   children: (
-          //     <Monaco
-          //       value={state.storeCode}
-          //       onChange={(v: string) => {
-          //         store.mutate.storeCode = v;
-          //       }}
-          //       theme="vs"
-          //       style={{ height: "calc(100vh - 70px)" }}
-          //     />
-          //   ),
-          // },
         ]}
       />
     </div>

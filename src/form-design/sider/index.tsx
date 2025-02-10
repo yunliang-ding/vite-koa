@@ -8,7 +8,6 @@ export default () => {
       <Tabs
         size="small"
         style={{
-          padding: "0 10px",
           width: "100%",
           height: "100%",
         }}

@@ -66,7 +66,7 @@ export default ({
   const Component = getWidget(type, widget);
   let VNode = (
     <Form.Item {...rest} key={reload}>
-      <Component {...props} form={form} />
+      <Component widget={widget} {...props} form={form} />
     </Form.Item>
   );
   /** 渲染子表单 */

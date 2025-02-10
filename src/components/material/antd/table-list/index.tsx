@@ -9,16 +9,56 @@ import Drag, { arrayMove } from "../../drag";
 export default ({
   value,
   onChange,
+  drag = true,
   schema = [],
   maxCount = 10,
   leastOne = true,
   defaultAddValue = {},
+  widget = {},
+  disabledDelete,
   ...rest
 }: TableListProps) => {
   const [dataSource, setDataSource] = useState(value);
   useEffect(() => {
     setDataSource(value);
   }, [value]);
+  // 定义列
+  let columns = schema.map((item: any) => {
+    return {
+      ...item,
+      title: item.label,
+      dataIndex: item.name,
+      render(v: string | number, record: any) {
+        const Component = getWidget(item.type, widget);
+        return (
+          <Component
+            {...item.props}
+            defaultValue={v}
+            disabled={item.disabled?.(record)}
+            onChange={(e: any) => {
+              record[item.name] = e.target ? e.target.value : e;
+              setDataSource(dataSource);
+              onChange(dataSource);
+            }}
+          />
+        );
+      },
+    } as any;
+  });
+  if (drag) {
+    columns = [
+      {
+        title: "",
+        dataIndex: "",
+        width: 60,
+        align: "center",
+        render() {
+          return <HolderOutlined />;
+        },
+      },
+      ...columns,
+    ];
+  }
   return (
     <Drag>
       <Table
@@ -26,75 +66,18 @@ export default ({
         pagination={false}
         bordered
         dataSource={dataSource}
-        onRow={(_, index) => {
-          const attr = {
-            index,
-          };
-          return attr as React.HTMLAttributes<any>;
-        }}
-        components={{
-          body: {
-            row: ({ index, moveRow, className, style, ...restProps }: any) => {
-              return (
-                <Drag.Item
-                  index={index}
-                  dragId="table-list"
-                  onDrop={(targetIndex: number) => {
-                    if (String(index) === String(targetIndex)) {
-                      return;
-                    }
-                    const newList = arrayMove(dataSource, index, targetIndex);
-                    setDataSource(newList);
-                    onChange(newList);
-                  }}
-                >
-                  <tr
-                    className={className}
-                    style={{ cursor: "move", ...style }}
-                    {...restProps}
-                  />
-                </Drag.Item>
-              );
-            },
-          },
-        }}
         columns={[
-          {
-            title: "",
-            dataIndex: "",
-            width: 60,
-            align: "center",
-            render() {
-              return <HolderOutlined />;
-            },
-          },
-          ...schema.map((item) => {
-            return {
-              title: item.label,
-              dataIndex: item.name,
-              render(v: string | number, record: any) {
-                const Component = getWidget(item.type);
-                return (
-                  <Component
-                    defaultValue={v}
-                    onChange={(e: any) => {
-                      record[item.name] = e.target ? e.target.value : e;
-                      setDataSource(dataSource);
-                      onChange(dataSource);
-                    }}
-                  />
-                );
-              },
-            } as any;
-          }),
+          ...columns,
           {
             title: "操作",
             dataIndex: "_operation_",
+            width: 100,
             render(_, __, index: number) {
               return (
                 <Space>
                   <Button
                     type="link"
+                    disabled={leastOne && dataSource.length === 1 || disabledDelete?.(__)}
                     onClick={() => {
                       dataSource.splice(index, 1);
                       setDataSource([...dataSource]);
@@ -111,6 +94,56 @@ export default ({
             },
           },
         ]}
+        onRow={
+          drag
+            ? (_, index) => {
+                const attr = {
+                  index,
+                };
+                return attr as React.HTMLAttributes<any>;
+              }
+            : undefined
+        }
+        components={
+          drag
+            ? {
+                body: {
+                  row: ({
+                    index,
+                    moveRow,
+                    className,
+                    style,
+                    ...restProps
+                  }: any) => {
+                    return (
+                      <Drag.Item
+                        index={index}
+                        dragId="table-list"
+                        onDrop={(targetIndex: number) => {
+                          if (String(index) === String(targetIndex)) {
+                            return;
+                          }
+                          const newList = arrayMove(
+                            dataSource,
+                            index,
+                            targetIndex
+                          );
+                          setDataSource(newList);
+                          onChange(newList);
+                        }}
+                      >
+                        <tr
+                          className={className}
+                          style={{ cursor: "move", ...style }}
+                          {...restProps}
+                        />
+                      </Drag.Item>
+                    );
+                  },
+                },
+              }
+            : undefined
+        }
       />
       <Button
         type="dashed"

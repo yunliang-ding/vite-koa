@@ -1,58 +1,54 @@
 import { useEffect, useRef, useState } from "react";
-import { isEmpty } from "@/components/shared";
 import Monaco, { prettierFormat } from "../index";
 import debounce from "lodash.debounce";
 import { decrypt, encrypt, excutecoder } from "@/transcoder";
+import { CodeEditorProps } from "./type";
 import "./index.less";
 
 export default ({
   value,
+  defaultValue,
   onChange = () => {},
   style = { height: 300, width: 360 },
   defaultCode = "() => {}",
-  noChangeClearCode = false,
+  dependencies = [],
   useEncrypt = true,
   debounceTime = 300,
-}: any) => {
+  theme = 'vs'
+}: CodeEditorProps) => {
+  const innerValue = value || defaultValue || defaultCode;
   const [errorInfo, setErrorInfo] = useState("");
-  const valueRef = useRef(value);
+  const valueRef = useRef(innerValue);
   useEffect(() => {
-    valueRef.current = value;
-  }, [value]);
+    valueRef.current = innerValue;
+  }, [innerValue]);
   const codeRef: any = useRef({});
   useEffect(() => {
     // 格式化代码
-    if(useEncrypt){
+    if (useEncrypt) {
       codeRef.current.getMonacoInstance().then(async (instance: any) => {
         if (instance) {
-          if (!instance.hasTextFocus?.() && value) {
-            instance.setValue?.(await prettierFormat(decrypt(value, false)));
+          if (!instance.hasTextFocus?.() && innerValue) {
+            instance.setValue?.(await prettierFormat(decrypt(innerValue, false)));
           }
         }
       });
     }
-  }, [value]);
+  }, [innerValue]);
   return (
     <div className="code-editor-box" style={style}>
       {errorInfo && <div className="code-editor-box-error">{errorInfo}</div>}
       <Monaco
-        theme="vs"
+        theme={theme}
         codeRef={codeRef}
-        value={decrypt(value, false) || defaultCode}
+        value={decrypt(innerValue, false)}
         onChange={debounce(async (v: string) => {
           const codeString = v.substring(0, v.lastIndexOf("}") + 1); // 编辑器要求函数必须是以 } 结尾
           try {
-            if (
-              isEmpty(codeString) ||
-              (codeString === defaultCode && noChangeClearCode)
-            ) {
-              setErrorInfo("");
-              return onChange(undefined);
-            }
             valueRef.current = codeString; // 同步文本
-            excutecoder(codeString, []);
+            const res = excutecoder(codeString, dependencies);
             // 校验通过才触发 onChange
-            onChange(useEncrypt ? encrypt(codeString) : codeString);
+            onChange(useEncrypt ? encrypt(codeString) : codeString, res);
             setErrorInfo("");
           } catch (error) {
             setErrorInfo(String(error));

@@ -1,15 +1,35 @@
 .form-design {
   display: flex;
-  gap: 10px;
   height: 100%;
   width: 100%;
   background-color: var(--bg-color-2);
-  .dep-sider {
-    width: 127px;
+  .ant-tabs-nav, .ant-tabs-content{
+    padding-left: 10px;
+  }
+  .bar-sider {
+    width: 48px;
+    &-item{
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      &:hover{
+        .anticon{
+          color: #1890ff;
+        }
+      }
+      &-bottom{
+        position: absolute;
+        bottom: 10px;
+      }
+    }
   }
   .sider {
     width: 300px;
     background-color: #fff;
+    border-right: 1px solid #eee;
     .sider-material-tab {
       display: flex;
       gap: 10px;
@@ -25,6 +45,7 @@
     flex-wrap: wrap;
     align-content: flex-start;
     background-color: #fff;
+    border-right: 1px solid #eee;
     .ant-tabs-nav-wrap {
       justify-content: center;
     }
