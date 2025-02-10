@@ -3,7 +3,8 @@ import { EllipsisOutlined, JavaScriptOutlined } from "@ant-design/icons";
 import { Drawer } from "antd";
 import { getOriginStringModule } from "../util";
 import store from "../store";
-import Variables from "./variables";
+// import Variables from "./variables";
+import CodeEditor from "@/monaco/code-editor";
 
 export default () => {
   const state = store.useSnapshot();
@@ -42,7 +43,15 @@ export default () => {
             store.mutate.openDrawerType = undefined;
           }}
         >
-          <Variables />
+          {/* <Variables /> */}
+          <CodeEditor
+            useEncrypt={false}
+            value={state.storeCode}
+            style={{ width: "100%", height: "100%" }}
+            onChange={(v: string) => {
+              store.mutate.storeCode = v;
+            }}
+          />
         </Drawer>
       )}
       {state.openDrawerType === "jsonSchema" && (

@@ -3,7 +3,7 @@ import material from "../material-config";
 import { Empty, Tabs } from "antd";
 import FormItemConfig from "./form-item-config";
 import FormConfig from "./form-config";
-import CodeEditor from "@/monaco/code-editor";
+import VariablesSelect from './variables-select';
 import store from "../store";
 
 export default () => {
@@ -62,7 +62,7 @@ export default () => {
                 key={state.selectKey}
                 initialValues={selectItem.props}
                 widget={{
-                  CodeEditor,
+                  VariablesSelect,
                 }}
                 onValuesChange={(_, vs) => {
                   Object.assign(selectItem.props, vs);

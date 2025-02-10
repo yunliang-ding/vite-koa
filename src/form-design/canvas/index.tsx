@@ -3,9 +3,9 @@ import store from "../store";
 import Monaco from "@/monaco";
 import EditPanel from "./edit";
 import ErrorBoundary from "@/error-boundary";
-import Transcoder, { decrypt } from "@/transcoder";
-import globalModules from "@/transcoder/modules";
-import { getPureStringModule } from '../util';
+import Transcoder, { excutecoder } from "@/components/transcoder";
+import { getPureStringModule } from "../util";
+import { create } from "@shined/reactive";
 
 export default () => {
   const state = store.useSnapshot();
@@ -32,18 +32,23 @@ export default () => {
             children: (
               <ErrorBoundary>
                 <Transcoder
-                  code={decrypt(`export default ${source}`)}
-                  dependencies={Object.keys(globalModules)}
+                  code={(`export default ${source}`)}
+                  require={{
+                    store: excutecoder(
+                      `export default create(${store.mutate.storeCode?.replace?.("export default ", "")})`,
+                      { create }
+                    ),
+                  }}
                 />
               </ErrorBoundary>
             ),
           },
           {
-            label: "数据模型",
+            label: "标准模型",
             key: "3",
             children: (
               <Monaco
-                value={decrypt(`export default ${source}`)}
+                value={(`export default ${source}`)}
                 readOnly
                 theme="vs"
                 style={{ height: "calc(100vh - 70px)" }}

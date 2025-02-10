@@ -1,10 +1,10 @@
 import { cloneDeep } from "@/components/shared";
+import { decrypt, encrypt } from "@/components/transcoder";
 
-export function parseTemplate(template: string, functions = []) {
+export function parseTemplate(template: string) {
   if (typeof template === "string") {
     return template.replace(/\{\{(.*?)\}\}/g, (_, key) => {
-      const fn: any = functions.find((i: any) => i.functionName === key)
-      return fn?.functionCode
+      return encrypt(`store.mutate.${key}`)
     });
   }
   return template
@@ -22,7 +22,6 @@ export const getOriginStringModule = (state: any) => {
       schema: state.schema,
       okText: state.okText,
       onSubmit: state.onSubmit,
-      functions: state.functions,
     },
     null,
     2
@@ -51,5 +50,5 @@ export const getPureStringModule = (state: any) => {
     null,
     2
   );
-  return parseTemplate(str, state.functions);
+  return decrypt(parseTemplate(str));
 };

@@ -1,6 +1,5 @@
 import ProForm from "@/components/pro/antd/form";
-import CodeEditor from "@/monaco/code-editor";
-import { encrypt } from "@/transcoder";
+import VariablesSelect from "./variables-select";
 
 export default ({
   initialValues,
@@ -15,7 +14,7 @@ export default ({
       initialValues={initialValues}
       onValuesChange={onValuesChange}
       widget={{
-        CodeEditor
+        VariablesSelect
       }}
       schema={[
         {
@@ -51,12 +50,9 @@ export default ({
           extra: "多个使用逗号分隔",
         },
         {
-          type: "CodeEditor",
+          type: "VariablesSelect",
           name: "visible",
-          label: "是否可见",
-          initialValue: encrypt(`({ getFieldValue }) => {
-  return getFieldValue("xxx") === 1;
-}`)
+          label: "绑定 visible",
         },
       ]}
     />

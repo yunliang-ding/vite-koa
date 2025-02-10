@@ -1,4 +1,3 @@
-import { encrypt } from "@/transcoder";
 import { create } from "@shined/reactive";
 
 export default create({
@@ -37,7 +36,7 @@ export default create({
     {
       title: "备注",
       dataIndex: "7",
-      render: encrypt(`(v, record, index) => {
+      render: (`(v, record, index) => {
   return Utils.textWrapRender(v);
 }`),
     },

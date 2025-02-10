@@ -9,5 +9,5 @@ export interface CodeEditorProps {
   dependencies?: string[];
   useEncrypt?: boolean;
   debounceTime?: number;
-  theme: "vs" | "vs-dark"
+  theme?: "vs" | "vs-dark"
 }

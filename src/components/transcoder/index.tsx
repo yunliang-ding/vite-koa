@@ -1,23 +1,15 @@
-import ProForm from "@/components/pro/antd/form";
-import ProTable from "@/components/pro/antd/table";
+import ProForm from "../pro/antd/form";
+import ProTable from "../pro/antd/table";
 import globalModules from "./modules";
-
 /** 加前后缀函数 */
 export const encrypt = (str: string) => {
   return `{#__#${str}#__#}`;
 };
 /** 解前后缀函数 */
-export const decrypt = (str: string, quotation = true) => {
-  if (quotation) {
-    return str
-      ?.replaceAll('"{#__#', "")
-      .replaceAll('#__#}"', "")
-      .replaceAll("\\n", "")
-      .replaceAll("\\", "");
-  }
+export const decrypt = (str: string) => {
   return str
-    ?.replaceAll("{#__#", "")
-    .replaceAll("#__#}", "")
+    ?.replaceAll('"{#__#', "")
+    .replaceAll('#__#}"', "")
     .replaceAll("\\n", "")
     .replaceAll("\\", "");
 };
@@ -34,25 +26,41 @@ export const getEs5Code = (code: string, dependencies: string[]) => {
 })(${parameter})`;
   return result;
 };
+
 /** 执行代码 */
-export const excutecoder = (code: string, dependencies: string[]): any => {
+export const excutecoder = (code: string, require: any = {}): any => {
+  // 内部的模块
+  const innerRequire = Object.keys(globalModules);
+  // 等待导出的对象
   const exports: { default?: {} } = {};
-  // 形参
-  const parameter = ["exports", ...dependencies].join(", ");
-  // 实参
+  // 组装形参
+  const parameter = [
+    "exports",
+    ...innerRequire.map((name: string) => name),
+    ...Object.keys(require),
+  ].join(", ");
+  // 组装实参
   const argument = [
     exports,
-    ...dependencies.map((name: string) => globalModules[name].module),
+    ...innerRequire.map((name: string) => globalModules[name].module),
+    ...Object.keys(require).map((key: string) => require[key]),
   ];
-  new Function(parameter, getEs5Code(code, dependencies))(...argument);
+  new Function(
+    parameter,
+    getEs5Code(code, [
+      ...innerRequire.map((name: string) => name),
+      ...Object.keys(require),
+    ])
+  )(...argument);
   return exports.default;
 };
+
 /** 生成业务代码 */
-export const parseSchemaToFileCode = (code: string, dependencies: string[]) => {
+export const parseSchemaToFileCode = (code: string, require: string[]) => {
   try {
-    const { type } = excutecoder(code, dependencies);
+    const { type } = excutecoder(code);
     const imports: any = [];
-    dependencies.forEach((name: string) => {
+    require.forEach((name: string) => {
       imports.push(globalModules[name].imports);
     });
     if (type === "Table") {
@@ -76,25 +84,34 @@ export default () => {
     return String(error);
   }
 };
+
 /** 渲染结果 */
 export default ({
   code = "",
-  dependencies = [],
+  require = {},
 }: {
   code: string;
-  dependencies: any;
+  require: any;
 }): React.ReactElement => {
   try {
-    const { type, ...rest } = excutecoder(code, dependencies);
+    const { type, ...rest } = excutecoder(code, require);
     if (type === "Form") {
       return <ProForm {...rest} />;
     }
     if (type === "Table") {
       return <ProTable {...rest} />;
     }
-    return <pre style={{ color: "red", whiteSpace: "pre-wrap" }}>渲染异常，找不到类型 {type}</pre>;
+    return (
+      <pre style={{ color: "red", whiteSpace: "pre-wrap" }}>
+        渲染异常，找不到类型 {type}
+      </pre>
+    );
   } catch (error) {
     console.log(error);
-    return <pre style={{ color: "red", whiteSpace: "pre-wrap" }}>{String(error)}</pre>;
+    return (
+      <pre style={{ color: "red", whiteSpace: "pre-wrap" }}>
+        {String(error)}
+      </pre>
+    );
   }
 };

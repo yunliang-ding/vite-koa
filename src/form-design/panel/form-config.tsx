@@ -1,8 +1,7 @@
 import ProForm from "@/components/pro/antd/form";
-import CodeEditor from "@/monaco/code-editor";
 import { Form } from "antd";
 import { useEffect } from "react";
-import store from "../store";
+import VariablesSelect from "./variables-select";
 
 export default ({
   initialValues,
@@ -22,7 +21,7 @@ export default ({
       initialValues={initialValues}
       onValuesChange={onValuesChange}
       widget={{
-        CodeEditor,
+        VariablesSelect,
       }}
       schema={[
         {
@@ -75,12 +74,9 @@ export default ({
           },
         },
         {
-          type: "Select",
+          type: "VariablesSelect",
           name: "onSubmit",
           label: "绑定提交方法",
-          props: {
-            options: store.mutate.getFunctionsOptions(),
-          },
         },
         {
           type: "Input",

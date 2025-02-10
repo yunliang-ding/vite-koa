@@ -74,9 +74,9 @@
       }
     },
     {
-      "type": "CodeEditor",
+      "type": "VariablesSelect",
       "name": "onChange",
-      "label": "设置onChange"
+      "label": "绑定onChange"
     }
   ]
 }
