@@ -1,4 +1,17 @@
-export const getPureSchema = (state: any) => {
+import { cloneDeep } from "@/components/shared";
+
+export function parseTemplate(template: string, functions = []) {
+  if (typeof template === "string") {
+    return template.replace(/\{\{(.*?)\}\}/g, (_, key) => {
+      const fn: any = functions.find((i: any) => i.functionName === key)
+      return fn?.functionCode
+    });
+  }
+  return template
+}
+
+
+export const getOriginStringModule = (state: any) => {
   return JSON.stringify(
     {
       type: "Form",
@@ -9,9 +22,34 @@ export const getPureSchema = (state: any) => {
       schema: state.schema,
       okText: state.okText,
       onSubmit: state.onSubmit,
-      jsCode: state.jsCode,
+      functions: state.functions,
     },
     null,
     2
   );
+};
+
+// 得到一份干净的数据模型
+export const getPureStringModule = (state: any) => {
+  const schema = cloneDeep(state.schema); // clone 一份
+  const str = JSON.stringify(
+    {
+      type: "Form",
+      title: state.title,
+      layout: state.layout,
+      selectKey: state.selectKey,
+      column: state.column,
+      schema: schema.map((item: any) => {
+        delete item.key;
+        return {
+          ...item,
+        }
+      }),
+      okText: state.okText,
+      onSubmit: state.onSubmit,
+    },
+    null,
+    2
+  );
+  return parseTemplate(str, state.functions);
 };

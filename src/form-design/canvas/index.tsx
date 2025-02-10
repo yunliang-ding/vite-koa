@@ -5,11 +5,11 @@ import EditPanel from "./edit";
 import ErrorBoundary from "@/error-boundary";
 import Transcoder, { decrypt } from "@/transcoder";
 import globalModules from "@/transcoder/modules";
-import { getPureSchema } from '../util';
+import { getPureStringModule } from '../util';
 
 export default () => {
   const state = store.useSnapshot();
-  const source = getPureSchema(state);
+  const source = getPureStringModule(state);
   return (
     <div className="canvas">
       <Tabs

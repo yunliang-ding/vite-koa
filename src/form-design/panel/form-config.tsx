@@ -2,6 +2,7 @@ import ProForm from "@/components/pro/antd/form";
 import CodeEditor from "@/monaco/code-editor";
 import { Form } from "antd";
 import { useEffect } from "react";
+import store from "../store";
 
 export default ({
   initialValues,
@@ -13,7 +14,7 @@ export default ({
   const [form] = Form.useForm();
   useEffect(() => {
     form.setFieldsValue(initialValues);
-  }, [initialValues])
+  }, [initialValues]);
   return (
     <ProForm
       layout="vertical"
@@ -74,9 +75,12 @@ export default ({
           },
         },
         {
-          type: "CodeEditor",
+          type: "Select",
           name: "onSubmit",
-          label: "提交事件",
+          label: "绑定提交方法",
+          props: {
+            options: store.mutate.getFunctionsOptions(),
+          },
         },
         {
           type: "Input",

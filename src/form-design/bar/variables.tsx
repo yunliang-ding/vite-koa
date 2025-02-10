@@ -10,7 +10,7 @@ export default () => {
         functions: store.mutate.functions,
       }}
       onValuesChange={(_, { functions }) => {
-        console.log(functions);
+        store.mutate.functions = functions
       }}
       layout="vertical"
       schema={[

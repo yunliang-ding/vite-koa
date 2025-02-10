@@ -57,7 +57,7 @@ export default () => {
             }
           ],
           "okText": "提交",
-          "onSubmit": "{#__#async (values) => {\n  try {\n    await axios.post('/some/user/add', {\n      ...values\n    });\n    Antd.message.success('已提交！');\n  } catch (error) {\n    console.log(error)\n  }\n}#__#}"
+          "onSubmit": "{{onSubmit}}"
         }`}
       />
     </div>

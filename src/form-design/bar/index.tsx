@@ -1,13 +1,13 @@
 import Monaco from "@/monaco";
 import { EllipsisOutlined, JavaScriptOutlined } from "@ant-design/icons";
 import { Drawer } from "antd";
-import { getPureSchema } from "../util";
+import { getOriginStringModule } from "../util";
 import store from "../store";
 import Variables from "./variables";
 
 export default () => {
   const state = store.useSnapshot();
-  const source = getPureSchema(state);
+  const source = getOriginStringModule(state);
   return (
     <div className="bar-sider">
       <div

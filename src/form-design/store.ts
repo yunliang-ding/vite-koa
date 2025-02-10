@@ -1,5 +1,6 @@
 import { create } from "@shined/reactive";
 import { ProFormItemProps } from "@/components/pro/antd/form/type";
+import { encrypt } from "@/transcoder";
 
 export default create<{
   title?: string;
@@ -12,6 +13,7 @@ export default create<{
   openDrawerType?: "jsCode" | "jsonSchema";
   variables?: string[];
   functions: { system: boolean; functionName: string; functionCode: string }[];
+  getFunctionsOptions(): { label: string; value: string }[];
 }>({
   title: "默认标题",
   okText: "提交",
@@ -22,18 +24,18 @@ export default create<{
     {
       system: true,
       functionName: "init",
-      functionCode: `async (values) => {
+      functionCode: encrypt(`async (values) => {
   await new Promise(res => setTimeout(res, 1000));
   this.options = [{
     label: "选项1",
     value: 1
   }]
-}`,
+}`),
     },
     {
       system: true,
       functionName: "onSubmit",
-      functionCode: `async (values) => {
+      functionCode: encrypt(`async (values) => {
   try {
     await axios.post('/user/add', {
       ...values
@@ -42,7 +44,15 @@ export default create<{
   } catch (error) {
     console.log(error)
   }
-}`,
+}`),
     },
   ],
+  getFunctionsOptions() {
+    return this.functions
+      .filter((i) => i.functionName !== "init")
+      .map((i: any) => ({
+        label: i.functionName,
+        value: `{{${i.functionName}}}`,
+      }));
+  },
 });
