@@ -3,6 +3,8 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Button, Space, Table } from "antd";
 import { useEffect, useState } from "react";
 import { TableListProps } from "./type";
+import { HolderOutlined } from "@ant-design/icons";
+import Drag, { arrayMove } from "../../drag";
 
 export default ({
   value,
@@ -18,13 +20,54 @@ export default ({
     setDataSource(value);
   }, [value]);
   return (
-    <>
+    <Drag>
       <Table
         {...rest}
         pagination={false}
         bordered
         dataSource={dataSource}
+        onRow={(_, index) => {
+          const attr = {
+            index,
+          };
+          return attr as React.HTMLAttributes<any>;
+        }}
+        components={{
+          body: {
+            row: ({ index, moveRow, className, style, ...restProps }: any) => {
+              return (
+                <Drag.Item
+                  index={index}
+                  dragId="table-list"
+                  onDrop={(targetIndex: number) => {
+                    if (String(index) === String(targetIndex)) {
+                      return;
+                    }
+                    const newList = arrayMove(dataSource, index, targetIndex);
+                    setDataSource(newList);
+                    onChange(newList);
+                  }}
+                >
+                  <tr
+                    className={className}
+                    style={{ cursor: "move", ...style }}
+                    {...restProps}
+                  />
+                </Drag.Item>
+              );
+            },
+          },
+        }}
         columns={[
+          {
+            title: "",
+            dataIndex: "",
+            width: 60,
+            align: "center",
+            render() {
+              return <HolderOutlined />;
+            },
+          },
           ...schema.map((item) => {
             return {
               title: item.label,
@@ -83,6 +126,6 @@ export default ({
       >
         添加
       </Button>
-    </>
+    </Drag>
   );
 };

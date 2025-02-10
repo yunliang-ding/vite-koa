@@ -29,6 +29,9 @@ export default `export default {
       },
     ],
   },
+  onValuesChange(v, vs){
+    console.log(v, vs)
+  },
   schema: [{
     type: "RadioGroup",
     name: "sex",
@@ -120,7 +123,6 @@ export default `export default {
       column: 3, // 3列
       defaultAddValue: {
         name: "姓名1",
-        amount: 10,
         type: 1,
         remake: "remake",
       },

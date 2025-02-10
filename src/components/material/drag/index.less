@@ -1,6 +1,8 @@
 .drag-item {
   border: 2px dashed transparent;
   transition: .3s;
+  position: relative;
+  box-sizing: content-box !important;
   &-extra {
     position: absolute;
     bottom: 0;
@@ -18,12 +20,18 @@
 }
 
 .drag-item-selected {
+  position: relative;
   border: 2px dashed var(--drag-primary-color) !important;
+  box-sizing: content-box  !important;
 }
 
 .drag-item:not(:has(:hover)):hover {
   transition: .3s;
   border: 2px dashed  var(--drag-primary-color) !important;
+}
+
+.drag-accept{
+  pointer-events: none;
 }
 
 :root {

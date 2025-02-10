@@ -21,7 +21,11 @@ export default class ErrorBoundaryComponent extends React.Component {
   }
   render() {
     if (this.state.hasError) {
-      return <pre style={{ color: "red" }}>{String(this.state.error)}</pre>;
+      return (
+        <pre style={{ color: "red", whiteSpace: "pre-wrap" }}>
+          {String(this.state.error)}
+        </pre>
+      );
     }
     return (this.props as any).children;
   }

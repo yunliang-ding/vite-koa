@@ -92,9 +92,9 @@ export default ({
     if (type === "Table") {
       return <ProTable {...rest} />;
     }
-    return <pre style={{ color: "red" }}>渲染异常，找不到类型 {type}</pre>;
+    return <pre style={{ color: "red", whiteSpace: "pre-wrap" }}>渲染异常，找不到类型 {type}</pre>;
   } catch (error) {
     console.log(error);
-    return <pre style={{ color: "red" }}>{String(error)}</pre>;
+    return <pre style={{ color: "red", whiteSpace: "pre-wrap" }}>{String(error)}</pre>;
   }
 };

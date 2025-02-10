@@ -67,7 +67,7 @@ const Drag = ({
                 accept={accept}
                 selected={selectedKey === item.key}
                 onSelected={() => {
-                  if(selected){
+                  if (selected) {
                     setSelectedKey(item.key);
                     onSelected(item);
                   }
