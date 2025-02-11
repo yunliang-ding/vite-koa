@@ -16,6 +16,7 @@ export default () => {
           <Route path="/template/form" element={<FormDesign />} />
           <Route path="/template/table" element={<TableDesign />} />
         </Route>
+        <Route path="/preview" element={<Playground />} />
       </Routes>
     </Router>
   );

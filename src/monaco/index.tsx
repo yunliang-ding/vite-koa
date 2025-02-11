@@ -102,8 +102,8 @@ export default ({
         }
       }
     });
-    /** readOnly 格式化下 */
-    if (readOnly && language === "javascript") {
+    /** javascript 格式化下 */
+    if (language === "javascript") {
       codeRef.current.getMonacoInstance().then(async (instance: any) => {
         if (instance) {
           if (!instance.hasTextFocus?.()) {

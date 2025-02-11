@@ -1,13 +1,14 @@
 import Monaco from "@/monaco";
 import { EllipsisOutlined, JavaScriptOutlined } from "@ant-design/icons";
 import { Drawer } from "antd";
-import { getOriginStringModule } from "../util";
+import { getOriginStringModule, getPureStringModule } from "../util";
 import CodeEditor from "@/monaco/code-editor";
 import store from "../store";
 
 export default () => {
   const state = store.useSnapshot();
   const source = getOriginStringModule(state);
+  const code = getPureStringModule(state);
   return (
     <div className="bar-sider">
       <div
@@ -17,6 +18,16 @@ export default () => {
         }}
       >
         <JavaScriptOutlined />
+      </div>
+      <div
+        className="bar-sider-item"
+        onClick={() => {
+          window.open(
+            `/#/preview?code=${encodeURIComponent(`export default ${code}`)}&stateCode=${encodeURIComponent(store.mutate.stateCode)}`
+          );
+        }}
+      >
+        预览
       </div>
       <div
         className="bar-sider-item bar-sider-item-bottom"
@@ -46,10 +57,10 @@ export default () => {
         >
           <CodeEditor
             useEncrypt={false}
-            value={state.storeCode}
+            value={state.stateCode}
             style={{ width: "100%", height: "100%" }}
             onChange={(v: string) => {
-              store.mutate.storeCode = v;
+              store.mutate.stateCode = v;
             }}
           />
         </Drawer>

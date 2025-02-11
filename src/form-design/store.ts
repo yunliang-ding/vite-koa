@@ -11,7 +11,7 @@ export default create<{
   okText?: string;
   onSubmit?: string;
   openDrawerType?: "jsCode" | "jsonSchema";
-  storeCode: string;
+  stateCode: string;
   functions?: { system: boolean; functionName: string; functionCode: string }[];
   getFunctionsOptions(): { label: string; value: string }[];
   getVariablesOptions(): { label: string; value: string }[];
@@ -21,7 +21,7 @@ export default create<{
   layout: "vertical",
   column: 3,
   schema: [],
-  storeCode: `export default create({
+  stateCode: `export default create({
   // 定义选项
   options: [],
   // 初始化会调用该方法
@@ -49,7 +49,7 @@ export default create<{
   },
 });`,
   getFunctionsOptions() {
-    const res = excutecoder(this.storeCode);
+    const res = excutecoder(this.stateCode);
     return Object.keys(res.mutate)
       .filter((key) => key !== "init" && typeof res.mutate[key] === "function")
       .map((i) => ({
@@ -58,7 +58,7 @@ export default create<{
       }));
   },
   getVariablesOptions() {
-    const res = excutecoder(this.storeCode);
+    const res = excutecoder(this.stateCode);
     return Object.keys(res.mutate)
       .filter((key) => typeof res.mutate[key] !== "function")
       .map((i) => ({

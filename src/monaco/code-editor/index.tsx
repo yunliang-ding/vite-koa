@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Monaco, { prettierFormat } from "../index";
+import Monaco from "../index";
 import debounce from "lodash.debounce";
 import { decrypt, encrypt, excutecoder } from "@/components/transcoder";
 import { CodeEditorProps } from "./type";
@@ -22,16 +22,6 @@ export default ({
     valueRef.current = innerValue;
   }, [innerValue]);
   const codeRef: any = useRef({});
-  useEffect(() => {
-    // prettier 格式化代码
-    codeRef.current.getMonacoInstance().then(async (instance: any) => {
-      if (instance) {
-        if (!instance.hasTextFocus?.() && innerValue) {
-          instance.setValue?.(await prettierFormat(innerValue));
-        }
-      }
-    });
-  }, [innerValue]);
   return (
     <div className="code-editor-box" style={style}>
       {errorInfo && <div className="code-editor-box-error">{errorInfo}</div>}

@@ -12,26 +12,32 @@ import { useSearchParams } from "react-router-dom";
 import "./index.less";
 
 const store = create<{
-  activeTab: string;
-  source: string;
-  dependencies: string[];
+  leftActiveTab: string;
+  rightActiveTab: string;
+  code: string;
+  stateCode: string;
+  require: string[];
 }>({
-  activeTab: "1",
-  source: "",
-  dependencies: Object.keys(globalModules),
+  leftActiveTab: "1",
+  rightActiveTab: "1",
+  code: "",
+  stateCode: "",
+  require: Object.keys(globalModules),
 });
 
 export default () => {
-  const [params] = useSearchParams();
-  useMemo(() => {
-    store.mutate.source = params.get("code") as string;
-  }, [params.get("code")]);
-  const { source, dependencies, activeTab } = store.useSnapshot();
   let es5Code = "";
   let fileCode = "";
+  const [params] = useSearchParams();
+  useMemo(() => {
+    store.mutate.code = (params.get("code") as string) || "";
+    store.mutate.stateCode = (params.get("stateCode") as string) || "";
+  }, [params.get("code")]);
+  const { code, stateCode, require, rightActiveTab, leftActiveTab } =
+    store.useSnapshot();
   try {
-    es5Code = getEs5Code(source, dependencies);
-    fileCode = parseSchemaToFileCode(source, dependencies);
+    es5Code = getEs5Code(code, require, stateCode ? { store: {} } : {});
+    fileCode = parseSchemaToFileCode(code, require, stateCode);
   } catch (error) {
     console.log(error);
     es5Code = String(error);
@@ -46,9 +52,9 @@ export default () => {
     >
       <div className="dep-sider">
         <Checkbox.Group
-          value={dependencies}
+          value={require}
           onChange={(v) => {
-            store.mutate.dependencies = v as string[];
+            store.mutate.require = v as string[];
           }}
           options={Object.keys(globalModules).map((key: string) => {
             return {
@@ -62,50 +68,75 @@ export default () => {
         <div className="header">
           <div className="tabs">
             <div
-              className={activeTab === "1" ? "file-selected" : "file"}
+              className={leftActiveTab === "1" ? "file-selected" : "file"}
               onClick={() => {
-                store.mutate.activeTab = "1";
+                store.mutate.leftActiveTab = "1";
               }}
             >
               <i className="file-icon javascript-lang-file-icon" />
-              <span className={"label"}>配置模型</span>
+              <span className={"label"}>schema.js</span>
             </div>
+            {store.mutate.stateCode && (
+              <div
+                className={leftActiveTab === "2" ? "file-selected" : "file"}
+                onClick={() => {
+                  store.mutate.leftActiveTab = "2";
+                }}
+              >
+                <i className="file-icon javascript-lang-file-icon" />
+                <span className={"label"}>store.js</span>
+              </div>
+            )}
           </div>
         </div>
-        <div className="body">
+        <div
+          className="body"
+          style={{ display: leftActiveTab === "1" ? "block" : "none" }}
+        >
           <Monaco
-            value={source}
+            value={code}
             onChange={async (v: string) => {
-              store.mutate.source = v;
+              store.mutate.code = v;
+            }}
+          />
+        </div>
+        <div
+          className="body"
+          style={{ display: leftActiveTab === "2" ? "block" : "none" }}
+        >
+          <Monaco
+            value={stateCode}
+            onChange={async (v: string) => {
+              store.mutate.stateCode = v;
             }}
           />
         </div>
       </div>
-      <div className="preview" key={dependencies.toString()}>
+      <div className="preview" key={require.toString()}>
         <div className="header">
           <div className="tabs">
             <div
-              className={activeTab === "1" ? "file-selected" : "file"}
+              className={rightActiveTab === "1" ? "file-selected" : "file"}
               onClick={() => {
-                store.mutate.activeTab = "1";
+                store.mutate.rightActiveTab = "1";
               }}
             >
               <i className="file-icon javascriptreact-lang-file-icon" />
               <span className={"label"}>Preview</span>
             </div>
             <div
-              className={activeTab === "2" ? "file-selected" : "file"}
+              className={rightActiveTab === "2" ? "file-selected" : "file"}
               onClick={() => {
-                store.mutate.activeTab = "2";
+                store.mutate.rightActiveTab = "2";
               }}
             >
               <i className="file-icon typescript-lang-file-icon" />
               <span className={"label"}>业务代码</span>
             </div>
             <div
-              className={activeTab === "3" ? "file-selected" : "file"}
+              className={rightActiveTab === "3" ? "file-selected" : "file"}
               onClick={() => {
-                store.mutate.activeTab = "3";
+                store.mutate.rightActiveTab = "3";
               }}
             >
               <i className="file-icon javascript-lang-file-icon" />
@@ -117,22 +148,22 @@ export default () => {
           className="body"
           style={{
             padding: 10,
-            display: activeTab === "1" ? "block" : "none",
+            display: rightActiveTab === "1" ? "block" : "none",
           }}
         >
           <ErrorBoundary>
-            <Transcoder code={source} />
+            <Transcoder code={code} stateCode={stateCode} />
           </ErrorBoundary>
         </div>
         <div
           className="body"
-          style={{ display: activeTab === "2" ? "block" : "none" }}
+          style={{ display: rightActiveTab === "2" ? "block" : "none" }}
         >
           <Monaco value={fileCode} readOnly />
         </div>
         <div
           className="body"
-          style={{ display: activeTab === "3" ? "block" : "none" }}
+          style={{ display: rightActiveTab === "3" ? "block" : "none" }}
         >
           <Monaco value={es5Code} readOnly />
         </div>

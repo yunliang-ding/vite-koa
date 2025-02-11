@@ -22,7 +22,7 @@ export const getOriginStringModule = (state: any) => {
       schema: state.schema,
       okText: state.okText,
       onSubmit: state.onSubmit,
-      storeCode: state.storeCode
+      stateCode: state.stateCode
     },
     null,
     2

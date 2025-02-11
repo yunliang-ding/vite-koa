@@ -97,7 +97,7 @@ export default ({
         onRow={
           drag
             ? (_, index) => {
-                const attr = {
+                const attr: any = {
                   index,
                 };
                 return attr as React.HTMLAttributes<any>;
@@ -153,7 +153,7 @@ export default ({
           setDataSource([...dataSource]);
           onChange(dataSource);
         }}
-        disabled={dataSource.length >= maxCount}
+        disabled={dataSource?.length >= maxCount}
         block
         icon={<PlusOutlined />}
       >

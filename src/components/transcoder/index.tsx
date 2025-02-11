@@ -1,3 +1,4 @@
+import { create } from "@shined/reactive";
 import { useEffect } from "react";
 import ProForm from "../pro/antd/form";
 import ProTable from "../pro/antd/table";
@@ -18,8 +19,8 @@ export const decrypt = (str: string, quotation = true) => {
   return code?.replaceAll(prefix, "");
 };
 /** 获取编译结果 */
-export const getEs5Code = (code: string, dependencies: string[]) => {
-  const parameter = ["exports", ...dependencies].join(", ");
+export const getEs5Code = (code: string, require: string[], otherRequire = {}) => {
+  const parameter = ["exports", ...require, ...Object.keys(otherRequire)].join(", ");
   const result = `((${parameter}) => {
     ${
       window.Babel.transform(code, {
@@ -60,9 +61,14 @@ export const excutecoder = (code: string, require: any = {}): any => {
 };
 
 /** 生成业务代码 */
-export const parseSchemaToFileCode = (code: string, require: string[]) => {
+export const parseSchemaToFileCode = (code: string, require: string[], stateCode = "") => {
   try {
-    const { type } = excutecoder(code);
+    let store = create({ init: () => {} });
+    if (stateCode) {
+      // 开始解析 store
+      store = excutecoder(stateCode);
+    }
+    const { type } = excutecoder(code, { store });
     const imports: any = [];
     require.forEach((name: string) => {
       imports.push(globalModules[name].imports);
@@ -71,6 +77,8 @@ export const parseSchemaToFileCode = (code: string, require: string[]) => {
       return `${imports.join(";")}
 import LowCodeTable from "xxx/pro/antd/table";
 
+${stateCode !== "" ? `const store = ${stateCode.replace("export default ", "")}` : ""}
+
 export default () => {
   return <LowCodeTable {...${code.replace("export default ", "")}} />
 }`;
@@ -78,6 +86,8 @@ export default () => {
     if (type === "Form") {
       return `${imports.join(";")}
 import LowCodeForm from "xxx/pro/antd/form";
+
+${stateCode !== "" ? `const store = ${stateCode.replace("export default ", "")}` : ""}
 
 export default () => {
   return <LowCodeForm {...${code.replace("export default ", "")}} />
@@ -92,16 +102,21 @@ export default () => {
 /** 渲染结果 */
 export default ({
   code = "",
-  require = {},
+  stateCode = "",
 }: {
   code: string;
-  require?: any;
+  stateCode?: string;
 }): React.ReactElement => {
   try {
-    const { type, ...rest } = excutecoder(code, require);
-    require?.store?.useSnapshot?.(); // 获取快照
+    let store = create({ init: () => {} });
+    if (stateCode) {
+      // 开始解析 store
+      store = excutecoder(stateCode);
+    }
+    const { type, ...rest } = excutecoder(code, { store }); // 开始解析模型
+    store.useSnapshot?.(); // 获取快照
     useEffect(() => {
-      require?.store?.mutate?.init?.(); // 执行init
+      store.mutate.init?.(); // 执行init
     }, []);
     if (type === "Form") {
       return <ProForm {...rest} />;
