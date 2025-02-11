@@ -1,8 +1,7 @@
 import { create } from "@shined/reactive";
-import { useEffect } from "react";
-import ProForm from "../pro/antd/form";
-import ProTable from "../pro/antd/table";
+import { useEffect, useMemo } from "react";
 import globalModules from "./modules";
+import TranscoderComponent from './component';
 
 const prefix = "#_#";
 
@@ -10,6 +9,7 @@ const prefix = "#_#";
 export const encrypt = (str: string) => {
   return `${prefix}${str}${prefix}`;
 };
+
 /** 移除前后缀标记 */
 export const decrypt = (str: string, quotation = true) => {
   const code = str.replaceAll("\\n", "").replaceAll("\\", "");
@@ -18,9 +18,16 @@ export const decrypt = (str: string, quotation = true) => {
   }
   return code?.replaceAll(prefix, "");
 };
+
 /** 获取编译结果 */
-export const getEs5Code = (code: string, require: string[], otherRequire = {}) => {
-  const parameter = ["exports", ...require, ...Object.keys(otherRequire)].join(", ");
+export const getEs5Code = (
+  code: string,
+  require: string[],
+  otherRequire = {}
+) => {
+  const parameter = ["exports", ...require, ...Object.keys(otherRequire)].join(
+    ", "
+  );
   const result = `((${parameter}) => {
     ${
       window.Babel.transform(code, {
@@ -61,7 +68,11 @@ export const excutecoder = (code: string, require: any = {}): any => {
 };
 
 /** 生成业务代码 */
-export const parseSchemaToFileCode = (code: string, require: string[], stateCode = "") => {
+export const parseSchemaToFileCode = (
+  code: string,
+  require: string[],
+  stateCode = ""
+) => {
   try {
     let store = create({ init: () => {} });
     if (stateCode) {
@@ -80,7 +91,14 @@ import LowCodeTable from "xxx/pro/antd/table";
 ${stateCode !== "" ? `const store = ${stateCode.replace("export default ", "")}` : ""}
 
 export default () => {
-  return <LowCodeTable {...${code.replace("export default ", "")}} />
+  ${
+    stateCode !== ""
+      ? `store.useSnapshot?.(); // 获取快照
+  useEffect(() => {
+    store.mutate.init?.(); // 执行init
+  }, []);`
+      : ""
+  }  return <LowCodeTable {...${code.replace("export default ", "")}} />
 }`;
     }
     if (type === "Form") {
@@ -90,6 +108,14 @@ import LowCodeForm from "xxx/pro/antd/form";
 ${stateCode !== "" ? `const store = ${stateCode.replace("export default ", "")}` : ""}
 
 export default () => {
+  ${
+    stateCode !== ""
+      ? `store.useSnapshot?.(); // 获取快照
+  useEffect(() => {
+    store.mutate.init?.(); // 执行init
+  }, []);`
+      : ""
+  }
   return <LowCodeForm {...${code.replace("export default ", "")}} />
 }`;
     }
@@ -98,6 +124,8 @@ export default () => {
     return String(error);
   }
 };
+
+let store = create<any>({ init: () => {} }); // 定义store
 
 /** 渲染结果 */
 export default ({
@@ -108,27 +136,17 @@ export default ({
   stateCode?: string;
 }): React.ReactElement => {
   try {
-    let store = create({ init: () => {} });
-    if (stateCode) {
-      // 开始解析 store
-      store = excutecoder(stateCode);
-    }
-    const { type, ...rest } = excutecoder(code, { store }); // 开始解析模型
+    useMemo(() => {
+      if (stateCode) {
+        store = excutecoder(stateCode, { store }); // 开始解析 store
+      }
+    }, [stateCode]);
     store.useSnapshot?.(); // 获取快照
     useEffect(() => {
       store.mutate.init?.(); // 执行init
     }, []);
-    if (type === "Form") {
-      return <ProForm {...rest} />;
-    }
-    if (type === "Table") {
-      return <ProTable {...rest} />;
-    }
-    return (
-      <pre style={{ color: "red", whiteSpace: "pre-wrap" }}>
-        渲染异常，找不到类型 {type}
-      </pre>
-    );
+    const props = excutecoder(code, { store }); // 开始解析模型
+    return <TranscoderComponent {...props} />
   } catch (error) {
     console.log(error);
     return (

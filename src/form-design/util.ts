@@ -1,9 +1,14 @@
 import { cloneDeep } from "@/components/shared";
 import { decrypt, encrypt } from "@/components/transcoder";
+import store from "./store";
 
 export function parseTemplate(template: string) {
   if (typeof template === "string") {
     return template.replace(/\{\{(.*?)\}\}/g, (_, key) => {
+      const keys = store.mutate.getFunctionsOptions().map(i => i.label);
+      if(keys.includes(key)){
+        return encrypt(`store.mutate.${key}.bind(store.mutate)`); // 检测时函数则需要bind下this
+      }
       return encrypt(`store.mutate.${key}`)
     });
   }

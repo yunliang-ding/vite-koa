@@ -1,4 +1,4 @@
 export interface FormDesignProps{
-  /** 数据模型 */
-  jsonSchema?: string;
+  code?: string;
+  stateCode?: string;
 }

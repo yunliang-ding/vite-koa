@@ -21,49 +21,35 @@ export default create<{
   layout: "vertical",
   column: 3,
   schema: [],
-  stateCode: `export default create({
-  // 定义选项
-  options: [],
-  // 初始化会调用该方法
-  async init() {
-    await new Promise((res) => setTimeout(res, 1000));
-    this.options = [
-      {
-        label: "异步查询数据",
-        value: 1,
-      },
-    ];
-    console.log("初始化会调用该方法");
-  },
-  // 接口提交
-  async onSubmit(values) {
+  stateCode: `export default create({});`,
+  getFunctionsOptions() {
     try {
-      await axios.post("/user/add", {
-        ...values,
-        // date: moment(values.date).format("YYYY-MM-DD"),
-      });
-      Antd.message.success("已提交！");
+      const res = excutecoder(this.stateCode);
+      return Object.keys(res.mutate)
+        .filter(
+          (key) => key !== "init" && typeof res.mutate[key] === "function"
+        )
+        .map((i) => ({
+          label: i,
+          value: `{{${i}}}`,
+        }));
     } catch (error) {
       console.log(error);
     }
-  },
-});`,
-  getFunctionsOptions() {
-    const res = excutecoder(this.stateCode);
-    return Object.keys(res.mutate)
-      .filter((key) => key !== "init" && typeof res.mutate[key] === "function")
-      .map((i) => ({
-        label: i,
-        value: `{{${i}}}`,
-      }));
+    return [];
   },
   getVariablesOptions() {
-    const res = excutecoder(this.stateCode);
-    return Object.keys(res.mutate)
-      .filter((key) => typeof res.mutate[key] !== "function")
-      .map((i) => ({
-        label: i,
-        value: `{{${i}}}`,
-      }));
+    try {
+      const res = excutecoder(this.stateCode);
+      return Object.keys(res.mutate)
+        .filter((key) => typeof res.mutate[key] !== "function")
+        .map((i) => ({
+          label: i,
+          value: `{{${i}}}`,
+        }));
+    } catch (error) {
+      console.log(error);
+    }
+    return [];
   },
 });

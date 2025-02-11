@@ -8,16 +8,19 @@ import { useEffect } from 'react';
 import store from './store';
 import "./index.less";
 
-export default ({ jsonSchema }: FormDesignProps) => {
+export default ({ code, stateCode }: FormDesignProps) => {
   useEffect(() => {
-    if(jsonSchema){
+    if(code){
       try {
-        Object.assign(store.mutate, JSON.parse((jsonSchema).replaceAll("\n", "")))
+        Object.assign(store.mutate, JSON.parse((code).replaceAll("\n", "")))
       } catch (error) {
         console.log(error)
       }
     }
-  }, [jsonSchema])
+    if(stateCode){
+      store.mutate.stateCode = stateCode;
+    }
+  }, [code])
   return (
     <div className="form-design">
       <Bar />

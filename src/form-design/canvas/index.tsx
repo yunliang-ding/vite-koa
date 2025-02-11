@@ -19,7 +19,7 @@ export default () => {
         }}
         items={[
           {
-            label: "编辑",
+            label: "设计器",
             key: "1",
             children: <EditPanel />,
           },
