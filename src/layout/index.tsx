@@ -7,6 +7,8 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
+import formCode from "./form";
+import tableCode from "./table";
 import "./index.less";
 
 const { Header, Content } = Layout;
@@ -52,12 +54,12 @@ const App: React.FC = () => {
               label: "Playground",
               children: [
                 {
-                  key: "/playground/form",
+                  key: `/playground?code=${encodeURIComponent(formCode)}`,
                   icon: <FormOutlined />,
                   label: "Form",
                 },
                 {
-                  key: "/playground/table",
+                  key: `/playground?code=${encodeURIComponent(tableCode)}`,
                   icon: <TableOutlined />,
                   label: "Table",
                 },

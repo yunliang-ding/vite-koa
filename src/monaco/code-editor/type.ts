@@ -10,5 +10,4 @@ export interface CodeEditorProps {
   useEncrypt?: boolean;
   debounceTime?: number;
   theme?: "vs" | "vs-dark"
-  require: any;
 }

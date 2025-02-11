@@ -14,7 +14,6 @@ export default ({
   debounceTime = 300,
   useEncrypt = true,
   theme = "vs",
-  require = {},
 }: CodeEditorProps) => {
   const innerValue = decrypt(value || defaultValue || defaultCode, false);
   const [errorInfo, setErrorInfo] = useState("");
@@ -47,7 +46,7 @@ export default ({
           }
           try {
             valueRef.current = codeString; // 同步文本
-            excutecoder(codeString, require);
+            excutecoder(codeString);
             // 语法校验通过才触发 onChange
             onChange(useEncrypt ? encrypt(codeString) : codeString);
             setErrorInfo("");

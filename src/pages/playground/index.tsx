@@ -1,18 +1,15 @@
 import { create } from "@shined/reactive";
 import Monaco from "../../monaco";
-import formCode from "./form";
-import tableCode from "./table";
-import Transcoder, { getEs5Code, parseSchemaToFileCode } from "@/components/transcoder";
+import Transcoder, {
+  getEs5Code,
+  parseSchemaToFileCode,
+} from "@/components/transcoder";
 import globalModules from "@/components/transcoder/modules";
 import { Checkbox } from "antd";
 import ErrorBoundary from "../../error-boundary";
 import { useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import "./index.less";
-
-const CodeMapping = {
-  form: formCode,
-  table: tableCode,
-};
 
 const store = create<{
   activeTab: string;
@@ -24,10 +21,11 @@ const store = create<{
   dependencies: Object.keys(globalModules),
 });
 
-export default ({ mode }: { mode: keyof typeof CodeMapping }) => {
+export default () => {
+  const [params] = useSearchParams();
   useMemo(() => {
-    store.mutate.source = CodeMapping[mode];
-  }, [mode]);
+    store.mutate.source = params.get("code") as string;
+  }, [params.get("code")]);
   const { source, dependencies, activeTab } = store.useSnapshot();
   let es5Code = "";
   let fileCode = "";
@@ -123,7 +121,7 @@ export default ({ mode }: { mode: keyof typeof CodeMapping }) => {
           }}
         >
           <ErrorBoundary>
-            <Transcoder code={source} dependencies={dependencies} />
+            <Transcoder code={source} />
           </ErrorBoundary>
         </div>
         <div

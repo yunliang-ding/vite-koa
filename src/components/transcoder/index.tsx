@@ -95,7 +95,7 @@ export default ({
   require = {},
 }: {
   code: string;
-  require: any;
+  require?: any;
 }): React.ReactElement => {
   try {
     const { type, ...rest } = excutecoder(code, require);

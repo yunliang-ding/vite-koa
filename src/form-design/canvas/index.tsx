@@ -5,7 +5,6 @@ import EditPanel from "./edit";
 import ErrorBoundary from "@/error-boundary";
 import Transcoder, { excutecoder } from "@/components/transcoder";
 import { getPureStringModule } from "../util";
-import { create } from "@shined/reactive";
 
 export default () => {
   const state = store.useSnapshot();
@@ -34,7 +33,7 @@ export default () => {
                 <Transcoder
                   code={`export default ${source}`}
                   require={{
-                    store: excutecoder(store.mutate.storeCode, { create }),
+                    store: excutecoder(store.mutate.storeCode),
                   }}
                 />
               </ErrorBoundary>

@@ -44,11 +44,7 @@ export default () => {
             store.mutate.openDrawerType = undefined;
           }}
         >
-          {/* <Variables /> */}
           <CodeEditor
-            require={{
-              create: (a: any) => a
-            }}
             useEncrypt={false}
             value={state.storeCode}
             style={{ width: "100%", height: "100%" }}

@@ -49,18 +49,18 @@ export default create<{
   },
 });`,
   getFunctionsOptions() {
-    const res = excutecoder(this.storeCode, { create: (a: any) => a });
-    return Object.keys(res)
-      .filter((key) => key !== "init" && typeof res[key] === "function")
+    const res = excutecoder(this.storeCode);
+    return Object.keys(res.mutate)
+      .filter((key) => key !== "init" && typeof res.mutate[key] === "function")
       .map((i) => ({
         label: i,
         value: `{{${i}}}`,
       }));
   },
   getVariablesOptions() {
-    const res = excutecoder(this.storeCode, { create: (a: any) => a });
-    return Object.keys(res)
-      .filter((key) => typeof res[key] !== "function")
+    const res = excutecoder(this.storeCode);
+    return Object.keys(res.mutate)
+      .filter((key) => typeof res.mutate[key] !== "function")
       .map((i) => ({
         label: i,
         value: `{{${i}}}`,
