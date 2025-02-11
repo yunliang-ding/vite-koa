@@ -5,7 +5,7 @@ export default () => {
     <div style={{ width: "100vw", height: "100vh" }}>
       <FormDesign
         stateCode={
-          'export const store = create({\n  visible: false,\n  title: "基本信息提交"\n});\n\nexport const init = async () => {\n  await new Promise((res) => setTimeout(res, 1000));\n  store.mutate.options = [\n    {\n      label: "异步查询数据",\n      value: 1,\n    },\n  ];\n  console.log("初始化会调用该方法");\n}\n\nexport const onSubmit = async (values) => {\n  try {\n    await axios.post("/user/add", {\n      ...values,\n      // date: moment(values.date).format("YYYY-MM-DD"),\n    });\n    Antd.message.success("已提交！");\n    store.mutate.title = "已提交了";\n  } catch (error) {\n    console.log(error);\n  }\n}'
+          "export const store = create({\n  visible: false,\n  title: \"基本信息提交\",\n});\n\nexport const init = async () => {\n  await new Promise((res) => setTimeout(res, 1000));\n  store.mutate.options = [\n    {\n      label: \"异步查询数据\",\n      value: 1,\n    },\n  ];\n  console.log(\"初始化会调用该方法\");\n};\n\nexport const onSubmit = async (values) => {\n  try {\n    await new Promise((res) => setTimeout(res, 1000));\n    alert(JSON.stringify({\n      ...values,\n      // date: moment(values.date).format(\"YYYY-MM-DD\"),\n    }));\n    Antd.message.success(\"已提交！\");\n    store.mutate.title = \"已提交了\";\n  } catch (error) {\n    console.log(error);\n  }\n}"
         }
         code={`{
           "type": "Form",
