@@ -25,10 +25,8 @@ export default create<{
   getFunctionsOptions() {
     try {
       const res = excutecoder(this.stateCode);
-      return Object.keys(res.mutate)
-        .filter(
-          (key) => key !== "init" && typeof res.mutate[key] === "function"
-        )
+      return Object.keys(res)
+        .filter((key) => key !== "store")
         .map((i) => ({
           label: i,
           value: `{{${i}}}`,
@@ -41,12 +39,10 @@ export default create<{
   getVariablesOptions() {
     try {
       const res = excutecoder(this.stateCode);
-      return Object.keys(res.mutate)
-        .filter((key) => typeof res.mutate[key] !== "function")
-        .map((i) => ({
-          label: i,
-          value: `{{${i}}}`,
-        }));
+      return Object.keys(res.store.mutate).map((i) => ({
+        label: i,
+        value: `{{${i}}}`,
+      }));
     } catch (error) {
       console.log(error);
     }

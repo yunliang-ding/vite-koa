@@ -1,7 +1,6 @@
-import { create } from "@shined/reactive";
 import { useEffect, useMemo } from "react";
 import globalModules from "./modules";
-import TranscoderComponent from './component';
+import TranscoderComponent from "./component";
 
 const prefix = "#_#";
 
@@ -64,7 +63,7 @@ export const excutecoder = (code: string, require: any = {}): any => {
       ...Object.keys(require),
     ])
   )(...argument);
-  return exports.default;
+  return exports.default ? exports.default : exports;
 };
 
 /** 生成业务代码 */
@@ -74,11 +73,7 @@ export const parseSchemaToFileCode = (
   stateCode = ""
 ) => {
   try {
-    let store = create({ init: () => {} });
-    if (stateCode) {
-      // 开始解析 store
-      store = excutecoder(stateCode);
-    }
+    let store = { init: () => {}, snap: {}, mutate: {} };
     const { type } = excutecoder(code, { store });
     const imports: any = [];
     require.forEach((name: string) => {
@@ -88,7 +83,7 @@ export const parseSchemaToFileCode = (
       return `${imports.join(";")}
 import LowCodeTable from "xxx/pro/antd/table";
 
-${stateCode !== "" ? `const store = ${stateCode.replace("export default ", "")}` : ""}
+${stateCode !== "" ? stateCode : ""}
 
 export default () => {
   ${
@@ -102,10 +97,10 @@ export default () => {
 }`;
     }
     if (type === "Form") {
-      return `${imports.join(";")}
+      return `${imports.join(";\n")}
 import LowCodeForm from "xxx/pro/antd/form";
 
-${stateCode !== "" ? `const store = ${stateCode.replace("export default ", "")}` : ""}
+${stateCode !== "" ? stateCode : ""}
 
 export default () => {
   ${
@@ -125,8 +120,6 @@ export default () => {
   }
 };
 
-let store = create<any>({ init: () => {} }); // 定义store
-
 /** 渲染结果 */
 export default ({
   code = "",
@@ -136,17 +129,24 @@ export default ({
   stateCode?: string;
 }): React.ReactElement => {
   try {
-    useMemo(() => {
+    const store = useMemo(() => {
       if (stateCode) {
-        store = excutecoder(stateCode, { store }); // 开始解析 store
+        const { store, ...rest } = excutecoder(stateCode); // 开始解析 store
+        Object.assign(store, rest); // 其他自定义的方法合并到 store
+        return store;
       }
     }, [stateCode]);
-    store.useSnapshot?.(); // 获取快照
+    const snap = store.useSnapshot?.(); // 获取快照
     useEffect(() => {
-      store.mutate.init?.(); // 执行init
+      store.init?.(); // 执行init
     }, []);
-    const props = excutecoder(code, { store }); // 开始解析模型
-    return <TranscoderComponent {...props} />
+    const props = excutecoder(code, {
+      store: {
+        ...store,
+        snap,
+      },
+    }); // 开始解析模型
+    return <TranscoderComponent {...props} />;
   } catch (error) {
     console.log(error);
     return (
