@@ -1,10 +1,11 @@
 import ProForm from "@/components/pro/antd/form";
-import VariablesSelect from "./variables-select";
 
 export default ({
+  widget = {},
   initialValues,
   onValuesChange,
 }: {
+  widget: any;
   initialValues: Object;
   onValuesChange: (v: Object, vs: Object) => void;
 }) => {
@@ -13,9 +14,7 @@ export default ({
       layout="vertical"
       initialValues={initialValues}
       onValuesChange={onValuesChange}
-      widget={{
-        VariablesSelect
-      }}
+      widget={widget}
       schema={[
         {
           type: "Input",
@@ -50,9 +49,9 @@ export default ({
           extra: "多个使用逗号分隔",
         },
         {
-          type: "VariablesSelect",
+          type: "CodeEditor",
           name: "visible",
-          label: "绑定 visible",
+          label: "是否展示",
         },
       ]}
     />

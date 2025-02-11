@@ -33,7 +33,7 @@ export default create<{
     }]
   },
   // 接口提交
-  async onSubmit(){
+  async onSubmit(values){
     try {
       await axios.post('/user/add', {
         ...values
@@ -46,7 +46,6 @@ export default create<{
 }`,
   getFunctionsOptions() {
     const res = excutecoder(this.storeCode);
-    console.log(res);
     return Object.keys(res)
       .filter((key) => key !== "init" && typeof res[key] === "function")
       .map((i) => ({

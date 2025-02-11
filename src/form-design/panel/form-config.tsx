@@ -1,12 +1,13 @@
 import ProForm from "@/components/pro/antd/form";
 import { Form } from "antd";
 import { useEffect } from "react";
-import VariablesSelect from "./variables-select";
 
 export default ({
+  widget = {},
   initialValues,
   onValuesChange,
 }: {
+  widget: any;
   initialValues: Object;
   onValuesChange: (v: Object, vs: Object) => void;
 }) => {
@@ -20,9 +21,7 @@ export default ({
       form={form}
       initialValues={initialValues}
       onValuesChange={onValuesChange}
-      widget={{
-        VariablesSelect,
-      }}
+      widget={widget}
       schema={[
         {
           type: "Input",

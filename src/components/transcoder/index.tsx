@@ -3,13 +3,20 @@ import ProTable from "../pro/antd/table";
 import globalModules from "./modules";
 /** 加前后缀函数 */
 export const encrypt = (str: string) => {
-  return `{#__#${str}#__#}`;
+  return `{{#${str}#}}`;
 };
 /** 解前后缀函数 */
-export const decrypt = (str: string) => {
+export const decrypt = (str: string, quotation = true) => {
+  if (quotation) {
+    return str
+      ?.replaceAll('"{{#', "")
+      .replaceAll('#}}"', "")
+      .replaceAll("\\n", "")
+      .replaceAll("\\", "");
+  }
   return str
-    ?.replaceAll('"{#__#', "")
-    .replaceAll('#__#}"', "")
+    ?.replaceAll("{{#", "")
+    .replaceAll("#}}", "")
     .replaceAll("\\n", "")
     .replaceAll("\\", "");
 };

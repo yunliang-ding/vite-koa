@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Monaco, { prettierFormat } from "../index";
 import debounce from "lodash.debounce";
-import { excutecoder } from "@/components/transcoder";
+import { decrypt, encrypt, excutecoder } from "@/components/transcoder";
 import { CodeEditorProps } from "./type";
 import "./index.less";
 
@@ -13,13 +13,14 @@ export default ({
   defaultCode = "() => {}",
   dependencies = [],
   debounceTime = 300,
+  useEncrypt = true,
   theme = "vs",
 }: CodeEditorProps) => {
-  const innerValue = value || defaultValue || defaultCode;
+  const innerValue = decrypt(value || defaultValue || defaultCode, false);
   const [errorInfo, setErrorInfo] = useState("");
   const valueRef = useRef(innerValue);
   useEffect(() => {
-    valueRef.current = innerValue;
+    valueRef.current = (innerValue);
   }, [innerValue]);
   const codeRef: any = useRef({});
   useEffect(() => {
@@ -45,7 +46,7 @@ export default ({
             valueRef.current = codeString; // 同步文本
             excutecoder(codeString, dependencies);
             // 语法校验通过才触发 onChange
-            onChange(codeString);
+            onChange(useEncrypt ? encrypt(codeString) : codeString);
             setErrorInfo("");
           } catch (error) {
             setErrorInfo(String(error));

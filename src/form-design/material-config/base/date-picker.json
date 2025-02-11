@@ -74,9 +74,9 @@
       }
     },
     {
-      "type": "VariablesSelect",
+      "type": "CodeEditor",
       "name": "onChange",
-      "label": "绑定onChange"
+      "label": "onChange事件"
     }
   ]
 }

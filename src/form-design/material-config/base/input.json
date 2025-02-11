@@ -35,9 +35,9 @@
       "label": "最大长度"
     },
     {
-      "type": "VariablesSelect",
+      "type": "CodeEditor",
       "name": "onChange",
-      "label": "绑定onChange"
+      "label": "onChange事件"
     }
   ]
 }

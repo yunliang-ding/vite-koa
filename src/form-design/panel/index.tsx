@@ -4,6 +4,7 @@ import { Empty, Tabs } from "antd";
 import FormItemConfig from "./form-item-config";
 import FormConfig from "./form-config";
 import VariablesSelect from './variables-select';
+import CodeEditor from '@/monaco/code-editor';
 import store from "../store";
 
 export default () => {
@@ -22,6 +23,10 @@ export default () => {
             children: (
               <FormConfig
                 initialValues={state}
+                widget={{
+                  CodeEditor,
+                  VariablesSelect
+                }}
                 onValuesChange={(v) => {
                   Object.assign(store.mutate, v);
                 }}
@@ -35,6 +40,10 @@ export default () => {
               <FormItemConfig
                 key={state.selectKey}
                 initialValues={selectItem}
+                widget={{
+                  CodeEditor,
+                  VariablesSelect
+                }}
                 onValuesChange={(v: any) => {
                   if (v.effect) {
                     v.effect = v.effect.split(",");
@@ -62,11 +71,11 @@ export default () => {
                 key={state.selectKey}
                 initialValues={selectItem.props}
                 widget={{
-                  VariablesSelect,
+                  CodeEditor,
+                  VariablesSelect
                 }}
                 onValuesChange={(_, vs) => {
                   Object.assign(selectItem.props, vs);
-                  console.log(selectItem);
                   const index = store.mutate.schema.findIndex(i => i.key === state.selectKey);
                   store.mutate.schema.splice(index, 1, selectItem);
                   store.mutate.schema = [...store.mutate.schema];
