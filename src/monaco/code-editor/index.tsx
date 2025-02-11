@@ -11,16 +11,16 @@ export default ({
   onChange = () => {},
   style = { height: 300, width: 360 },
   defaultCode = "() => {}",
-  dependencies = [],
   debounceTime = 300,
   useEncrypt = true,
   theme = "vs",
+  require = {},
 }: CodeEditorProps) => {
   const innerValue = decrypt(value || defaultValue || defaultCode, false);
   const [errorInfo, setErrorInfo] = useState("");
   const valueRef = useRef(innerValue);
   useEffect(() => {
-    valueRef.current = (innerValue);
+    valueRef.current = innerValue;
   }, [innerValue]);
   const codeRef: any = useRef({});
   useEffect(() => {
@@ -41,10 +41,13 @@ export default ({
         codeRef={codeRef}
         value={innerValue}
         onChange={debounce(async (v: string) => {
-          const codeString = v.substring(0, v.lastIndexOf("}") + 1); // 编辑器要求函数必须是以 } 结尾
+          let codeString = v.trim();
+          if (codeString.endsWith(";")) {
+            codeString = v.substring(0, codeString.length - 1);
+          }
           try {
             valueRef.current = codeString; // 同步文本
-            excutecoder(codeString, dependencies);
+            excutecoder(codeString, require);
             // 语法校验通过才触发 onChange
             onChange(useEncrypt ? encrypt(codeString) : codeString);
             setErrorInfo("");

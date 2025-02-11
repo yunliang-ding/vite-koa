@@ -21,31 +21,35 @@ export default create<{
   layout: "vertical",
   column: 3,
   schema: [],
-  storeCode: `export default {
+  storeCode: `export default create({
   // 定义选项
   options: [],
   // 初始化会调用该方法
-  async init(){
-    await new Promise(res => setTimeout(res, 1000));
-    this.options = [{
-      label: "选项1",
-      value: 1
-    }]
+  async init() {
+    await new Promise((res) => setTimeout(res, 1000));
+    this.options = [
+      {
+        label: "异步查询数据",
+        value: 1,
+      },
+    ];
+    console.log("初始化会调用该方法");
   },
   // 接口提交
-  async onSubmit(values){
+  async onSubmit(values) {
     try {
-      await axios.post('/user/add', {
-        ...values
+      await axios.post("/user/add", {
+        ...values,
+        // date: moment(values.date).format("YYYY-MM-DD"),
       });
-      Antd.message.success('已提交！');
+      Antd.message.success("已提交！");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-}`,
+  },
+});`,
   getFunctionsOptions() {
-    const res = excutecoder(this.storeCode);
+    const res = excutecoder(this.storeCode, { create: (a: any) => a });
     return Object.keys(res)
       .filter((key) => key !== "init" && typeof res[key] === "function")
       .map((i) => ({
@@ -54,7 +58,7 @@ export default create<{
       }));
   },
   getVariablesOptions() {
-    const res = excutecoder(this.storeCode);
+    const res = excutecoder(this.storeCode, { create: (a: any) => a });
     return Object.keys(res)
       .filter((key) => typeof res[key] !== "function")
       .map((i) => ({

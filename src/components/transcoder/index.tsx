@@ -1,24 +1,21 @@
+import { useEffect } from "react";
 import ProForm from "../pro/antd/form";
 import ProTable from "../pro/antd/table";
 import globalModules from "./modules";
-/** 加前后缀函数 */
+
+const prefix = "#_#";
+
+/** 添加前后缀标记 */
 export const encrypt = (str: string) => {
-  return `{{#${str}#}}`;
+  return `${prefix}${str}${prefix}`;
 };
-/** 解前后缀函数 */
+/** 移除前后缀标记 */
 export const decrypt = (str: string, quotation = true) => {
+  const code = str.replaceAll("\\n", "").replaceAll("\\", "");
   if (quotation) {
-    return str
-      ?.replaceAll('"{{#', "")
-      .replaceAll('#}}"', "")
-      .replaceAll("\\n", "")
-      .replaceAll("\\", "");
+    return code?.replaceAll(`"${prefix}`, "").replaceAll(`${prefix}"`, "");
   }
-  return str
-    ?.replaceAll("{{#", "")
-    .replaceAll("#}}", "")
-    .replaceAll("\\n", "")
-    .replaceAll("\\", "");
+  return code?.replaceAll(prefix, "");
 };
 /** 获取编译结果 */
 export const getEs5Code = (code: string, dependencies: string[]) => {
@@ -102,6 +99,10 @@ export default ({
 }): React.ReactElement => {
   try {
     const { type, ...rest } = excutecoder(code, require);
+    require?.store?.useSnapshot?.(); // 获取快照
+    useEffect(() => {
+      require?.store?.mutate?.init?.(); // 执行init
+    }, []);
     if (type === "Form") {
       return <ProForm {...rest} />;
     }

@@ -19,7 +19,7 @@ export default () => {
                 "allowClear": true
               },
               "key": "32571396cf",
-              "name": "32571396cf"
+              "name": "date"
             },
             {
               "type": "Select",

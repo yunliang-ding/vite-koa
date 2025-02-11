@@ -32,12 +32,9 @@ export default () => {
             children: (
               <ErrorBoundary>
                 <Transcoder
-                  code={(`export default ${source}`)}
+                  code={`export default ${source}`}
                   require={{
-                    store: excutecoder(
-                      `export default create(${store.mutate.storeCode?.replace?.("export default ", "")})`,
-                      { create }
-                    ),
+                    store: excutecoder(store.mutate.storeCode, { create }),
                   }}
                 />
               </ErrorBoundary>
@@ -48,7 +45,7 @@ export default () => {
             key: "3",
             children: (
               <Monaco
-                value={(`export default ${source}`)}
+                value={`export default ${source}`}
                 readOnly
                 theme="vs"
                 style={{ height: "calc(100vh - 70px)" }}
