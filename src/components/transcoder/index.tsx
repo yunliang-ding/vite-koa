@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "react";
 import globalModules from "./modules";
 import TranscoderComponent from "./component";
+import { create } from "@shined/reactive";
 
 const prefix = "#_#";
 
@@ -135,6 +136,7 @@ export default ({
         Object.assign(store, rest); // 其他自定义的方法合并到 store
         return store;
       }
+      return create({});
     }, [stateCode]);
     const snap = store.useSnapshot?.(); // 获取快照
     useEffect(() => {
