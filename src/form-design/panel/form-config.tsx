@@ -1,6 +1,7 @@
 import ProForm from "@/components/pro/antd/form";
+import { Form } from "antd";
+import { useEffect } from "react";
 import BindVariables from "./bind-variables";
-import { useEffect, useState } from "react";
 
 export default ({
   widget = {},
@@ -11,14 +12,14 @@ export default ({
   initialValues: Object;
   onValuesChange: (v: Object, vs: Object) => void;
 }) => {
-  const [reload, setRefresh] = useState(Math.random());
+  const [form] = Form.useForm();
   useEffect(() => {
-    setRefresh(Math.random());
-  }, [initialValues]);
+    form.setFieldsValue(initialValues);
+  }, [initialValues])
   return (
     <ProForm
       layout="vertical"
-      key={reload}
+      form={form}
       initialValues={initialValues}
       onValuesChange={onValuesChange}
       widget={widget}
@@ -87,7 +88,7 @@ export default ({
           ...i,
           itemRender: ["BindFunctions", "CodeEditor"].includes(i.type)
             ? undefined
-            : BindVariables(i.name, onValuesChange),
+            : BindVariables(i.name),
         };
       })}
     />

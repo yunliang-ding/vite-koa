@@ -17,21 +17,13 @@ export default () => {
       schema: state.schema,
       okText: state.okText,
       onSubmit: state.onSubmit,
+      bindVariables: state.bindVariables,
       stateCode: state.stateCode,
     },
     null,
     2
   );
-  const code = getPureStringModule({
-    type: "Form",
-    title: state.title,
-    layout: state.layout,
-    selectKey: state.selectKey,
-    column: state.column,
-    schema: state.schema,
-    okText: state.okText,
-    onSubmit: state.onSubmit,
-  });
+  
   return (
     <div className="bar-sider">
       <div
@@ -45,8 +37,19 @@ export default () => {
       <div
         className="bar-sider-item"
         onClick={() => {
+          const code = getPureStringModule({
+            type: "Form",
+            title: state.title,
+            layout: state.layout,
+            selectKey: state.selectKey,
+            column: state.column,
+            schema: state.schema,
+            okText: state.okText,
+            onSubmit: state.onSubmit,
+            bindVariables: state.bindVariables,
+          });
           window.open(
-            `/#/preview?code=${encodeURIComponent(`export default ${code}`)}&stateCode=${encodeURIComponent(store.mutate.stateCode)}`
+            `/#/preview?code=${encodeURIComponent(code)}&stateCode=${encodeURIComponent(store.mutate.stateCode)}`
           );
         }}
       >

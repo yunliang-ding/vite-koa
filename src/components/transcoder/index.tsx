@@ -128,11 +128,31 @@ export default () => {
 
 /** 得到标准数据模型 */
 export const getPureStringModule = (state: any) => {
-  const cloneSchema = cloneDeep(state.schema); // clone 一份
+  const cloneState = cloneDeep(state); // clone 一份
+  // 解析变量
+  if(cloneState.bindVariables){
+    Object.keys(cloneState).forEach(key => {
+      if(cloneState.bindVariables[key]){
+        cloneState[key] = cloneState.bindVariables[key];
+      }
+    })
+  }
   const str = JSON.stringify(
     {
-      ...state,
-      schema: cloneSchema.map((item: any) => {
+      ...cloneState,
+      bindVariables: undefined,
+      schema: cloneState.schema.map((item: any) => {
+        // 解析变量
+        const binds = Object.keys(cloneState.bindVariables).filter(key => key.startsWith(`${item.key},`));
+        binds.forEach(bind => {
+          const keys = bind.split(',').slice(1);
+          const newValue = cloneState.bindVariables[bind];
+          if(keys.length === 1){
+            item[keys[0]] = newValue;
+          } else {
+            item[keys[0]][keys[1]] = newValue;
+          }
+        })
         return {
           ...item,
         };
@@ -141,7 +161,7 @@ export const getPureStringModule = (state: any) => {
     null,
     2
   );
-  return decrypt(str);
+  return `export default ${decrypt(str)}`;
 };
 
 /** 渲染结果 */

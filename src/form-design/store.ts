@@ -20,6 +20,7 @@ export default create<{
     value?: string;
     onChange?(v: string): void;
   };
+  bindVariables: any;
 }>({
   title: "默认标题",
   okText: "提交",
@@ -32,6 +33,7 @@ export default create<{
     value: "",
     onChange: () => null,
   },
+  bindVariables: {},
   getFunctionsOptions() {
     try {
       const res = excutecoder(this.stateCode);

@@ -1,13 +1,9 @@
-import { FormInstance } from "antd";
 import store from "../store";
 import Icon from "./icon";
 
-const hasBind = (value: string | number) =>
-  String(value)?.startsWith("<%") && String(value)?.endsWith("%>");
-
-export default (name: string, onValuesChange: Function) => (dom: React.ReactNode, formInstance?: FormInstance) => {
-  const value = formInstance?.getFieldsValue()[name] || "";
-  const isBind = hasBind(value);
+export default (name: string) => (dom: React.ReactNode) => {
+  const snap = store.useSnapshot();
+  const value = snap.bindVariables?.[name];
   return (
     <div
       style={{
@@ -19,8 +15,8 @@ export default (name: string, onValuesChange: Function) => (dom: React.ReactNode
       <div
         style={{
           flex: 9,
-          pointerEvents: isBind ? "none" : "auto",
-          opacity: isBind ? 0.5 : 1,
+          pointerEvents: value ? "none" : "auto",
+          opacity: value ? 0.5 : 1,
         }}
       >
         {dom}
@@ -30,16 +26,14 @@ export default (name: string, onValuesChange: Function) => (dom: React.ReactNode
         onClick={() => {
           store.mutate.variablesModal = {
             open: true,
-            value: isBind ? value : undefined,
+            value,
             onChange(v: string) {
-              onValuesChange({
-                [name]: v
-              });
+              store.mutate.bindVariables[name] = v;
             },
           };
         }}
       >
-        <Icon color={isBind ? "#1890ff" : "#aaa"} />
+        <Icon color={value ? "#1890ff" : "#aaa"} />
       </div>
     </div>
   ) as React.ReactElement;

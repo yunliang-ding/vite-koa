@@ -6,9 +6,11 @@ export default ({
   widget = {},
   initialValues,
   onValuesChange,
+  selectKey,
 }: {
   widget: any;
   initialValues: Object;
+  selectKey?: string;
   onValuesChange: (v: Object, vs: Object, refresh?: boolean) => void;
 }) => {
   const [reload, setRefresh] = useState(Math.random());
@@ -60,7 +62,7 @@ export default ({
           itemRender:
             ["name"].includes(i.name) || ["CodeEditor"].includes(i.type)
               ? undefined
-              : BindVariables(i.name, (v: any) => onValuesChange(v, {}, true)),
+              : BindVariables([selectKey, i.name].join(',')),
         };
       })}
     />

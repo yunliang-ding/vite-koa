@@ -5,11 +5,10 @@ export default () => {
     <div style={{ width: "100vw", height: "100vh" }}>
       <FormDesign
         stateCode={
-          "export const store = create({\n  /** 是否可见 */\n  visible: false,\n  /** 标题 */\n  title: \"基本信息提交\",\n  /** 数据源 */\n  options: [],\n});\n\n/** 组件渲染完成 */\nexport const init = async () => {\n  console.log(\"组件渲染完成的生命周期\");\n  await new Promise((res) => setTimeout(res, 1000));\n  store.mutate.options = [\n    {\n      label: \"异步查询数据\",\n      value: 1,\n    },\n  ];\n};\n/** 组件卸载 */\nexport const destroy = async () => {\n  console.log(\"组件卸载生命周期\");\n};\n\n/** 表单提交 */\nexport const onSubmit = async (values) => {\n  try {\n    await new Promise((res) => setTimeout(res, 1000));\n    alert(\n      JSON.stringify({\n        ...values,\n        // date: moment(values.date).format(\"YYYY-MM-DD\"),\n      }),\n    );\n    Antd.message.success(\"已提交！\");\n    store.mutate.title = \"已提交了\";\n  } catch (error) {\n    console.log(error);\n  }\n}"
+          "export const store = create({\n  /** 是否可见 */\n  visible: false,\n  /** 标题 */\n  title: \"基本信息提交\",\n  /** 数据源 */\n  options: [],\n  /** 是否必填 */\n  required: false,\n});\n\n/** 组件渲染完成 */\nexport const init = async () => {\n  console.log(\"组件渲染完成的生命周期\");\n  await new Promise((res) => setTimeout(res, 1000));\n  store.mutate.title = \"异步渲染标题\";\n  store.mutate.options = [\n    {\n      label: \"异步查询数据\",\n      value: 1,\n    },\n  ];\n};\n/** 组件卸载 */\nexport const destroy = async () => {\n  console.log(\"组件卸载生命周期\");\n};\n\n/** 表单提交 */\nexport const onSubmit = async (values) => {\n  try {\n    await new Promise((res) => setTimeout(res, 1000));\n    alert(\n      JSON.stringify({\n        ...values,\n        // date: moment(values.date).format(\"YYYY-MM-DD\"),\n      }),\n    );\n    Antd.message.success(\"已提交！\");\n    store.mutate.title = \"已提交了\";\n  } catch (error) {\n    console.log(error);\n  }\n}"
         }
         code={`{
           "type": "Form",
-          "title": "<%store.snap.title%>",
           "layout": "vertical",
           "selectKey": "022cd1771d",
           "column": 3,
@@ -47,7 +46,12 @@ export default () => {
             }
           ],
           "okText": "提交",
-          "onSubmit": "<%store.onSubmit%>"
+          "onSubmit": "<%store.onSubmit%>",
+          "bindVariables": {
+            "title": "<%store.snap.title%>",
+            "022cd1771d,props,options": "<%store.snap.options%>",
+            "022cd1771d,required": "<%store.snap.required%>"
+          }
         }
         `}
       />

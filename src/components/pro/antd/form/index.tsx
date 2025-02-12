@@ -17,6 +17,12 @@ export default ({
   form = Form.useForm()[0],
   ...rest
 }: ProFormProps) => {
+  const getFieldsValue = () => {
+    return {
+      ...initialValues,
+      ...form?.getFieldsValue(),
+    };
+  }
   const [collectedEffects]: any = useState({}); // 依赖收集
   const VNode = (
     <Form
@@ -50,13 +56,7 @@ export default ({
               widget={widget}
               form={{
                 ...form,
-                // 合并下
-                getFieldsValue: () => {
-                  return {
-                    ...initialValues,
-                    ...form?.getFieldsValue(),
-                  };
-                },
+                getFieldsValue,
               }}
               collectedEffects={collectedEffects}
             />

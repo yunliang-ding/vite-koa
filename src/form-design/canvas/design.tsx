@@ -1,27 +1,20 @@
 import Drag, { arrayMove } from "@/components/material/drag";
 import ProForm from "@/components/pro/antd/form";
 import { uuid } from "@/components/shared";
-import { excutecoder, getPureStringModule } from "@/components/transcoder";
+import { excutecoder } from "@/components/transcoder";
 import ErrorBoundaryComponent from "@/error-boundary";
 import store from "../store";
 import Empty from "./empty";
 
-export default () => {
+export default ({ source }: { source: string }) => {
   const state = store.useSnapshot();
   if (state.schema?.length === 0) {
     return <Empty />;
   }
-  const source = getPureStringModule({
-    title: state.title,
-    layout: state.layout,
-    column: state.column,
-    schema: state.schema,
-    okText: state.okText,
-  });
   // 开始解析 store
   const result = excutecoder(state.stateCode);
   // 开始解析模型
-  const props: any = excutecoder(`export default ${source}`, {
+  const props: any = excutecoder(source, {
     store: {
       snap: result.store.mutate,
       mutate: result.store.mutate,
