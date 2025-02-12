@@ -91,7 +91,10 @@ export default () => {
     stateCode !== ""
       ? `store.useSnapshot?.(); // 获取快照
   useEffect(() => {
-    store.mutate.init?.(); // 执行init
+    store.init?.(); // 执行init
+    return () => {
+      store.destory?.(); // 销毁
+    }
   }, []);`
       : ""
   }  return <LowCodeTable {...${code.replace("export default ", "")}} />
@@ -108,7 +111,10 @@ export default () => {
     stateCode !== ""
       ? `store.useSnapshot?.(); // 获取快照
   useEffect(() => {
-    store.mutate.init?.(); // 执行init
+    store.init?.(); // 执行init
+    return () => {
+      store.destory?.(); // 销毁
+    }
   }, []);`
       : ""
   }
@@ -141,6 +147,9 @@ export default ({
     const snap = store.useSnapshot?.(); // 获取快照
     useEffect(() => {
       store.init?.(); // 执行init
+      return () => {
+        store.destory?.(); // 销毁
+      }
     }, []);
     const props = excutecoder(code, {
       store: {

@@ -8,14 +8,6 @@ import "./index.less";
 
 const hasLoadLanguage: any = [];
 
-/** prettier 格式化代码 */
-export const prettierFormat = async (code: string) => {
-  return prettier.format(code, {
-    parser: "typescript",
-    plugins: [typescript, prettierPluginEstree],
-  });
-};
-
 export default ({
   value,
   onChange,
@@ -114,4 +106,17 @@ export default ({
     }
   }, [value]);
   return <div id={id} className="monaco-editor" style={style}></div>;
+};
+
+/** prettier 格式化代码 */
+export const prettierFormat = async (code: string) => {
+  try {
+    const res = prettier.format(code, {
+      parser: "typescript",
+      plugins: [typescript, prettierPluginEstree],
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 };
