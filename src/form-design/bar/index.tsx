@@ -67,7 +67,7 @@ export default () => {
         <Drawer
           open
           title="源码面板"
-          width={500}
+          width={600}
           placement="left"
           getContainer={false}
           style={{
