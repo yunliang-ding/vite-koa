@@ -133,7 +133,6 @@ export const getPureStringModule = (state: any) => {
     {
       ...state,
       schema: cloneSchema.map((item: any) => {
-        delete item.key;
         return {
           ...item,
         };
