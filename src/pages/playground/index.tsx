@@ -152,7 +152,7 @@ export default () => {
           }}
         >
           <ErrorBoundary>
-            <Transcoder code={code} stateCode={stateCode} />
+            <Transcoder code={code} stateCode={stateCode} key={[code, stateCode].join()} />
           </ErrorBoundary>
         </div>
         <div
