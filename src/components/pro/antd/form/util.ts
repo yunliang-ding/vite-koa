@@ -23,11 +23,21 @@ export const enhanceSchema = (schema: ProFormItemProps[]) => {
           item.props.placeholder = item.props.placeholder || "请选择";
         }
       }
+      // 处理子表单
+      if (["FormList", "TableList"].includes(item.type)) {
+        if (item.props?.schema) {
+          item.props.schema = enhanceSchema(item.props?.schema);
+        }
+      }
     }
-    // 处理子表单
-    if (item.type === "FormList") {
-      if (item.props?.schema) {
-        item.props.schema = enhanceSchema(item.props?.schema);
+    if (item.required) {
+      if (item.rules === undefined) {
+        item.rules = [
+          {
+            required: true,
+            message: `${item.label} 不能为空`,
+          },
+        ];
       }
     }
     return {
