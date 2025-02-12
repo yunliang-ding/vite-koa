@@ -1,12 +1,20 @@
 import { Tabs } from "antd";
 import store from "../store";
 import Monaco from "@/monaco";
-import EditPanel from "./edit";
-import { getPureStringModule } from "../util";
+import Designer from "./design";
+import { getPureStringModule } from "@/components/transcoder";
 
 export default () => {
   const state = store.useSnapshot();
-  const source = getPureStringModule(state);
+  const source = getPureStringModule({
+    type: "Form",
+    title: state.title,
+    layout: state.layout,
+    column: state.column,
+    schema: state.schema,
+    okText: state.okText,
+    onSubmit: state.onSubmit,
+  });
   return (
     <div className="canvas">
       <Tabs
@@ -14,14 +22,14 @@ export default () => {
         size="small"
         style={{
           background: "#fff",
-          width: "100%", 
+          width: "100%",
           height: "100%",
         }}
         items={[
           {
             label: "设计器",
             key: "1",
-            children: <EditPanel />,
+            children: <Designer />,
           },
           {
             label: "标准模型",

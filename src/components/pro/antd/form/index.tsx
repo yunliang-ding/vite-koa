@@ -9,14 +9,14 @@ import "./index.less";
 export default ({
   schema = [],
   column = 1,
-  initialValues = {},
   onSubmit = () => {},
+  initialValues = {},
   title,
   okText = "提交",
   widget = {},
+  form = Form.useForm()[0],
   ...rest
 }: ProFormProps) => {
-  const [form] = Form.useForm();
   const [collectedEffects]: any = useState({}); // 依赖收集
   const VNode = (
     <Form
@@ -43,23 +43,23 @@ export default ({
       <Row gutter={10}>
         {enhanceSchema(schema).map((item: ProFormItemProps) => {
           return (
-              <Item
-                span={24 / column}
-                {...item}
-                key={item.name}
-                widget={widget}
-                form={{
-                  ...form,
-                  // 合并下
-                  getFieldsValue: () => {
-                    return {
-                      ...initialValues,
-                      ...form?.getFieldsValue(),
-                    };
-                  },
-                }}
-                collectedEffects={collectedEffects}
-              />
+            <Item
+              span={24 / column}
+              {...item}
+              key={item.name}
+              widget={widget}
+              form={{
+                ...form,
+                // 合并下
+                getFieldsValue: () => {
+                  return {
+                    ...initialValues,
+                    ...form?.getFieldsValue(),
+                  };
+                },
+              }}
+              collectedEffects={collectedEffects}
+            />
           );
         })}
       </Row>

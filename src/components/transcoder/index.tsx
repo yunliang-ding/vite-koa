@@ -2,21 +2,20 @@ import { useEffect, useMemo } from "react";
 import globalModules from "./modules";
 import TranscoderComponent from "./component";
 import { create } from "@shined/reactive";
-
-const prefix = "#_#";
+import { cloneDeep } from "../shared";
 
 /** 添加前后缀标记 */
 export const encrypt = (str: string) => {
-  return `${prefix}${str}${prefix}`;
+  return `<%${str}%>`;
 };
 
 /** 移除前后缀标记 */
 export const decrypt = (str: string, quotation = true) => {
   const code = str.replaceAll("\\n", "").replaceAll("\\", "");
   if (quotation) {
-    return code?.replaceAll(`"${prefix}`, "").replaceAll(`${prefix}"`, "");
+    return code?.replaceAll('"<%', "").replaceAll('%>"', "");
   }
-  return code?.replaceAll(prefix, "");
+  return code?.replaceAll("<%", "").replaceAll("%>", "");
 };
 
 /** 获取编译结果 */
@@ -127,6 +126,25 @@ export default () => {
   }
 };
 
+/** 得到标准数据模型 */
+export const getPureStringModule = (state: any) => {
+  const cloneSchema = cloneDeep(state.schema); // clone 一份
+  const str = JSON.stringify(
+    {
+      ...state,
+      schema: cloneSchema.map((item: any) => {
+        delete item.key;
+        return {
+          ...item,
+        };
+      }),
+    },
+    null,
+    2
+  );
+  return decrypt(str);
+};
+
 /** 渲染结果 */
 export default ({
   code = "",
@@ -149,7 +167,7 @@ export default ({
       store.init?.(); // 执行init
       return () => {
         store.destory?.(); // 销毁
-      }
+      };
     }, []);
     const props = excutecoder(code, {
       store: {

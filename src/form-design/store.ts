@@ -1,6 +1,6 @@
 import { create } from "@shined/reactive";
 import { ProFormItemProps } from "@/components/pro/antd/form/type";
-import { excutecoder } from "@/components/transcoder";
+import { encrypt, excutecoder } from "@/components/transcoder";
 
 export default create<{
   title?: string;
@@ -15,6 +15,11 @@ export default create<{
   functions?: { system: boolean; functionName: string; functionCode: string }[];
   getFunctionsOptions(): { label: string; value: string }[];
   getVariablesOptions(): { label: string; value: string }[];
+  variablesModal: {
+    open: boolean;
+    value?: string;
+    onChange?(v: string): void;
+  };
 }>({
   title: "默认标题",
   okText: "提交",
@@ -22,14 +27,19 @@ export default create<{
   column: 3,
   schema: [],
   stateCode: `export default create({});`,
+  variablesModal: {
+    open: false,
+    value: "",
+    onChange: () => null,
+  },
   getFunctionsOptions() {
     try {
       const res = excutecoder(this.stateCode);
       return Object.keys(res)
-        .filter((key) => key !== "store")
+        .filter((key) => !["init", "destroy", "store"].includes(key))
         .map((i) => ({
           label: i,
-          value: `{{${i}}}`,
+          value: encrypt(`store.${i}`),
         }));
     } catch (error) {
       console.log(error);
@@ -41,7 +51,7 @@ export default create<{
       const res = excutecoder(this.stateCode);
       return Object.keys(res.store.mutate).map((i) => ({
         label: i,
-        value: `{{${i}}}`,
+        value: encrypt(`store.snap.${i}`),
       }));
     } catch (error) {
       console.log(error);

@@ -1,4 +1,6 @@
 import ProForm from "@/components/pro/antd/form";
+import { useEffect, useState } from "react";
+import BindVariables from "./bind-variables";
 
 export default ({
   widget = {},
@@ -7,14 +9,19 @@ export default ({
 }: {
   widget: any;
   initialValues: Object;
-  onValuesChange: (v: Object, vs: Object) => void;
+  onValuesChange: (v: Object, vs: Object, refresh?: boolean) => void;
 }) => {
+  const [reload, setRefresh] = useState(Math.random());
+  useEffect(() => {
+    setRefresh(Math.random());
+  }, [initialValues]);
   return (
     <ProForm
       layout="vertical"
       initialValues={initialValues}
       onValuesChange={onValuesChange}
       widget={widget}
+      key={reload}
       schema={[
         {
           type: "Input",
@@ -43,17 +50,19 @@ export default ({
           label: "悬浮提示",
         },
         {
-          type: "Input",
-          name: "effect",
-          label: "依赖名",
-          extra: "多个使用逗号分隔",
-        },
-        {
           type: "CodeEditor",
           name: "visible",
           label: "是否展示",
         },
-      ]}
+      ].map((i) => {
+        return {
+          ...i,
+          itemRender:
+            ["name"].includes(i.name) || ["CodeEditor"].includes(i.type)
+              ? undefined
+              : BindVariables(i.name, (v: any) => onValuesChange(v, {}, true)),
+        };
+      })}
     />
   );
 };

@@ -9,7 +9,7 @@ export default () => {
         }
         code={`{
           "type": "Form",
-          "title": "{{title}}",
+          "title": "<%store.snap.title%>",
           "layout": "vertical",
           "selectKey": "022cd1771d",
           "column": 3,
@@ -25,7 +25,7 @@ export default () => {
                   { "label": "选项2", "value": 2 },
                   { "label": "选项3", "value": 3 }
                 ],
-                "onChange": "#_#(v) => {  store.mutate.visible = v === 2}#_#"
+                "onChange": "<%(v) => {  store.mutate.visible = v === 2}%>"
               },
               "key": "022cd1771d",
               "name": "022cd1771d"
@@ -36,7 +36,7 @@ export default () => {
               "props": { "placeholder": "请选择", "allowClear": true },
               "key": "32571396cf",
               "name": "date",
-              "visible": "#_#() => {  return store.snap.visible}#_#"
+              "visible": "<%() => {  return store.snap.visible}%>"
             },
             {
               "type": "Input",
@@ -47,7 +47,7 @@ export default () => {
             }
           ],
           "okText": "提交",
-          "onSubmit": "{{onSubmit}}"
+          "onSubmit": "<%store.onSubmit%>"
         }
         `}
       />

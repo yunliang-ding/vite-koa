@@ -3,14 +3,32 @@ import material from "../material-config";
 import { Empty, Tabs } from "antd";
 import FormItemConfig from "./form-item-config";
 import FormConfig from "./form-config";
-import VariablesSelect from './variables-select';
-import CodeEditor from '@/monaco/code-editor';
+import BindFunctions from "./bind-functions";
+import BindVariables from "./bind-variables";
+import CodeEditor from "@/monaco/code-editor";
+import VariablesModal from "./variables-modal";
 import store from "../store";
+import { useState } from "react";
 
 export default () => {
   const state = store.useSnapshot();
-  const selectItem: any = store.mutate.schema.find(i => i.key === state.selectKey);
+  const [reload, setRefresh] = useState(Math.random());
+  const selectItem: any = store.mutate.schema.find(
+    (i) => i.key === state.selectKey
+  );
   const panelSchema = material[selectItem?.type]?.propsConfig; // 该物料对应的属性配置
+  /** 元素属性改变 */
+  const onFieldValuesChange = (_: any, vs: any, refresh = false) => {
+    Object.assign(selectItem.props, vs);
+    const index = store.mutate.schema.findIndex(
+      (i) => i.key === state.selectKey
+    );
+    store.mutate.schema.splice(index, 1, selectItem);
+    store.mutate.schema = [...store.mutate.schema];
+    if(refresh){
+      setRefresh(Math.random())
+    }
+  };
   return (
     <div className="panel">
       <Tabs
@@ -25,7 +43,8 @@ export default () => {
                 initialValues={state}
                 widget={{
                   CodeEditor,
-                  VariablesSelect
+                  BindFunctions,
+                  BindVariables,
                 }}
                 onValuesChange={(v) => {
                   Object.assign(store.mutate, v);
@@ -38,20 +57,22 @@ export default () => {
             key: "2",
             children: panelSchema ? (
               <FormItemConfig
-                key={state.selectKey}
+                key={[state.selectKey, reload].join("")}
                 initialValues={selectItem}
                 widget={{
                   CodeEditor,
-                  VariablesSelect
+                  BindFunctions,
                 }}
-                onValuesChange={(v: any) => {
-                  if (v.effect) {
-                    v.effect = v.effect.split(",");
-                  }
+                onValuesChange={(v: any, __:any, refresh = false) => {
                   Object.assign(selectItem, v);
-                  const index = store.mutate.schema.findIndex(i => i.key === state.selectKey);
+                  const index = store.mutate.schema.findIndex(
+                    (i) => i.key === state.selectKey
+                  );
                   store.mutate.schema.splice(index, 1, selectItem);
                   store.mutate.schema = [...store.mutate.schema];
+                  if(refresh){
+                    setRefresh(Math.random())
+                  }
                 }}
               />
             ) : (
@@ -66,19 +87,21 @@ export default () => {
             key: "3",
             children: panelSchema ? (
               <ProForm
-                schema={panelSchema}
+                key={[state.selectKey, reload].join("")}
+                schema={panelSchema.map((i: any) => {
+                  return {
+                    ...i,
+                    itemRender: ["BindFunctions", "CodeEditor"].includes(i.type)
+                      ? undefined
+                      : BindVariables(i.name, (v: any) => onFieldValuesChange({}, v, true)),
+                  };
+                })}
                 layout="vertical"
-                key={state.selectKey}
                 initialValues={selectItem.props}
+                onValuesChange={onFieldValuesChange}
                 widget={{
                   CodeEditor,
-                  VariablesSelect
-                }}
-                onValuesChange={(_, vs) => {
-                  Object.assign(selectItem.props, vs);
-                  const index = store.mutate.schema.findIndex(i => i.key === state.selectKey);
-                  store.mutate.schema.splice(index, 1, selectItem);
-                  store.mutate.schema = [...store.mutate.schema];
+                  BindFunctions,
                 }}
               />
             ) : (
@@ -90,6 +113,7 @@ export default () => {
           },
         ]}
       />
+      {state.variablesModal.open && <VariablesModal />}
     </div>
   );
 };

@@ -1,14 +1,37 @@
 import Monaco from "@/monaco";
+import { getPureStringModule } from "@/components/transcoder";
 import { EllipsisOutlined, JavaScriptOutlined } from "@ant-design/icons";
 import { Drawer } from "antd";
-import { getOriginStringModule, getPureStringModule } from "../util";
 import CodeEditor from "@/monaco/code-editor";
 import store from "../store";
 
 export default () => {
   const state = store.useSnapshot();
-  const source = getOriginStringModule(state);
-  const code = getPureStringModule(state);
+  const source = JSON.stringify(
+    {
+      type: "Form",
+      title: state.title,
+      layout: state.layout,
+      selectKey: state.selectKey,
+      column: state.column,
+      schema: state.schema,
+      okText: state.okText,
+      onSubmit: state.onSubmit,
+      stateCode: state.stateCode,
+    },
+    null,
+    2
+  );
+  const code = getPureStringModule({
+    type: "Form",
+    title: state.title,
+    layout: state.layout,
+    selectKey: state.selectKey,
+    column: state.column,
+    schema: state.schema,
+    okText: state.okText,
+    onSubmit: state.onSubmit,
+  });
   return (
     <div className="bar-sider">
       <div

@@ -1,6 +1,6 @@
 import ProForm from "@/components/pro/antd/form";
-import { Form } from "antd";
-import { useEffect } from "react";
+import BindVariables from "./bind-variables";
+import { useEffect, useState } from "react";
 
 export default ({
   widget = {},
@@ -11,14 +11,14 @@ export default ({
   initialValues: Object;
   onValuesChange: (v: Object, vs: Object) => void;
 }) => {
-  const [form] = Form.useForm();
+  const [reload, setRefresh] = useState(Math.random());
   useEffect(() => {
-    form.setFieldsValue(initialValues);
+    setRefresh(Math.random());
   }, [initialValues]);
   return (
     <ProForm
       layout="vertical"
-      form={form}
+      key={reload}
       initialValues={initialValues}
       onValuesChange={onValuesChange}
       widget={widget}
@@ -73,7 +73,7 @@ export default ({
           },
         },
         {
-          type: "VariablesSelect",
+          type: "BindFunctions",
           name: "onSubmit",
           label: "绑定提交方法",
         },
@@ -82,7 +82,14 @@ export default ({
           name: "okText",
           label: "按钮文案",
         },
-      ]}
+      ].map((i) => {
+        return {
+          ...i,
+          itemRender: ["BindFunctions", "CodeEditor"].includes(i.type)
+            ? undefined
+            : BindVariables(i.name, onValuesChange),
+        };
+      })}
     />
   );
 };
