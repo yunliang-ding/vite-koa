@@ -1,5 +1,5 @@
 import Monaco from "@/monaco";
-import { getPureStringModule } from "@/components/transcoder";
+import { encrypt, getPureStringModule } from "@/components/transcoder";
 import { EllipsisOutlined, JavaScriptOutlined } from "@ant-design/icons";
 import { Drawer } from "antd";
 import CodeEditor from "@/monaco/code-editor";
@@ -23,7 +23,6 @@ export default () => {
     null,
     2
   );
-  
   return (
     <div className="bar-sider">
       <div
@@ -85,8 +84,21 @@ export default () => {
             useEncrypt={false}
             value={state.stateCode}
             style={{ width: "100%", height: "100%" }}
-            onChange={(v: string) => {
+            onChange={(v: string, esModule: any) => {
+              console.log("esModule", esModule);
               store.mutate.stateCode = v;
+              store.mutate.variablesOptions = Object.keys(
+                esModule.store.mutate
+              ).map((i) => ({
+                label: i,
+                value: encrypt(`store.snap.${i}`),
+              }));
+              store.mutate.functionsOptions = Object.keys(esModule)
+                .filter((key) => !["init", "destroy", "store"].includes(key))
+                .map((i) => ({
+                  label: i,
+                  value: encrypt(`store.${i}`),
+                }));
             }}
           />
         </Drawer>

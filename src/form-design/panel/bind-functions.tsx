@@ -7,7 +7,7 @@ export default (props: any) => {
       {...props}
       placeholder="请选择方法"
       allowClear
-      options={store.mutate.getFunctionsOptions()}
+      options={store.mutate.functionsOptions}
     />
   );
 };

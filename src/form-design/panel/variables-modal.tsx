@@ -21,7 +21,7 @@ export default () => {
         allowClear
         defaultValue={snap.variablesModal.value}
         onChange={snap.variablesModal.onChange}
-        options={snap.getVariablesOptions()}
+        options={snap.variablesOptions}
       />
     </Modal>
   );

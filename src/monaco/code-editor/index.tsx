@@ -35,10 +35,15 @@ export default ({
             codeString = v.substring(0, codeString.length - 1);
           }
           try {
+            if (codeString.includes("<%")) {
+              return setErrorInfo("不能含有特殊字符<%");
+            }
+            if (codeString.includes("%>")) {
+              return setErrorInfo("不能含有特殊字符%>");
+            }
             valueRef.current = codeString; // 同步文本
-            excutecoder(codeString);
-            // 语法校验通过才触发 onChange
-            onChange(useEncrypt ? encrypt(codeString) : codeString);
+            const esModule = excutecoder(codeString); // 语法校验通过才触发 onChange
+            onChange(useEncrypt ? encrypt(codeString) : codeString, esModule);
             setErrorInfo("");
           } catch (error) {
             setErrorInfo(String(error));
