@@ -1,29 +1,36 @@
 import Monaco from "@/monaco";
-import { encrypt, EsModuleString, getEsModuleString } from "@/components/transcoder";
+import {
+  encrypt,
+  EsModuleString,
+  getEsModuleString,
+} from "@/components/transcoder";
 import { EllipsisOutlined, JavaScriptOutlined } from "@ant-design/icons";
-import { Drawer } from "antd";
+import { Drawer, Tabs } from "antd";
 import CodeEditor from "@/monaco/code-editor";
 import store from "../store";
 
 export default () => {
-  const state = store.useSnapshot();
+  const snap = store.useSnapshot();
+  const module = {
+    type: "Form",
+    title: snap.title,
+    layout: snap.layout,
+    selectKey: snap.selectKey,
+    column: snap.column,
+    schema: snap.schema,
+    okText: snap.okText,
+    onSubmit: snap.onSubmit,
+    bindVariables: snap.bindVariables,
+  };
   const source = JSON.stringify(
     {
-      type: "Form",
-      title: state.title,
-      layout: state.layout,
-      selectKey: state.selectKey,
-      column: state.column,
-      schema: state.schema,
-      okText: state.okText,
-      onSubmit: state.onSubmit,
-      bindVariables: state.bindVariables,
-      stateCode: state.stateCode,
+      ...module,
+      stateCode: snap.stateCode,
     },
     null,
     2
   );
-  console.log(encodeURIComponent(source))
+  const esModuleString = getEsModuleString(module);
   return (
     <div className="bar-sider">
       <div
@@ -39,14 +46,14 @@ export default () => {
         onClick={() => {
           const code = getEsModuleString({
             type: "Form",
-            title: state.title,
-            layout: state.layout,
-            selectKey: state.selectKey,
-            column: state.column,
-            schema: state.schema,
-            okText: state.okText,
-            onSubmit: state.onSubmit,
-            bindVariables: state.bindVariables,
+            title: snap.title,
+            layout: snap.layout,
+            selectKey: snap.selectKey,
+            column: snap.column,
+            schema: snap.schema,
+            okText: snap.okText,
+            onSubmit: snap.onSubmit,
+            bindVariables: snap.bindVariables,
           });
           window.open(
             `/#/preview?code=${encodeURIComponent(code)}&stateCode=${encodeURIComponent(store.mutate.stateCode)}`
@@ -63,7 +70,7 @@ export default () => {
       >
         <EllipsisOutlined style={{ fontSize: 30 }} />
       </div>
-      {state.openDrawerType === "jsCode" && (
+      {snap.openDrawerType === "jsCode" && (
         <Drawer
           open
           title="源码面板"
@@ -83,7 +90,7 @@ export default () => {
         >
           <CodeEditor
             useEncrypt={false}
-            value={state.stateCode}
+            value={snap.stateCode}
             style={{ width: "100%", height: "100%" }}
             onChange={(v: EsModuleString, esModule: any) => {
               console.log("esModule", esModule);
@@ -104,14 +111,16 @@ export default () => {
           />
         </Drawer>
       )}
-      {state.openDrawerType === "jsonSchema" && (
+      {snap.openDrawerType === "jsonSchema" && (
         <Drawer
           open
-          title="Schema"
           width={"calc(100% - 48px)"}
           getContainer={false}
           style={{
             top: 54,
+          }}
+          headerStyle={{
+            display: "none"
           }}
           bodyStyle={{
             padding: 0,
@@ -120,7 +129,36 @@ export default () => {
             store.mutate.openDrawerType = undefined;
           }}
         >
-          <Monaco value={source} readOnly language="json" theme="vs" />
+          <Tabs
+            defaultActiveKey="1"
+            items={[
+              {
+                key: "1",
+                label: "JSONSchema",
+                children: (
+                  <Monaco
+                    style={{ height: "calc(100vh - 100px)" }}
+                    value={source}
+                    readOnly
+                    language="json"
+                    theme="vs"
+                  />
+                ),
+              },
+              {
+                key: "2",
+                label: "EsModuleString",
+                children: (
+                  <Monaco
+                    style={{ height: "calc(100vh - 100px)" }}
+                    value={esModuleString}
+                    readOnly
+                    theme="vs"
+                  />
+                ),
+              },
+            ]}
+          />
         </Drawer>
       )}
     </div>

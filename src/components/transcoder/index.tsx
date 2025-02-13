@@ -4,6 +4,8 @@ import TranscoderComponent from "./component";
 import { create } from "@shined/reactive";
 import { cloneDeep } from "../shared";
 
+export type EsModuleString = `export ${string}`;
+
 /** 添加前后缀标记 */
 export const encrypt = (str: string) => {
   return `<%${str}%>`;
@@ -164,15 +166,16 @@ export const getEsModuleString = (state: any): EsModuleString => {
   return `export default ${decrypt(str)}`;
 };
 
-export type EsModuleString = `export ${string}`;
-
 /** 渲染结果 */
 export default ({
   code = "export default {}",
   stateCode = "",
+  require = {}
 }: {
   code: EsModuleString;
   stateCode?: string;
+  /** 依赖的外部模块 */
+  require?: any;
 }): React.ReactElement => {
   try {
     const store = useMemo(() => {
@@ -191,6 +194,7 @@ export default ({
       };
     }, []);
     const props = excutecoder(code, {
+      ...require,
       store: {
         ...store,
         snap,

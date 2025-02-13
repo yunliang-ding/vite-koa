@@ -5,7 +5,14 @@ import moment from "moment";
 import { create } from "@shined/reactive";
 import * as Utils from "../../shared";
 
-export default {
+export type ModuleProps = {
+  [key: string]: {
+    module: any;
+    imports: `import ${string}`;
+  };
+}
+
+const globalModules: ModuleProps = {
   React: {
     module: React,
     imports: 'import React from "react"',
@@ -30,4 +37,10 @@ export default {
     module: Utils,
     imports: 'import * as Utils from "xxx/shared"',
   },
-} as any;
+};
+
+// export const inject = (modules: ModuleProps) => {
+//   Object.assign(globalModules, modules)
+// };
+
+export default globalModules;
