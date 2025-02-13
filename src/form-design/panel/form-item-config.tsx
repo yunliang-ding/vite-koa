@@ -1,6 +1,7 @@
 import ProForm from "@/components/pro/antd/form";
 import { useEffect, useState } from "react";
-import BindVariables from "./bind-variables";
+import { notAllowBindVariables } from ".";
+import bindVariables from "./bind-variables";
 
 export default ({
   widget = {},
@@ -42,6 +43,11 @@ export default ({
           valuePropName: "checked",
         },
         {
+          type: "SelectVariables",
+          name: "rules",
+          label: "绑定rules校验规则",
+        },
+        {
           type: "Input",
           name: "extra",
           label: "额外说明",
@@ -52,17 +58,38 @@ export default ({
           label: "悬浮提示",
         },
         {
+          type: "Input",
+          name: "effect",
+          label: "设置联动",
+          extra: "多个字段用,分隔",
+        },
+        {
           type: "CodeEditor",
           name: "visible",
           label: "是否展示",
+          props: {
+            style: {
+              height: 120,
+            },
+          },
+        },
+        {
+          type: "CodeEditor",
+          name: "itemRender",
+          label: "自定义渲染",
+          props: {
+            style: {
+              height: 120,
+            },
+          },
         },
       ].map((i) => {
         return {
           ...i,
           itemRender:
-            ["name"].includes(i.name) || ["CodeEditor"].includes(i.type)
+            ["name"].includes(i.name) || notAllowBindVariables(i.type)
               ? undefined
-              : BindVariables([selectKey, i.name].join(',')),
+              : bindVariables([selectKey, i.name].join(",")),
         };
       })}
     />

@@ -3,11 +3,15 @@ import material from "../material-config";
 import { Empty, Tabs } from "antd";
 import FormItemConfig from "./form-item-config";
 import FormConfig from "./form-config";
-import BindFunctions from "./bind-functions";
 import BindVariables from "./bind-variables";
+import SelectFunctions from "./select-functions";
+import SelectVariables from "./select-variables";
 import CodeEditor from "@/monaco/code-editor";
 import VariablesModal from "./variables-modal";
 import store from "../store";
+
+export const notAllowBindVariables = (type: string) =>
+  ["SelectFunctions", "SelectVariables", "CodeEditor"].includes(type);
 
 export default () => {
   const state = store.useSnapshot();
@@ -29,7 +33,8 @@ export default () => {
                 initialValues={state}
                 widget={{
                   CodeEditor,
-                  BindFunctions,
+                  SelectFunctions,
+                  SelectVariables,
                 }}
                 onValuesChange={(v) => {
                   Object.assign(store.mutate, v);
@@ -47,7 +52,8 @@ export default () => {
                 selectKey={state.selectKey}
                 widget={{
                   CodeEditor,
-                  BindFunctions,
+                  SelectFunctions,
+                  SelectVariables,
                 }}
                 onValuesChange={(v: any) => {
                   Object.assign(selectItem, v);
@@ -74,7 +80,7 @@ export default () => {
                 schema={panelSchema.map((i: any) => {
                   return {
                     ...i,
-                    itemRender: ["BindFunctions", "CodeEditor"].includes(i.type)
+                    itemRender: notAllowBindVariables(i.type)
                       ? undefined
                       : BindVariables(
                           [state.selectKey, "props", i.name].join(",")
@@ -93,7 +99,8 @@ export default () => {
                 }}
                 widget={{
                   CodeEditor,
-                  BindFunctions,
+                  SelectFunctions,
+                  SelectVariables,
                 }}
               />
             ) : (

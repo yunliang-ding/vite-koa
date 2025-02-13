@@ -11,15 +11,20 @@ export default ({ source }: { source: EsModuleString }) => {
   if (state.schema?.length === 0) {
     return <Empty />;
   }
-  // 开始解析 store
-  const result = excutecoder(state.stateCode);
-  // 开始解析模型
-  const props: any = excutecoder(source, {
-    store: {
-      snap: result.store.mutate,
-      mutate: result.store.mutate,
-    },
-  });
+  let props = { ...state };
+  try {
+    // 开始解析 store
+    const result = excutecoder(state.stateCode);
+    // 开始解析模型
+    props = excutecoder(source, {
+      store: {
+        snap: result.store.mutate,
+        mutate: result.store.mutate,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
   return (
     <ErrorBoundaryComponent>
       <div className="drag-panel">

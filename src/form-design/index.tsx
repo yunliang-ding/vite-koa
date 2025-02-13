@@ -8,19 +8,12 @@ import { useEffect } from "react";
 import store from "./store";
 import "./index.less";
 
-export default ({ code, stateCode }: FormDesignProps) => {
+export default (props: FormDesignProps) => {
   useEffect(() => {
-    if (code) {
+    try {
+      Object.assign(store.mutate, props);
       try {
-        Object.assign(store.mutate, JSON.parse(code.replaceAll("\n", "")));
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    if (stateCode) {
-      store.mutate.stateCode = stateCode;
-      try {
-        const esModule = excutecoder(stateCode);
+        const esModule = excutecoder(store.mutate.stateCode);
         store.mutate.variablesOptions = Object.keys(esModule.store.mutate).map(
           (i) => ({
             label: i,
@@ -36,8 +29,10 @@ export default ({ code, stateCode }: FormDesignProps) => {
       } catch (error) {
         console.log(error);
       }
+    } catch (error) {
+      console.log(error);
     }
-  }, [code]);
+  }, []);
   return (
     <div className="form-design">
       <Bar />

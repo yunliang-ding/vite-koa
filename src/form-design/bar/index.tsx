@@ -1,5 +1,5 @@
 import Monaco from "@/monaco";
-import { encrypt, getEsModuleString } from "@/components/transcoder";
+import { encrypt, EsModuleString, getEsModuleString } from "@/components/transcoder";
 import { EllipsisOutlined, JavaScriptOutlined } from "@ant-design/icons";
 import { Drawer } from "antd";
 import CodeEditor from "@/monaco/code-editor";
@@ -23,6 +23,7 @@ export default () => {
     null,
     2
   );
+  console.log(encodeURIComponent(source))
   return (
     <div className="bar-sider">
       <div
@@ -84,7 +85,7 @@ export default () => {
             useEncrypt={false}
             value={state.stateCode}
             style={{ width: "100%", height: "100%" }}
-            onChange={(v: string, esModule: any) => {
+            onChange={(v: EsModuleString, esModule: any) => {
               console.log("esModule", esModule);
               store.mutate.stateCode = v;
               store.mutate.variablesOptions = Object.keys(

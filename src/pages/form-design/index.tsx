@@ -1,60 +1,14 @@
 import FormDesign from "../../form-design";
 
 export default () => {
+  const props = JSON.parse(
+    decodeURIComponent(
+      "%7B%0A%20%20%22type%22%3A%20%22Form%22%2C%0A%20%20%22title%22%3A%20%22%E9%BB%98%E8%AE%A4%E6%A0%87%E9%A2%98%22%2C%0A%20%20%22layout%22%3A%20%22vertical%22%2C%0A%20%20%22selectKey%22%3A%20%229c44544011%22%2C%0A%20%20%22column%22%3A%203%2C%0A%20%20%22schema%22%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22type%22%3A%20%22Select%22%2C%0A%20%20%20%20%20%20%22label%22%3A%20%22%E4%B8%8B%E6%8B%89%E9%80%89%22%2C%0A%20%20%20%20%20%20%22props%22%3A%20%7B%0A%20%20%20%20%20%20%20%20%22placeholder%22%3A%20%22%E8%AF%B7%E9%80%89%E6%8B%A9%22%2C%0A%20%20%20%20%20%20%20%20%22allowClear%22%3A%20true%2C%0A%20%20%20%20%20%20%20%20%22options%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22label%22%3A%20%22%E9%80%89%E9%A1%B91%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22value%22%3A%201%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22label%22%3A%20%22%E9%80%89%E9%A1%B92%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22value%22%3A%202%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22label%22%3A%20%22%E9%80%89%E9%A1%B93%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22value%22%3A%203%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%22onChange%22%3A%20%22%3C%25(v)%20%3D%3E%20%7B%20store.mutate.visible%20%3D%20v%20%3D%3D%3D%202%3B%7D%25%3E%22%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%22key%22%3A%20%22022cd1771d%22%2C%0A%20%20%20%20%20%20%22name%22%3A%20%22022cd1771d%22%0A%20%20%20%20%7D%2C%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22type%22%3A%20%22DatePicker%22%2C%0A%20%20%20%20%20%20%22label%22%3A%20%22%E6%97%A5%E6%9C%9F%E6%A1%86%22%2C%0A%20%20%20%20%20%20%22props%22%3A%20%7B%0A%20%20%20%20%20%20%20%20%22placeholder%22%3A%20%22%E8%AF%B7%E9%80%89%E6%8B%A9%22%2C%0A%20%20%20%20%20%20%20%20%22allowClear%22%3A%20true%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%22key%22%3A%20%2232571396cf%22%2C%0A%20%20%20%20%20%20%22name%22%3A%20%22date%22%2C%0A%20%20%20%20%20%20%22visible%22%3A%20%22%3C%25()%20%3D%3E%20%7B%20return%20store.snap.visible%3B%7D%25%3E%22%0A%20%20%20%20%7D%2C%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22type%22%3A%20%22Input%22%2C%0A%20%20%20%20%20%20%22label%22%3A%20%22%E5%8D%95%E8%A1%8C%E6%96%87%E6%9C%AC%22%2C%0A%20%20%20%20%20%20%22props%22%3A%20%7B%0A%20%20%20%20%20%20%20%20%22placeholder%22%3A%20%22%E8%AF%B7%E8%BE%93%E5%85%A5%22%2C%0A%20%20%20%20%20%20%20%20%22allowClear%22%3A%20true%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%22key%22%3A%20%229c44544011%22%2C%0A%20%20%20%20%20%20%22name%22%3A%20%229c44544011%22%2C%0A%20%20%20%20%20%20%22rules%22%3A%20%22%3C%25store.snap.rules%25%3E%22%0A%20%20%20%20%7D%0A%20%20%5D%2C%0A%20%20%22okText%22%3A%20%22%E6%8F%90%E4%BA%A4%22%2C%0A%20%20%22onSubmit%22%3A%20%22%3C%25store.onSubmit%25%3E%22%2C%0A%20%20%22bindVariables%22%3A%20%7B%0A%20%20%20%20%22title%22%3A%20%22%3C%25store.snap.title%25%3E%22%2C%0A%20%20%20%20%22022cd1771d%2Cprops%2Coptions%22%3A%20%22%3C%25store.snap.options%25%3E%22%2C%0A%20%20%20%20%22022cd1771d%2Crequired%22%3A%20%22%3C%25store.snap.required%25%3E%22%0A%20%20%7D%2C%0A%20%20%22stateCode%22%3A%20%22export%20const%20store%20%3D%20create(%7B%5Cn%20%20%2F**%20%E6%98%AF%E5%90%A6%E5%8F%AF%E8%A7%81%20*%2F%5Cn%20%20visible%3A%20false%2C%5Cn%20%20%2F**%20%E6%A0%87%E9%A2%98%20*%2F%5Cn%20%20title%3A%20%5C%22%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF%E6%8F%90%E4%BA%A4%5C%22%2C%5Cn%20%20%2F**%20%E6%95%B0%E6%8D%AE%E6%BA%90%20*%2F%5Cn%20%20options%3A%20%5B%5D%2C%5Cn%20%20%2F**%20%E6%98%AF%E5%90%A6%E5%BF%85%E5%A1%AB%20*%2F%5Cn%20%20required%3A%20false%2C%5Cn%20%20%2F**%20%E6%A0%A1%E9%AA%8C%E8%A7%84%E5%88%99%20*%2F%5Cn%20%20rules%3A%20%5B%7B%5Cn%20%20%20%20validator%3A%20async%20(rule%2C%20value)%20%3D%3E%20%7B%5Cn%20%20%20%20%20%20if%20(!value%3F.startsWith(%5C%22%2F%5C%22))%20%7B%5Cn%20%20%20%20%20%20%20%20throw%20new%20Error(%5C%22%E5%BF%85%E9%A1%BB%E4%BB%A5%2F%E5%BC%80%E5%A4%B4%5C%22)%3B%5Cn%20%20%20%20%20%20%7D%5Cn%20%20%20%20%7D%2C%5Cn%20%20%7D%5D%5Cn%7D)%3B%5Cn%5Cn%2F**%20%E7%BB%84%E4%BB%B6%E6%B8%B2%E6%9F%93%E5%AE%8C%E6%88%90%20*%2F%5Cnexport%20const%20init%20%3D%20async%20()%20%3D%3E%20%7B%5Cn%20%20console.log(%5C%22%E7%BB%84%E4%BB%B6%E6%B8%B2%E6%9F%93%E5%AE%8C%E6%88%90%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%5C%22)%3B%5Cn%20%20await%20new%20Promise((res)%20%3D%3E%20setTimeout(res%2C%201000))%3B%5Cn%20%20store.mutate.title%20%3D%20%5C%22%E5%BC%82%E6%AD%A5%E6%B8%B2%E6%9F%93%E6%A0%87%E9%A2%98%5C%22%3B%5Cn%20%20store.mutate.options%20%3D%20%5B%5Cn%20%20%20%20%7B%5Cn%20%20%20%20%20%20label%3A%20%5C%22%E5%BC%82%E6%AD%A5%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE%5C%22%2C%5Cn%20%20%20%20%20%20value%3A%201%2C%5Cn%20%20%20%20%7D%2C%5Cn%20%20%5D%3B%5Cn%7D%3B%5Cn%2F**%20%E7%BB%84%E4%BB%B6%E5%8D%B8%E8%BD%BD%20*%2F%5Cnexport%20const%20destroy%20%3D%20async%20()%20%3D%3E%20%7B%5Cn%20%20console.log(%5C%22%E7%BB%84%E4%BB%B6%E5%8D%B8%E8%BD%BD%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%5C%22)%3B%5Cn%7D%3B%5Cn%5Cn%2F**%20%E8%A1%A8%E5%8D%95%E6%8F%90%E4%BA%A4%20*%2F%5Cnexport%20const%20onSubmit%20%3D%20async%20(values)%20%3D%3E%20%7B%5Cn%20%20try%20%7B%5Cn%20%20%20%20await%20new%20Promise((res)%20%3D%3E%20setTimeout(res%2C%201000))%3B%5Cn%20%20%20%20alert(%5Cn%20%20%20%20%20%20JSON.stringify(%7B%5Cn%20%20%20%20%20%20%20%20...values%2C%5Cn%20%20%20%20%20%20%20%20%2F%2F%20date%3A%20moment(values.date).format(%5C%22YYYY-MM-DD%5C%22)%2C%5Cn%20%20%20%20%20%20%7D)%2C%5Cn%20%20%20%20)%3B%5Cn%20%20%20%20Antd.message.success(%5C%22%E5%B7%B2%E6%8F%90%E4%BA%A4%EF%BC%81%5C%22)%3B%5Cn%20%20%20%20store.mutate.title%20%3D%20%5C%22%E5%B7%B2%E6%8F%90%E4%BA%A4%E4%BA%86%5C%22%3B%5Cn%20%20%7D%20catch%20(error)%20%7B%5Cn%20%20%20%20console.log(error)%3B%5Cn%20%20%7D%5Cn%7D%22%0A%7D"
+    )
+  );
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
-      <FormDesign
-        stateCode={
-          "export const store = create({\n  /** 是否可见 */\n  visible: false,\n  /** 标题 */\n  title: \"基本信息提交\",\n  /** 数据源 */\n  options: [],\n  /** 是否必填 */\n  required: false,\n});\n\n/** 组件渲染完成 */\nexport const init = async () => {\n  console.log(\"组件渲染完成的生命周期\");\n  await new Promise((res) => setTimeout(res, 1000));\n  store.mutate.title = \"异步渲染标题\";\n  store.mutate.options = [\n    {\n      label: \"异步查询数据\",\n      value: 1,\n    },\n  ];\n};\n/** 组件卸载 */\nexport const destroy = async () => {\n  console.log(\"组件卸载生命周期\");\n};\n\n/** 表单提交 */\nexport const onSubmit = async (values) => {\n  try {\n    await new Promise((res) => setTimeout(res, 1000));\n    alert(\n      JSON.stringify({\n        ...values,\n        // date: moment(values.date).format(\"YYYY-MM-DD\"),\n      }),\n    );\n    Antd.message.success(\"已提交！\");\n    store.mutate.title = \"已提交了\";\n  } catch (error) {\n    console.log(error);\n  }\n}"
-        }
-        code={`{
-          "type": "Form",
-          "layout": "vertical",
-          "selectKey": "022cd1771d",
-          "column": 3,
-          "schema": [
-            {
-              "type": "Select",
-              "label": "下拉选",
-              "props": {
-                "placeholder": "请选择",
-                "allowClear": true,
-                "options": [
-                  { "label": "选项1", "value": 1 },
-                  { "label": "选项2", "value": 2 },
-                  { "label": "选项3", "value": 3 }
-                ],
-                "onChange": "<%(v) => {  store.mutate.visible = v === 2}%>"
-              },
-              "key": "022cd1771d",
-              "name": "022cd1771d"
-            },
-            {
-              "type": "DatePicker",
-              "label": "日期框",
-              "props": { "placeholder": "请选择", "allowClear": true },
-              "key": "32571396cf",
-              "name": "date",
-              "visible": "<%() => {  return store.snap.visible}%>"
-            },
-            {
-              "type": "Input",
-              "label": "单行文本",
-              "props": { "placeholder": "请输入", "allowClear": true },
-              "key": "9c44544011",
-              "name": "9c44544011"
-            }
-          ],
-          "okText": "提交",
-          "onSubmit": "<%store.onSubmit%>",
-          "bindVariables": {
-            "title": "<%store.snap.title%>",
-            "022cd1771d,props,options": "<%store.snap.options%>",
-            "022cd1771d,required": "<%store.snap.required%>"
-          }
-        }
-        `}
-      />
+      <FormDesign {...props} />
     </div>
   );
 };

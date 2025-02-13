@@ -1,6 +1,7 @@
 import ProForm from "@/components/pro/antd/form";
 import { Form } from "antd";
 import { useEffect } from "react";
+import { notAllowBindVariables } from ".";
 import BindVariables from "./bind-variables";
 
 export default ({
@@ -15,7 +16,7 @@ export default ({
   const [form] = Form.useForm();
   useEffect(() => {
     form.setFieldsValue(initialValues);
-  }, [initialValues])
+  }, [initialValues]);
   return (
     <ProForm
       layout="vertical"
@@ -74,7 +75,7 @@ export default ({
           },
         },
         {
-          type: "BindFunctions",
+          type: "SelectFunctions",
           name: "onSubmit",
           label: "绑定提交方法",
         },
@@ -86,7 +87,7 @@ export default ({
       ].map((i) => {
         return {
           ...i,
-          itemRender: ["BindFunctions", "CodeEditor"].includes(i.type)
+          itemRender: notAllowBindVariables(i.type)
             ? undefined
             : BindVariables(i.name),
         };

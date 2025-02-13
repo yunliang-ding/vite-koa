@@ -127,7 +127,7 @@ export default () => {
 };
 
 /** 得到标准数据模型 */
-export const getEsModuleString = (state: any) => {
+export const getEsModuleString = (state: any): EsModuleString => {
   const cloneState = cloneDeep(state); // clone 一份
   // 解析变量
   if(cloneState.bindVariables){
@@ -164,7 +164,7 @@ export const getEsModuleString = (state: any) => {
   return `export default ${decrypt(str)}`;
 };
 
-export type EsModuleString = `export default ${string}`;
+export type EsModuleString = `export ${string}`;
 
 /** 渲染结果 */
 export default ({
