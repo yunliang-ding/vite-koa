@@ -1,8 +1,9 @@
 import { create } from "@shined/reactive";
 import Monaco from "../../monaco";
 import Transcoder, {
+  EsModuleString,
   getEs5Code,
-  parseSchemaToFileCode,
+  getBusinessFileCode,
 } from "@/components/transcoder";
 import globalModules from "@/components/transcoder/modules";
 import { Checkbox } from "antd";
@@ -14,13 +15,13 @@ import "./index.less";
 const store = create<{
   leftActiveTab: string;
   rightActiveTab: string;
-  code: string;
+  code: EsModuleString;
   stateCode: string;
   require: string[];
 }>({
   leftActiveTab: "1",
   rightActiveTab: "1",
-  code: "",
+  code: "export default {}",
   stateCode: "",
   require: Object.keys(globalModules),
 });
@@ -30,14 +31,14 @@ export default () => {
   let fileCode = "";
   const [params] = useSearchParams();
   useMemo(() => {
-    store.mutate.code = (params.get("code") as string) || "";
+    store.mutate.code = (params.get("code") as EsModuleString) || "";
     store.mutate.stateCode = (params.get("stateCode") as string) || "";
   }, [params.get("code")]);
   const { code, stateCode, require, rightActiveTab, leftActiveTab } =
     store.useSnapshot();
   try {
     es5Code = getEs5Code(code, require, stateCode ? { store: {} } : {});
-    fileCode = parseSchemaToFileCode(code, require, stateCode);
+    fileCode = getBusinessFileCode(code, require, stateCode);
   } catch (error) {
     console.log(error);
     es5Code = String(error);
@@ -95,7 +96,7 @@ export default () => {
         >
           <Monaco
             value={code}
-            onChange={async (v: string) => {
+            onChange={async (v: EsModuleString) => {
               store.mutate.code = v;
             }}
           />

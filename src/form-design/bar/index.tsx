@@ -1,5 +1,5 @@
 import Monaco from "@/monaco";
-import { encrypt, getPureStringModule } from "@/components/transcoder";
+import { encrypt, getEsModuleString } from "@/components/transcoder";
 import { EllipsisOutlined, JavaScriptOutlined } from "@ant-design/icons";
 import { Drawer } from "antd";
 import CodeEditor from "@/monaco/code-editor";
@@ -36,7 +36,7 @@ export default () => {
       <div
         className="bar-sider-item"
         onClick={() => {
-          const code = getPureStringModule({
+          const code = getEsModuleString({
             type: "Form",
             title: state.title,
             layout: state.layout,

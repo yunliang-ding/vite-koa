@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Monaco from "../index";
 import debounce from "lodash.debounce";
-import { decrypt, encrypt, excutecoder } from "@/components/transcoder";
+import { decrypt, encrypt, EsModuleString, excutecoder } from "@/components/transcoder";
 import { CodeEditorProps } from "./type";
 import "./index.less";
 
@@ -29,7 +29,7 @@ export default ({
         theme={theme}
         codeRef={codeRef}
         value={innerValue}
-        onChange={debounce(async (v: string) => {
+        onChange={debounce(async (v) => {
           let codeString = v.trim();
           if (codeString.endsWith(";")) {
             codeString = v.substring(0, codeString.length - 1);
@@ -42,7 +42,7 @@ export default ({
               return setErrorInfo("不能含有特殊字符%>");
             }
             valueRef.current = codeString; // 同步文本
-            const esModule = excutecoder(codeString); // 语法校验通过才触发 onChange
+            const esModule = excutecoder(codeString as EsModuleString); // 语法校验通过才触发 onChange
             onChange(useEncrypt ? encrypt(codeString) : codeString, esModule);
             setErrorInfo("");
           } catch (error) {

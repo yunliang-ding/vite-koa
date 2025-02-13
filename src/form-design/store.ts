@@ -1,5 +1,6 @@
 import { create } from "@shined/reactive";
 import { ProFormItemProps } from "@/components/pro/antd/form/type";
+import { EsModuleString } from "@/components/transcoder";
 
 export default create<{
   title?: string;
@@ -10,7 +11,7 @@ export default create<{
   okText?: string;
   onSubmit?: string;
   openDrawerType?: "jsCode" | "jsonSchema";
-  stateCode: string;
+  stateCode: EsModuleString;
   functions?: { system: boolean; functionName: string; functionCode: string }[];
   functionsOptions: { label: string; value: string }[];
   variablesOptions: { label: string; value: string }[];

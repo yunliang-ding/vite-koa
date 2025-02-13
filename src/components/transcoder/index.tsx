@@ -20,7 +20,7 @@ export const decrypt = (str: string, quotation = true) => {
 
 /** 获取编译结果 */
 export const getEs5Code = (
-  code: string,
+  code: EsModuleString,
   require: string[],
   otherRequire = {}
 ) => {
@@ -39,7 +39,7 @@ export const getEs5Code = (
 };
 
 /** 执行代码 */
-export const excutecoder = (code: string, require: any = {}): any => {
+export const excutecoder = (code: EsModuleString, require: any = {}): any => {
   // 内部的模块
   const innerRequire = Object.keys(globalModules);
   // 等待导出的对象
@@ -67,8 +67,8 @@ export const excutecoder = (code: string, require: any = {}): any => {
 };
 
 /** 生成业务代码 */
-export const parseSchemaToFileCode = (
-  code: string,
+export const getBusinessFileCode = (
+  code: EsModuleString,
   require: string[],
   stateCode = ""
 ) => {
@@ -127,7 +127,7 @@ export default () => {
 };
 
 /** 得到标准数据模型 */
-export const getPureStringModule = (state: any) => {
+export const getEsModuleString = (state: any) => {
   const cloneState = cloneDeep(state); // clone 一份
   // 解析变量
   if(cloneState.bindVariables){
@@ -164,18 +164,20 @@ export const getPureStringModule = (state: any) => {
   return `export default ${decrypt(str)}`;
 };
 
+export type EsModuleString = `export default ${string}`;
+
 /** 渲染结果 */
 export default ({
-  code = "",
+  code = "export default {}",
   stateCode = "",
 }: {
-  code: string;
+  code: EsModuleString;
   stateCode?: string;
 }): React.ReactElement => {
   try {
     const store = useMemo(() => {
       if (stateCode) {
-        const { store, ...rest } = excutecoder(stateCode); // 开始解析 store
+        const { store, ...rest } = excutecoder(stateCode as EsModuleString); // 开始解析 store
         Object.assign(store, rest); // 其他自定义的方法合并到 store
         return store;
       }

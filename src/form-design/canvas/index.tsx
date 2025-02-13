@@ -2,11 +2,11 @@ import { Tabs } from "antd";
 import store from "../store";
 import Monaco from "@/monaco";
 import Designer from "./design";
-import { getPureStringModule } from "@/components/transcoder";
+import { getEsModuleString } from "@/components/transcoder";
 
 export default () => {
   const snap = store.useSnapshot();
-  const source = getPureStringModule({
+  const source = getEsModuleString({
     type: "Form",
     title: snap.title,
     layout: snap.layout,

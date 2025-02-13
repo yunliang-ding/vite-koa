@@ -1,12 +1,12 @@
 import Drag, { arrayMove } from "@/components/material/drag";
 import ProForm from "@/components/pro/antd/form";
 import { uuid } from "@/components/shared";
-import { excutecoder } from "@/components/transcoder";
+import { EsModuleString, excutecoder } from "@/components/transcoder";
 import ErrorBoundaryComponent from "@/error-boundary";
 import store from "../store";
 import Empty from "./empty";
 
-export default ({ source }: { source: string }) => {
+export default ({ source }: { source: EsModuleString }) => {
   const state = store.useSnapshot();
   if (state.schema?.length === 0) {
     return <Empty />;
