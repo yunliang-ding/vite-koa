@@ -1,6 +1,7 @@
+import { isValidElement } from 'react';
 import cloneDeepWith from 'lodash.clonedeepwith';
-import React from 'react';
 
+/** 简易版 是否空 */
 export const isEmpty = (param: any) => {
   if (param === null || param === undefined) {
     return true;
@@ -17,6 +18,7 @@ export const isEmpty = (param: any) => {
   return false;
 };
 
+/** 简易版 uuid */
 export const uuid = (size: number = 10) => {
   return Math.random()
     .toString(16)
@@ -26,16 +28,10 @@ export const uuid = (size: number = 10) => {
 /** ReactElement 对象不参与深拷贝 */
 export const cloneDeep = (source: any) => {
   return cloneDeepWith(source, (target: any) => {
-    if (React.isValidElement(target)) {
+    if (isValidElement(target)) {
       return target;
     }
   });
-};
-
-/** 获取类型 */
-export const getType = (obj: any): string => {
-  const type = Object.prototype.toString.call(obj).slice(8, -1);
-  return type.toLocaleLowerCase();
 };
 
 // 千分位，小数点2位
