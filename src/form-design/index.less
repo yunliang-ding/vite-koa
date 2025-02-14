@@ -2,29 +2,29 @@
   display: flex;
   height: 100%;
   width: 100%;
-  background-color: var(--bg-color-2);
+  background-color: #f2f3f5;
   .bar-sider {
     width: 48px;
-    &-item{
+    &-item {
       width: 48px;
       height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      &:hover{
-        .anticon{
+      &:hover {
+        .anticon {
           color: #1890ff;
         }
       }
-      &-bottom{
+      &-bottom {
         position: absolute;
         bottom: 10px;
       }
     }
-    .ant-tabs-nav{
+    .ant-tabs-nav {
       margin-bottom: 0;
-      .ant-tabs-tab{
+      .ant-tabs-tab {
         padding-left: 10px;
       }
     }
@@ -48,14 +48,12 @@
     align-content: flex-start;
     background-color: #fff;
     border-right: 1px solid #eee;
-    .key-info {
-      display: none;
-      position: absolute;
-      top: 2px;
-      right: 4px;
-      border: none;
-      background: transparent;
-      color: #1890ff;
+    &-headers {
+      height: 38px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .drag-panel {
       width: 100%;
@@ -64,6 +62,15 @@
       .drag-item-selected {
         padding: 4px;
         background-color: #fff;
+        .key-info {
+          display: none;
+          position: absolute;
+          top: 2px;
+          right: 4px;
+          border: none;
+          background: transparent;
+          color: #1890ff;
+        }
       }
       .drag-item-selected {
         .key-info {
@@ -86,9 +93,9 @@
     width: 400px;
     background-color: #fff;
     overflow: auto;
-    .ant-tabs{
+    .ant-tabs {
       height: 100%;
-      .ant-tabs-content-holder{
+      .ant-tabs-content-holder {
         height: calc(100% - 50px);
         overflow: auto;
         margin-bottom: 50px;
