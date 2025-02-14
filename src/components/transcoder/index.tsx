@@ -21,14 +21,8 @@ export const decrypt = (str: string, quotation = true) => {
 };
 
 /** 获取编译结果 */
-export const getEs5Code = (
-  code: EsModuleString,
-  require: string[],
-  otherRequire = {}
-) => {
-  const parameter = ["exports", ...require, ...Object.keys(otherRequire)].join(
-    ", "
-  );
+export const getEs5Code = (code: EsModuleString, require: string[]) => {
+  const parameter = ["exports", ...require].join(", ");
   const result = `((${parameter}) => {
     ${
       window.Babel.transform(code, {
@@ -71,8 +65,8 @@ export const excutecoder = (code: EsModuleString, require: any = {}): any => {
 /** 生成业务代码 */
 export const getBusinessFileCode = (
   code: EsModuleString,
-  require: string[],
-  stateCode = ""
+  stateCode = "",
+  require: string[]
 ) => {
   try {
     let store = { init: () => {}, snap: {}, mutate: {} };
@@ -132,12 +126,12 @@ export default () => {
 export const getEsModuleString = (state: any): EsModuleString => {
   const cloneState = cloneDeep(state); // clone 一份
   // 解析变量
-  if(cloneState.bindVariables){
-    Object.keys(cloneState).forEach(key => {
-      if(cloneState.bindVariables[key]){
+  if (cloneState.bindVariables) {
+    Object.keys(cloneState).forEach((key) => {
+      if (cloneState.bindVariables[key]) {
         cloneState[key] = cloneState.bindVariables[key];
       }
-    })
+    });
   }
   const str = JSON.stringify(
     {
@@ -145,16 +139,18 @@ export const getEsModuleString = (state: any): EsModuleString => {
       bindVariables: undefined,
       schema: cloneState.schema.map((item: any) => {
         // 解析变量
-        const binds = Object.keys(cloneState.bindVariables).filter(key => key.startsWith(`${item.key},`));
-        binds.forEach(bind => {
-          const keys = bind.split(',').slice(1);
+        const binds = Object.keys(cloneState.bindVariables).filter((key) =>
+          key.startsWith(`${item.key},`)
+        );
+        binds.forEach((bind) => {
+          const keys = bind.split(",").slice(1);
           const newValue = cloneState.bindVariables[bind];
-          if(keys.length === 1){
+          if (keys.length === 1) {
             item[keys[0]] = newValue;
           } else {
             item[keys[0]][keys[1]] = newValue;
           }
-        })
+        });
         return {
           ...item,
         };
@@ -170,7 +166,7 @@ export const getEsModuleString = (state: any): EsModuleString => {
 export default ({
   code = "export default {}",
   stateCode = "",
-  require = {}
+  require = {},
 }: {
   code: EsModuleString;
   stateCode?: string;

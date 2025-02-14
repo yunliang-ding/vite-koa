@@ -37,8 +37,11 @@ export default () => {
   const { code, stateCode, require, rightActiveTab, leftActiveTab } =
     store.useSnapshot();
   try {
-    es5Code = getEs5Code(code, require, stateCode ? { store: {} } : {});
-    fileCode = getBusinessFileCode(code, require, stateCode);
+    es5Code = getEs5Code(
+      code,
+      [...require, stateCode ? "store" : undefined].filter(Boolean) as string[]
+    );
+    fileCode = getBusinessFileCode(code, stateCode, require);
   } catch (error) {
     console.log(error);
     es5Code = String(error);
@@ -153,7 +156,11 @@ export default () => {
           }}
         >
           <ErrorBoundary>
-            <Transcoder code={code} stateCode={stateCode} key={[code, stateCode].join()} />
+            <Transcoder
+              code={code}
+              stateCode={stateCode}
+              key={[code, stateCode].join()}
+            />
           </ErrorBoundary>
         </div>
         <div
