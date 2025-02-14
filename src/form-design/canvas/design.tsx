@@ -73,7 +73,7 @@ export default ({ source }: { source: EsModuleString }) => {
                       onAdd={(addItem: any, index: number) => {
                         const key = uuid();
                         const newItem = {
-                          ...addItem.schema,
+                          ...addItem.schema, // 获取左侧物料的 schema
                           key,
                           name: key,
                         };
